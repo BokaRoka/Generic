@@ -1,5 +1,5 @@
 @setlocal enableextensions
-title bokaroka's safe-to-remove bloatware apps
+title BokaRoka's Safe-to-Remove BLOATWARE Apps
 color 1b
 taskkill /f /im adb.exe
 adb start-server
@@ -250,7 +250,7 @@ for %%X in (
 adb shell pm uninstall %%X
 adb shell pm uninstall --user 0 %%X
 )
-
+cls
 taskkill /f /im adb.exe
 adb start-server
 adb devices
@@ -411,7 +411,7 @@ for %%X in (
 adb shell pm uninstall %%X
 adb shell pm uninstall --user 0 %%X
 )
-
+cls
 taskkill /f /im adb.exe
 adb start-server
 adb devices
@@ -490,7 +490,7 @@ for %%X in (
 adb shell pm uninstall %%X
 adb shell pm uninstall --user 0 %%X
 )
-
+cls
 taskkill /f /im adb.exe
 adb start-server
 adb devices
@@ -586,7 +586,7 @@ for %%X in (
 "sec.android.widgetapp.samsungapps"
 "sg.bigo.live"
 "tech.palm.id"
-'com.coloros.aftersalesservice"
+"com.coloros.aftersalesservice"
 ) do (
 adb shell pm uninstall %%X
 adb shell pm uninstall --user 0 %%X
