@@ -2,7 +2,9 @@
 title BokaRoka's Windows DEFENDER Disable and REMOVE Tool
 Color 1B
 
-whoami|findstr /i /c:"nt authority\system" >nul || ( call :RunAsTI "%~f0" %* & exit/b )
+:: [info] to integrate in .bat files, add RunAsTI snippet on bottom and this line before main code
+::whoami|findstr /i /c:"nt authority\SYSTEM" >nul || ( call :RunAsTI "%~f0" %* & exit/b )
+whoami /user | findstr /i /c:S-1-5-18 >nul || ( call :RunAsTI "%~f0" %* & exit /b )
 
 reg add "HKCU\SOFTWARE\Classes\Local Settings\SOFTWARE\Microsoft\Windows\CurrentVersion\AppContainer\Storage\Microsoft.Microsoftedge_8wekyb3d8bbwe\MicrosoftEdge\PhishingFilter" /v "EnabledV9" /t REG_DWORD /d "0" /f
 reg add "HKCU\SOFTWARE\Classes\Local Settings\SOFTWARE\Microsoft\Windows\CurrentVersion\AppContainer\Storage\Microsoft.Microsoftedge_8wekyb3d8bbwe\MicrosoftEdge\PhishingFilter" /v "PreventOverride" /t REG_DWORD /d "0" /f
