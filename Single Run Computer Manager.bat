@@ -2,8 +2,8 @@
 title Single Run Computer Manager (Google Services, Temp Files, etc)
 
 :: [info] to integrate in .bat files, add RunAsTI snippet on bottom and this line before main code
-::whoami|findstr /i /c:"nt authority\SYSTEM" >nul || ( call :RunAsTI "%~f0" %* & exit/b )
-whoami /user | findstr /i /c:S-1-5-18 >nul || ( call :RunAsTI "%~f0" %* & exit /b )
+::whoami|findstr /i /C:"nt authority\SYSTEM" >nul || ( call :RunAsTI "%~f0" %* & exit/b )
+whoami /user | findstr /i /C:S-1-5-18 >nul || ( call :RunAsTI "%~f0" %* & exit /b )
 
 powercfg.exe -h off
 sc config w32time start= auto
@@ -31,7 +31,7 @@ taskkill /f /fI "IMAGENAME eq EdgeUpdate*"
 taskkill /f /fI "IMAGENAME eq Edge*"
 taskkill /f /fI "IMAGENAME eq PresentationFontCache*"
 taskkill /f /fI "IMAGENAME eq reporter*"
-taskkill /f /fI "IMAGENAME eq SOFTWARE_reporter_tool*"
+taskkill /f /fI "IMAGENAME eq Software_reporter_tool*"
 taskkill /f /fI "IMAGENAME eq WLIDSVC*"
 taskkill /f /fI "IMAGENAME eq WSHelper*"
 taskkill /f /im RemindersServer.exe
@@ -98,76 +98,145 @@ REM ; Setup IP, Gateway and DNS Servers based on the MAC address (To Enable DHCP
 REM ; wmic nicconfig where macaddress="68:F7:28:0F:B6:D5" call EnableStatic ("10.10.10.20"), ("255.255.255.0")
 REM ; wmic nicconfig where macaddress="68:F7:28:0F:B6:D5" call SetDNSServerSearchOrder ("176.103.130.131","176.103.130.130")
 REM ; wmic nicconfig where macaddress="68:F7:28:0F:B6:D5" call SetGateways ("10.10.10.10")
+reg.exe add "HKLM\Software\Microsoft\Windows NT\CurrentVersion\MTCUVC" /v "EnableMtcUvc" /t REG_DWORD /d "0" /f
 reg.exe add "HKCU\Control Panel\Accessibility\Keyboard Response" /v "Flags" /t REG_SZ /d "122" /f
 reg.exe add "HKCU\Control Panel\Accessibility\StickyKeys" /v "Flags" /t REG_SZ /d "506" /f
 reg.exe add "HKCU\Control Panel\Accessibility\ToggleKeys" /v "Flags" /t REG_SZ /d "58" /f
-reg.exe add "HKCU\SOFTWARE\Microsoft\VisualStudio\Telemetry" /v "TurnOffSwitch" /t REG_DWORD /d "1" /f
-reg.exe add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\ControlPanel" /v "AllItemsIconView" /t REG_DWORD /d "1" /f
-reg.exe add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\ControlPanel" /v "ForceClassicControlPanel" /t REG_DWORD /d "1" /f
-reg.exe add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\ClassicStartMenu" /v "{20D04FE0-3AEA-1069-A2D8-08002B30309D}" /t REG_DWORD /d "0" /f
-reg.exe add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\ClassicStartMenu" /v "{59031a47-3f72-44a7-89c5-5595fe6b30ee}" /t REG_DWORD /d "1" /f
-reg.exe add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\NewStartPanel" /v "{031E4825-7B94-4dc3-B131-E946B44C8DD5}" /t REG_DWORD /d "1" /f
-reg.exe add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\NewStartPanel" /v "{208D2C60-3AEA-1069-A2D7-08002B30309D}" /t REG_DWORD /d "0" /f
-reg.exe add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\NewStartPanel" /v "{20D04FE0-3AEA-1069-A2D8-08002B30309D}" /t REG_DWORD /d "0" /f
-reg.exe add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\NewStartPanel" /v "{450D8FBA-AD25-11D0-98A8-0800361B1103}" /t REG_DWORD /d "0" /f
-reg.exe add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\NewStartPanel" /v "{5399E694-6CE5-4D6C-8FCE-1D8870FDCBA0}" /t REG_DWORD /d "0" /f
-reg.exe add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\NewStartPanel" /v "{59031a47-3f72-44a7-89c5-5595fe6b30ee}" /t REG_DWORD /d "1" /f
-reg.exe add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\NewStartPanel" /v "{645FF040-5081-101B-9F08-00AA002F954E}" /t REG_DWORD /d "0" /f
-reg.exe add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\NewStartPanel" /v "{871C5380-42A0-1069-A2EA-08002B30309D}" /t REG_DWORD /d "0" /f
-reg.exe add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Attachments" /v "SaveZoneInformation" /t REG_DWORD /d "1" /f
-reg.exe add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer" /v "NoControlPanel" /t REG_DWORD /d "0" /f
-reg.exe add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer" /v "NoFolderOptions" /t REG_DWORD /d "0" /f
-reg.exe add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer" /v "NoViewContextMenu" /t REG_DWORD /d "0" /f
-reg.exe add "HKCU\SOFTWARE\Policies\Google\Chrome" /v "ChromeCleanupEnabled" /t REG_SZ /d "0" /f
-reg.exe add "HKCU\SOFTWARE\Policies\Google\Chrome" /v "ChromeCleanupReportingEnabled" /t REG_SZ /d "0" /f
-reg.exe add "HKCU\SOFTWARE\Policies\Google\Chrome" /v "MetricsReportingEnabled" /t REG_SZ /d "0" /f
-reg.exe add "HKCU\SOFTWARE\Policies\Google\Chrome" /v "SuppressUnsupportedOSWarning" /t REG_DWORD /d "1" /f
-reg.exe add "HKCU\SOFTWARE\Policies\Microsoft\Windows\Explorer" /v "disableNotificationCenter" /t REG_DWORD /d "1" /f
-reg.exe add "HKCU\SOFTWARE\Policies\Microsoft\Windows\SYSTEM" /v "DisableCMD" /t REG_DWORD /d "0" /f
-reg.exe add "HKLM\SOFTWARE\Microsoft\VSCommon\14.0\SQM" /v "OptIn" /t REG_DWORD /d "0" /f
-reg.exe add "HKLM\SOFTWARE\Microsoft\VSCommon\15.0\SQM" /v "OptIn" /t REG_DWORD /d "0" /f
-reg.exe add "HKLM\SOFTWARE\Microsoft\VSCommon\16.0\SQM" /v "OptIn" /t REG_DWORD /d "0" /f
-reg.exe add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Notifications\Settings\Windows.SYSTEMToast.SecurityAndMaintenance" /v "Enabled" /t REG_DWORD /d "0" /f
-reg.exe add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Attachments" /v "ScanWithAntiVirus" /t REG_DWORD /d "1" /f
-reg.exe add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\SYSTEM" /v "ConsentPromptBehaviorAdmin" /t REG_DWORD /d "0" /f
-reg.exe add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\SYSTEM" /v "ConsentPromptBehaviorUser" /t REG_DWORD /d "0" /f
-reg.exe add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\SYSTEM" /v "EnableLUA" /t REG_DWORD /d "0" /f
-reg.exe add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\SYSTEM" /v "PromptOnSecureDesktop" /t REG_DWORD /d "0" /f
-reg.exe add "HKLM\SOFTWARE\Policies\Google\Chrome" /v "ChromeCleanupEnabled" /t REG_DWORD /d "0" /f
-reg.exe add "HKLM\SOFTWARE\Policies\Google\Chrome" /v "ChromeCleanupEnabled" /t REG_SZ /d "0" /f
-reg.exe add "HKLM\SOFTWARE\Policies\Google\Chrome" /v "ChromeCleanupReportingEnabled" /t REG_DWORD /d "0" /f
-reg.exe add "HKLM\SOFTWARE\Policies\Google\Chrome" /v "ChromeCleanupReportingEnabled" /t REG_SZ /d "0" /f
-reg.exe add "HKLM\SOFTWARE\Policies\Google\Chrome" /v "DeviceMetricsReportingEnabled" /t REG_DWORD /d "0" /f
-reg.exe add "HKLM\SOFTWARE\Policies\Google\Chrome" /v "MetricsReportingEnabled" /t REG_DWORD /d "0" /f
-reg.exe add "HKLM\SOFTWARE\Policies\Google\Chrome" /v "MetricsReportingEnabled" /t REG_SZ /d "0" /f
-reg.exe add "HKLM\SOFTWARE\Policies\Google\Chrome" /v "SuppressUnsupportedOSWarning" /t REG_DWORD /d "1" /f
-reg.exe add "HKLM\SOFTWARE\Policies\Google\Chrome" /v "UserFeedbackAllowed" /t REG_DWORD /d "0" /f
-reg.exe add "HKLM\SOFTWARE\Policies\Microsoft\VisualStudio\Feedback" /v "DisableEmailInput" /t REG_DWORD /d "1" /f
-reg.exe add "HKLM\SOFTWARE\Policies\Microsoft\VisualStudio\Feedback" /v "DisableFeedbackDialog" /t REG_DWORD /d "1" /f
-reg.exe add "HKLM\SOFTWARE\Policies\Microsoft\VisualStudio\Feedback" /v "DisableScreenshotCapture" /t REG_DWORD /d "1" /f
-reg.exe add "HKLM\SOFTWARE\Policies\Microsoft\VisualStudio\Setup" /v "ConcurrentDownloads" /t REG_DWORD /d "2" /f
-reg.exe add "HKLM\SOFTWARE\Policies\Microsoft\VisualStudio\SQM" /v "OptIn" /t REG_DWORD /d "0" /f
-reg.exe add "HKLM\SOFTWARE\Policies\Microsoft\Windows Defender" /v "DisableRealtimeMonitoring" /t REG_DWORD /d "1" /f
-reg.exe add "HKLM\SOFTWARE\Policies\Microsoft\Windows Defender\Spynet" /v "SubmitSamplesConsent" /t REG_DWORD /d "0" /f
-reg.exe add "HKLM\SOFTWARE\Policies\Microsoft\Windows\SYSTEM" /v "ShellSmartScreenLevel" /t REG_SZ /d "Warn" /f
+reg.exe add "HKCU\Software\Microsoft\VisualStudio\Telemetry" /v "TurnOffSwitch" /t REG_DWORD /d "1" /f
+reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\ControlPanel" /v "AllItemsIconView" /t REG_DWORD /d "1" /f
+reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\ControlPanel" /v "ForceClassicControlPanel" /t REG_DWORD /d "1" /f
+reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\ClassicStartMenu" /v "{20D04FE0-3AEA-1069-A2D8-08002B30309D}" /t REG_DWORD /d "0" /f
+reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\ClassicStartMenu" /v "{59031a47-3f72-44a7-89c5-5595fe6b30ee}" /t REG_DWORD /d "1" /f
+reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\NewStartPanel" /v "{031E4825-7B94-4dc3-B131-E946B44C8DD5}" /t REG_DWORD /d "1" /f
+reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\NewStartPanel" /v "{208D2C60-3AEA-1069-A2D7-08002B30309D}" /t REG_DWORD /d "0" /f
+reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\NewStartPanel" /v "{20D04FE0-3AEA-1069-A2D8-08002B30309D}" /t REG_DWORD /d "0" /f
+reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\NewStartPanel" /v "{450D8FBA-AD25-11D0-98A8-0800361B1103}" /t REG_DWORD /d "0" /f
+reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\NewStartPanel" /v "{5399E694-6CE5-4D6C-8FCE-1D8870FDCBA0}" /t REG_DWORD /d "0" /f
+reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\NewStartPanel" /v "{59031a47-3f72-44a7-89c5-5595fe6b30ee}" /t REG_DWORD /d "1" /f
+reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\NewStartPanel" /v "{645FF040-5081-101B-9F08-00AA002F954E}" /t REG_DWORD /d "0" /f
+reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\NewStartPanel" /v "{871C5380-42A0-1069-A2EA-08002B30309D}" /t REG_DWORD /d "0" /f
+reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Policies\Attachments" /v "SaveZoneInformation" /t REG_DWORD /d "1" /f
+reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer" /v "NoControlPanel" /t REG_DWORD /d "0" /f
+reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer" /v "NoFolderOptions" /t REG_DWORD /d "0" /f
+reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer" /v "NoViewContextMenu" /t REG_DWORD /d "0" /f
+reg.exe add "HKCU\Software\Policies\Google\Chrome" /v "ChromeCleanupEnabled" /t REG_SZ /d "0" /f
+reg.exe add "HKCU\Software\Policies\Google\Chrome" /v "ChromeCleanupReportingEnabled" /t REG_SZ /d "0" /f
+reg.exe add "HKCU\Software\Policies\Google\Chrome" /v "MetricsReportingEnabled" /t REG_SZ /d "0" /f
+reg.exe add "HKCU\Software\Policies\Google\Chrome" /v "SuppressUnsupportedOSWarning" /t REG_DWORD /d "1" /f
+reg.exe add "HKCU\Software\Policies\Microsoft\Windows\Explorer" /v "disableNotificationCenter" /t REG_DWORD /d "1" /f
+reg.exe add "HKCU\Software\Policies\Microsoft\Windows\SYSTEM" /v "DisableCMD" /t REG_DWORD /d "0" /f
+reg.exe add "HKLM\Software\Microsoft\VSCommon\14.0\SQM" /v "OptIn" /t REG_DWORD /d "0" /f
+reg.exe add "HKLM\Software\Microsoft\VSCommon\15.0\SQM" /v "OptIn" /t REG_DWORD /d "0" /f
+reg.exe add "HKLM\Software\Microsoft\VSCommon\16.0\SQM" /v "OptIn" /t REG_DWORD /d "0" /f
+reg.exe add "HKLM\Software\Microsoft\Windows\CurrentVersion\Notifications\Settings\Windows.SYSTEMToast.SecurityAndMaintenance" /v "Enabled" /t REG_DWORD /d "0" /f
+reg.exe add "HKLM\Software\Microsoft\Windows\CurrentVersion\Policies\Attachments" /v "ScanWithAntiVirus" /t REG_DWORD /d "1" /f
+reg.exe add "HKLM\Software\Microsoft\Windows\CurrentVersion\Policies\SYSTEM" /v "ConsentPromptBehaviorAdmin" /t REG_DWORD /d "0" /f
+reg.exe add "HKLM\Software\Microsoft\Windows\CurrentVersion\Policies\SYSTEM" /v "ConsentPromptBehaviorUser" /t REG_DWORD /d "0" /f
+reg.exe add "HKLM\Software\Microsoft\Windows\CurrentVersion\Policies\SYSTEM" /v "EnableLUA" /t REG_DWORD /d "0" /f
+reg.exe add "HKLM\Software\Microsoft\Windows\CurrentVersion\Policies\SYSTEM" /v "PromptOnSecureDesktop" /t REG_DWORD /d "0" /f
+reg.exe add "HKLM\Software\Policies\Google\Chrome" /v "ChromeCleanupEnabled" /t REG_DWORD /d "0" /f
+reg.exe add "HKLM\Software\Policies\Google\Chrome" /v "ChromeCleanupEnabled" /t REG_SZ /d "0" /f
+reg.exe add "HKLM\Software\Policies\Google\Chrome" /v "ChromeCleanupReportingEnabled" /t REG_DWORD /d "0" /f
+reg.exe add "HKLM\Software\Policies\Google\Chrome" /v "ChromeCleanupReportingEnabled" /t REG_SZ /d "0" /f
+reg.exe add "HKLM\Software\Policies\Google\Chrome" /v "DeviceMetricsReportingEnabled" /t REG_DWORD /d "0" /f
+reg.exe add "HKLM\Software\Policies\Google\Chrome" /v "MetricsReportingEnabled" /t REG_DWORD /d "0" /f
+reg.exe add "HKLM\Software\Policies\Google\Chrome" /v "MetricsReportingEnabled" /t REG_SZ /d "0" /f
+reg.exe add "HKLM\Software\Policies\Google\Chrome" /v "SuppressUnsupportedOSWarning" /t REG_DWORD /d "1" /f
+reg.exe add "HKLM\Software\Policies\Google\Chrome" /v "UserFeedbackAllowed" /t REG_DWORD /d "0" /f
+reg.exe add "HKLM\Software\Policies\Microsoft\VisualStudio\Feedback" /v "DisableEmailInput" /t REG_DWORD /d "1" /f
+reg.exe add "HKLM\Software\Policies\Microsoft\VisualStudio\Feedback" /v "DisableFeedbackDialog" /t REG_DWORD /d "1" /f
+reg.exe add "HKLM\Software\Policies\Microsoft\VisualStudio\Feedback" /v "DisableScreenshotCapture" /t REG_DWORD /d "1" /f
+reg.exe add "HKLM\Software\Policies\Microsoft\VisualStudio\Setup" /v "ConcurrentDownloads" /t REG_DWORD /d "2" /f
+reg.exe add "HKLM\Software\Policies\Microsoft\VisualStudio\SQM" /v "OptIn" /t REG_DWORD /d "0" /f
+reg.exe add "HKLM\Software\Policies\Microsoft\Windows Defender" /v "DisableRealtimeMonitoring" /t REG_DWORD /d "1" /f
+reg.exe add "HKLM\Software\Policies\Microsoft\Windows Defender\Spynet" /v "SubmitSamplesConsent" /t REG_DWORD /d "0" /f
+reg.exe add "HKLM\Software\Policies\Microsoft\Windows\SYSTEM" /v "ShellSmartScreenLevel" /t REG_SZ /d "Warn" /f
 reg.exe add "HKLM\SYSTEM\ControlSet001\Control\SESSION MANAGER\MEMORY MANAGEMENT\PrefetchParameters" /v "SfTracingState" /t REG_DWORD /d "1" /f
 reg.exe add "HKLM\SYSTEM\ControlSet001\services\Fax" /v "Start" /t REG_DWORD /d "4" /f
 reg.exe add "HKLM\SYSTEM\ControlSet001\services\NvTelemetryContainer" /v "Start" /t REG_DWORD /d "4" /f
 REM ; Set Control Panel on Classic View and small icons
-reg.exe add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\ControlPanel" /v "AllItemsIconView" /t REG_DWORD /d "1" /f
-reg.exe add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\ControlPanel" /v "StartupPage" /t REG_DWORD /d "1" /f
-reg.exe add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer" /v "ShowDriveLettersFirst" /t REG_DWORD /d "4" /f
+reg.exe add "HKLM\Software\Microsoft\Windows\CurrentVersion\Explorer\ControlPanel" /v "AllItemsIconView" /t REG_DWORD /d "1" /f
+reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\ControlPanel" /v "StartupPage" /t REG_DWORD /d "1" /f
+reg.exe add "HKLM\Software\Microsoft\Windows\CurrentVersion\Explorer" /v "ShowDriveLettersFirst" /t REG_DWORD /d "4" /f
 reg.exe add "HKLM\SYSTEM\CurrentControlSet\Control" /v "WaitToKillServiceTimeout" /t REG_SZ /d "6000" /f
-reg.exe add "HKLM\SOFTWARE\Policies\Microsoft\Windows\NetworkConnectivityStatusIndicator" /ve /t REG_SZ /d "" /f
-reg.exe add "HKLM\SOFTWARE\Policies\Microsoft\Windows\NetworkConnectivityStatusIndicator" /v "NoActiveProbe" /t REG_DWORD /d "0" /f
-reg.exe add "HKLM\SOFTWARE\Policies\Microsoft\Windows\NetworkConnectivityStatusIndicator" /v "DisablePassivePolling" /t REG_DWORD /d "0" /f
+reg.exe add "HKLM\Software\Policies\Microsoft\Windows\NetworkConnectivityStatusIndicator" /ve /t REG_SZ /d "" /f
+reg.exe add "HKLM\Software\Policies\Microsoft\Windows\NetworkConnectivityStatusIndicator" /v "NoActiveProbe" /t REG_DWORD /d "0" /f
+reg.exe add "HKLM\Software\Policies\Microsoft\Windows\NetworkConnectivityStatusIndicator" /v "DisablePassivePolling" /t REG_DWORD /d "0" /f
 reg.exe add "HKCR\AllFileSYSTEMObjects" /v "DefaultDropEffect" /t REG_DWORD /d "1" /f
-cls
+
+echo You are clearing cache files (WAIT UNTIL PROCESSED)
 del "%WINDIR%\SYSTEM32\mobsync.exe" /s /f /q
-rd "C:\Windows\Temp" /q /s
-rd "C:\Windows\SOFTWAREDistribution\DataStore" /q /s
+del /f /s /q %systemdrive%\*._mp
+del /f /s /q %systemdrive%\*.chk
+del /f /s /q %systemdrive%\*.gid
+del /f /s /q %systemdrive%\*.log
+del /f /s /q %systemdrive%\*.tmp
+del /f /s /q %windir%\*.bak
+del /f /s /q %windir%\prefetch\*.*
+del /q /f /s "%LocalAppData%\D3DSCache\*"
+del /q /f /s %windir%\Logs\*
+del /q /f /s %windir%\Minidump\*
+del /q /f /s %windir%\Prefetch\*
+del /q /f /s %windir%\SoftwareDistribution\DeliveryOptimization\*
+del /q /f /s %windir%\SoftwareDistribution\Download\*
+del /Q C:\Users\%username%\AppData\Local\Microsoft\Windows\INetCache\IE\*.*
+del /Q C:\Users\%username%\AppData\Local\Temp\*.*
+del /Q C:\Windows\Downloaded Program Files\*.*
+del /Q C:\Windows\Prefetch\*.*
+del /Q C:\Windows\Temp\*.*
+del /s /f /q %SystemRoot%\inf\setupapi.app.log
+del /s /f /q %SystemRoot%\inf\setupapi.dev.log
+del /s /f /q %SystemRoot%\inf\setupapi.offline.log
+del /s /f /q %SystemRoot%\Panther\*
+del /s /f /q %SystemRoot%\setupapi.log
+del /s /f /q %USERPROFILE%\appdata\local\temp\*.*
+del /s /f /q %userprofile%\Recent\*.*
+del /s /f /q C:\Windows\cookies
+del /s /f /q C:\Windows\ff*.tmp
+del /s /f /q C:\Windows\history
+del /s /f /q C:\Windows\Prefetch\*.*
+del /s /f /q C:\Windows\recent
+del /s /f /q C:\Windows\spool\printers
+del /s /f /q C:\Windows\temp
+del /s /f /q C:\Windows\Temp\*.*
+del /s /f /q C:\Windows\tempor~1
+del /s /f /q C:\Windows\tmp
+deltree /y C:\Windows\cookies
+deltree /y C:\Windows\ff*.tmp
+deltree /y C:\Windows\history
+deltree /y C:\Windows\recent
+deltree /y C:\Windows\spool\printers
+deltree /y C:\Windows\temp
+deltree /y C:\Windows\tempor~1
+deltree /y C:\Windows\tmp
+net stop dosvc
 rd "C:\Windows\Logs" /q /s
+rd "C:\Windows\SoftwareDistribution\DataStore" /q /s
+rd "C:\Windows\Temp" /q /s
 rd "C:\Windows\Webcache" /q /s
+reg delete "HKCU\Software\Microsoft\Direct3D\MostRecentApplication" /va /f
+reg delete "HKCU\Software\Microsoft\MediaPlayer\Player\RecentFileList" /va /f
+reg delete "HKCU\Software\Microsoft\MediaPlayer\Player\RecentURLList" /va /f
+reg delete "HKCU\Software\Microsoft\Search Assistant\ACMru" /va /f
+reg delete "HKCU\Software\Microsoft\Windows\CurrentVersion\Applets\Paint\Recent File List" /va /f
+reg delete "HKCU\Software\Microsoft\Windows\CurrentVersion\Applets\Regedit" /va /f
+reg delete "HKCU\Software\Microsoft\Windows\CurrentVersion\Applets\Regedit\Favorites" /va /f
+reg delete "HKCU\Software\Microsoft\Windows\CurrentVersion\Applets\Wordpad\Recent File List" /va /f
+reg delete "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\ComDlg32\LastVisitedPidlMRU" /va /f
+reg delete "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\ComDlg32\LastVisitedPidlMRULegacy" /va /f
+reg delete "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\ComDlg32\OpenSaveMRU" /va /f
+reg delete "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Map Network Drive MRU" /va /f
+reg delete "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\RecentDocs" /va /f
+reg delete "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\RunMRU" /va /f
+reg delete "HKLM\Software\Microsoft\Direct3D\MostRecentApplication" /va /f
+reg delete "HKLM\Software\Microsoft\MediaPlayer\Player\RecentFileList" /va /f
+reg delete "HKLM\Software\Microsoft\MediaPlayer\Player\RecentURLList" /va /f
+reg delete "HKLM\Software\Microsoft\Windows\CurrentVersion\Applets\Paint\Recent File List" /va /f
+reg delete "HKLM\Software\Microsoft\Windows\CurrentVersion\Applets\Regedit" /va /f
+reg delete "HKLM\Software\Microsoft\Windows\CurrentVersion\Applets\Regedit\Favorites" /va /f
+reg delete "HKLM\Software\Microsoft\Windows\CurrentVersion\Explorer\Map Network Drive MRU" /va /f
+reg delete "HKLM\Software\Microsoft\Windows\CurrentVersion\Explorer\RecentDocs" /va /f
+cls
 rd "%LocalAppData%\Microsoft\OneDrive" /q /s
 rd "%ProgramData%\Adguard\Logs" /q /s
 rd "%ProgramData%\Adguard\Logs\service" /q /s
@@ -179,20 +248,22 @@ rd "%ProgramData%\Malwarebytes\MBAMService\logs" /q /s
 rd "%ProgramData%\Microsoft OneDrive" /q /s
 rd "%ProgramData%\Microsoft\Windows\WER" /q /s
 rd "%ProgramData%\Oracle\Java" /q /s
-rd "%ProgramFiles%\Apple SOFTWARE Update" /q /s
+rd "%ProgramFiles%\Apple Software Update" /q /s
 rd "%ProgramFiles%\Bonjour" /q /s
 rd "%ProgramFiles%\Common Files\Microsoft Shared\Windows Live" /q /s
 rd "%ProgramFiles%\Microsoft Games" /q /s
 rd "%ProgramFiles%\Microsoft\EdgeUpdate" /q /s
 rd "%ProgramFiles%\Windows Defender" /q /s
-rd "%ProgramFiles(x86)%\Apple SOFTWARE Update" /q /s
+rd "%ProgramFiles(x86)%\Apple Software Update" /q /s
 rd "%ProgramFiles(x86)%\Bonjour" /q /s
 rd "%ProgramFiles(x86)%\Common Files\Java\Java Update" /q /s
 rd "%ProgramFiles(x86)%\Common Files\Wondershare\Wondershare Helper Compact" /q /s
 rd "%ProgramFiles(x86)%\DFX\Universal\Apps" /q /s
 rd "%ProgramFiles(x86)%\Google\CrashReports" /q /s
 rd "%ProgramFiles(x86)%\Google\Temp" /q /s
+rd "%ProgramFiles%\Google\Temp" /q /s
 rd "%ProgramFiles(x86)%\Google\Update" /q /s
+rd "%ProgramFiles(x86)%\Google\GoogleUpdater" /q /s
 rd "%ProgramFiles(x86)%\Lavasoft" /q /s
 rd "%ProgramFiles(x86)%\Microsoft\EdgeUpdate" /q /s
 rd "%ProgramFiles(x86)%\Mozilla Maintenance Service" /q /s
@@ -204,7 +275,7 @@ rd "%UserProfile%\AppData\Local\AdvinstAnalytics" /q /s
 rd "%UserProfile%\AppData\Local\Application Data\Microsoft\Windows\WebCache" /q /s
 rd "%UserProfile%\AppData\Local\CrashDumps" /q /s
 rd "%UserProfile%\AppData\Local\Google\Chrome\User Data\SwReporter" /q /s
-rd "%UserProfile%\AppData\Local\Google\SOFTWARE Reporter Tool" /q /s
+rd "%UserProfile%\AppData\Local\Google\Software Reporter Tool" /q /s
 rd "%UserProfile%\AppData\Local\Microsoft\Windows Mail" /q /s
 rd "%UserProfile%\AppData\Local\Microsoft\Windows\Temporary Internet Files" /q /s
 rd "%UserProfile%\AppData\Local\Microsoft\Windows\WebCache" /q /s
@@ -217,14 +288,18 @@ rd "%UserProfile%\AppData\Roaming\kingsoft\wps\addons\pool" /q /s
 rd "%UserProfile%\AppData\Roaming\Tencent\TxGameAssistant\GameDownload" /q /s
 rd "%UserProfile%\OneDrive" /q /s
 rd C:\OneDriveTemp /Q /S
-reg.exe add "HKCU\SOFTWARE\Piriform\CCleaner" /v "CheckTrialOffer" /t REG_SZ /d 0 /f
-reg.exe add "HKCU\SOFTWARE\Piriform\CCleaner" /v "HelpImproveCCleaner" /t REG_SZ /d 0 /f
-reg.exe add "HKCU\SOFTWARE\Piriform\CCleaner" /v "Monitoring" /t REG_SZ /d 0 /f
-reg.exe add "HKCU\SOFTWARE\Piriform\CCleaner" /v "SYSTEMMonitoring" /t REG_SZ /d 0 /f
-reg.exe add "HKCU\SOFTWARE\Piriform\CCleaner" /v "SYSTEMMonitoringRunningNotification" /t REG_SZ /d 0 /f
-reg.exe add "HKCU\SOFTWARE\Piriform\CCleaner" /v "UpdateAuto" /t REG_SZ /d 0 /f
-reg.exe add "HKCU\SOFTWARE\Piriform\CCleaner" /v "UpdateCheck" /t REG_SZ /d 0 /f
-reg.exe add "HKLM\SOFTWARE\Microsoft\MSMQ\Parameters" /v "TCPNoDelay" /t REG_DWORD /d "1" /f
+del /f /s /q %systemdrive%\recycled\*.*
+del /f /s /q %systemdrive%\$Recycle.Bin\*.*
+rd /s /q %SYSTEMDRIVE%\$Recycle.bin
+
+reg.exe add "HKCU\Software\Piriform\CCleaner" /v "CheckTrialOffer" /t REG_SZ /d 0 /f
+reg.exe add "HKCU\Software\Piriform\CCleaner" /v "HelpImproveCCleaner" /t REG_SZ /d 0 /f
+reg.exe add "HKCU\Software\Piriform\CCleaner" /v "Monitoring" /t REG_SZ /d 0 /f
+reg.exe add "HKCU\Software\Piriform\CCleaner" /v "SYSTEMMonitoring" /t REG_SZ /d 0 /f
+reg.exe add "HKCU\Software\Piriform\CCleaner" /v "SYSTEMMonitoringRunningNotification" /t REG_SZ /d 0 /f
+reg.exe add "HKCU\Software\Piriform\CCleaner" /v "UpdateAuto" /t REG_SZ /d 0 /f
+reg.exe add "HKCU\Software\Piriform\CCleaner" /v "UpdateCheck" /t REG_SZ /d 0 /f
+reg.exe add "HKLM\Software\Microsoft\MSMQ\Parameters" /v "TCPNoDelay" /t REG_DWORD /d "1" /f
 reg.exe add "HKLM\SYSTEM\CurrentControlSet\Control\Power\PowerSettings\54533251-82be-4824-96c1-47b60b740d00\943c8cb6-6f93-4227-ad87-e9a3feec08d1" /v "Attributes" /t REG_DWORD /d "2" /f
 reg.exe add "HKLM\SYSTEM\CurrentControlSet\Services\AcrylicDNSProxySvc" /v "Start" /t REG_DWORD /d "2" /f
 reg.exe add "HKLM\SYSTEM\CurrentControlSet\Services\Adguard Service" /v "Start" /t REG_DWORD /d "2" /f
@@ -242,22 +317,24 @@ reg.exe add "HKLM\SYSTEM\CurrentControlSet\Services\MozillaMaintenance" /v "Star
 reg.exe add "HKLM\SYSTEM\CurrentControlSet\Services\RpcLocator" /v "Start" /t REG_DWORD /d "2" /f
 reg.exe add "HKLM\SYSTEM\CurrentControlSet\Services\Schedule" /v "Start" /t REG_DWORD /d "2" /f
 reg.exe add "HKLM\SYSTEM\CurrentControlSet\Services\Spooler" /v "Start" /t REG_DWORD /d "3" /f
-reg.exe add "HKLM\SOFTWARE\Piriform\CCleaner" /v "(Cfg)GetIpmForTrial" /t REG_SZ /d 0 /f
-reg.exe add "HKLM\SOFTWARE\Piriform\CCleaner" /v "(Cfg)SOFTWAREUpdater" /t REG_SZ /d 0 /f
-reg.exe add "HKLM\SOFTWARE\Piriform\CCleaner" /v "(Cfg)SOFTWAREUpdaterIpm" /t REG_SZ /d 0 /f
-reg.exe add "HKLM\SOFTWARE\Policies\Google\Chrome" /v "ChromeCleanupEnabled" /t REG_SZ /d 0 /f
-reg.exe add "HKLM\SOFTWARE\Policies\Google\Chrome" /v "ChromeCleanupReportingEnabled" /t REG_SZ /d 0 /f
-reg.exe add "HKLM\SOFTWARE\Policies\Google\Chrome" /v "MetricsReportingEnabled" /t REG_SZ /d 0 /f
+reg.exe add "HKLM\Software\Piriform\CCleaner" /v "(Cfg)GetIpmForTrial" /t REG_SZ /d 0 /f
+reg.exe add "HKLM\Software\Piriform\CCleaner" /v "(Cfg)SoftwareUpdater" /t REG_SZ /d 0 /f
+reg.exe add "HKLM\Software\Piriform\CCleaner" /v "(Cfg)SoftwareUpdaterIpm" /t REG_SZ /d 0 /f
+reg.exe add "HKLM\Software\Policies\Google\Chrome" /v "ChromeCleanupEnabled" /t REG_SZ /d 0 /f
+reg.exe add "HKLM\Software\Policies\Google\Chrome" /v "ChromeCleanupReportingEnabled" /t REG_SZ /d 0 /f
+reg.exe add "HKLM\Software\Policies\Google\Chrome" /v "MetricsReportingEnabled" /t REG_SZ /d 0 /f
 reg.exe add "HKLM\SYSTEM\ControlSet001\services\WSearch" /v "Start" /t REG_DWORD /d "4" /f
-reg.exe add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\CompatTelRunner.exe" /v "Debugger" /t REG_SZ /d "%%windir%%\SYSTEM32\taskkill.exe" /f
-reg.exe add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\DeviceCensus.exe" /v "Debugger" /t REG_SZ /d "%%windir%%\SYSTEM32\taskkill.exe" /f
-reg.exe add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\SOFTWARE_reporter_tool.exe" /v "Debugger" /t REG_SZ /d "%%windir%%\SYSTEM32\taskkill.exe" /f
-reg.exe add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\maintenanceservice.exe" /v "Debugger" /t REG_SZ /d "%%windir%%\SYSTEM32\taskkill.exe" /f
-reg.exe add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\bonjour.exe" /v "Debugger" /t REG_SZ /d "%%windir%%\SYSTEM32\taskkill.exe" /f
-reg.exe add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\jusched.exe" /v "Debugger" /t REG_SZ /d "%%windir%%\SYSTEM32\taskkill.exe" /f
-reg.exe add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\crashreporter.exe" /v "Debugger" /t REG_SZ /d "%%windir%%\SYSTEM32\taskkill.exe" /f
+reg.exe add "HKLM\Software\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\CompatTelRunner.exe" /v "Debugger" /t REG_SZ /d "%%windir%%\SYSTEM32\taskkill.exe" /f
+reg.exe add "HKLM\Software\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\DeviceCensus.exe" /v "Debugger" /t REG_SZ /d "%%windir%%\SYSTEM32\taskkill.exe" /f
+reg.exe add "HKLM\Software\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\Software_reporter_tool.exe" /v "Debugger" /t REG_SZ /d "%%windir%%\SYSTEM32\taskkill.exe" /f
+reg.exe add "HKLM\Software\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\maintenanceservice.exe" /v "Debugger" /t REG_SZ /d "%%windir%%\SYSTEM32\taskkill.exe" /f
+reg.exe add "HKLM\Software\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\bonjour.exe" /v "Debugger" /t REG_SZ /d "%%windir%%\SYSTEM32\taskkill.exe" /f
+reg.exe add "HKLM\Software\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\jusched.exe" /v "Debugger" /t REG_SZ /d "%%windir%%\SYSTEM32\taskkill.exe" /f
+reg.exe add "HKLM\Software\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\crashreporter.exe" /v "Debugger" /t REG_SZ /d "%%windir%%\SYSTEM32\taskkill.exe" /f
 reg.exe delete "HKLM\SYSTEM\CurrentControlSet\services\LDrvSvc" /f
 net start msiserver
+ipconfig /flushdns
+ipconfig /renew
 w32tm /resync
 exit
 
@@ -293,4 +370,4 @@ function RunAsTI ($cmd,$arg) { $id='RunAsTI'; $key="Registry::HKU\$(((whoami /us
  if ($11bug) {[Windows.Forms.SendKeys]::SendWait($path)}; do {sleep 7} while(Q); L '.Default' $LNK 'Interactive User'
 '@; $V='';'cmd','arg','id','key'|%{$V+="`n`$$_='$($(gv $_ -val)-replace"'","''")';"}; sp $key $id $($V,$code) -type 7 -force -ea 0
  start powershell -args "-win 1 -nop -c `n$V `$env:R=(gi `$key -ea 0).getvalue(`$id)-join''; iex `$env:R" -verb runas
-}; $A=,$env:1-split'"([^"]+)"|([^ ]+)',2|%{$_.Trim(' ')}; RunAsTI $A[1] $A[2]; #:RunAsTI BokaRoka, 2024
+}; $A=,$env:1-split'"([^"]+)"|([^ ]+)',2|%{$_.Trim(' ')}; RunAsTI $A[1] $A[2]; #:RunAsTI lean & mean snippet by AveYo, 2023.07.06
