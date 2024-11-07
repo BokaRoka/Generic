@@ -65,6 +65,7 @@ sc config XblAuthManager start=disabled
 sc config XblGameSave start=disabled
 sc config XboxNetApiSvc start=disabled
 sc.exe start w32time task_started
+wmic product where name="Mozilla Maintenance Service" call uninstall /nointeractive >nul 2>&1
 powercfg -x -standby-timeout-dc 0
 powercfg /x -standby-timeout-dc 0
 powercfg -x -standby-timeout-ac 0
@@ -91,6 +92,7 @@ takeown /f %ProgramFiles%\Microsoft Games\ /r /d y
 takeown /f %ProgramFiles(x86)%\Microsoft\ /r /d y
 cls
 takeown /f C:\Windows.old /r /d y
+takeown /f C:\Windows\logs /r /d y
 taskkill /im mobsync.exe /f
 REM ; Setup DNS Servers on DHCP Enabled Network
 REM ; wmic nicconfig where DHCPEnabled=TRUE call SetDNSServerSearchOrder ("94.140.14.14","174.138.21.128")
@@ -163,7 +165,6 @@ reg.exe add "HKLM\Software\Policies\Microsoft\Windows\NetworkConnectivityStatusI
 reg.exe add "HKLM\Software\Policies\Microsoft\Windows\NetworkConnectivityStatusIndicator" /v "NoActiveProbe" /t REG_DWORD /d "0" /f
 reg.exe add "HKLM\Software\Policies\Microsoft\Windows\NetworkConnectivityStatusIndicator" /v "DisablePassivePolling" /t REG_DWORD /d "0" /f
 reg.exe add "HKCR\AllFileSYSTEMObjects" /v "DefaultDropEffect" /t REG_DWORD /d "1" /f
-
 echo You are clearing cache files (WAIT UNTIL PROCESSED)
 del "%WINDIR%\SYSTEM32\mobsync.exe" /s /f /q
 del /f /s /q %systemdrive%\*._mp
@@ -332,6 +333,7 @@ reg.exe add "HKLM\Software\Microsoft\Windows NT\CurrentVersion\Image File Execut
 reg.exe add "HKLM\Software\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\jusched.exe" /v "Debugger" /t REG_SZ /d "%%windir%%\SYSTEM32\taskkill.exe" /f
 reg.exe add "HKLM\Software\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\crashreporter.exe" /v "Debugger" /t REG_SZ /d "%%windir%%\SYSTEM32\taskkill.exe" /f
 reg.exe delete "HKLM\SYSTEM\CurrentControlSet\services\LDrvSvc" /f
+powershell.exe "Enable-WindowsOptionalFeature -Online -FeatureName "DirectPlay" -NoRestart"
 net start msiserver
 ipconfig /flushdns
 ipconfig /renew
