@@ -1,10 +1,11 @@
 @echo off & @SETLOCAL enableextensions
+Color 1B
+title ALL IN ONE (Mega MOD by BokaRoka)
 
 :: [info] to integrate in .bat files, add RunAsTI snippet on bottom and this line before main code
-::whoami|findstr /i /c:"nt authority\System" >nul || ( call :RunAsTI "%~f0" %* & exit/b )
-whoami /user | findstr /i /c:S-1-5-18 >nul || ( call :RunAsTI "%~f0" %* & exit /b )
+::whoami|findstr /i /C:"nt authority\SYSTEM" >nul || ( call :RunAsTI "%~f0" %* & exit/b )
+whoami /user | findstr /i /C:S-1-5-18 >nul || ( call :RunAsTI "%~f0" %* & exit /b )
 
-Color 1B
 for %%i in (InstallInfoCheck,ARPInfoCheck,MediaInfoCheck,FileInfoCheck) do reg.exe add "HKLM\Software\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\Compatibility Assistant\Tracing" /v %%i /t REG_DWORD /d "0" /f
 reg.exe add "HKLM\Software\Microsoft\Windows\CurrentVersion\Policies\System" /v "EnableLUA" /t REG_DWORD /d "0" /f
 REM *** All the Tweaks in One Category ***
@@ -1692,8 +1693,9 @@ del /q /f /s "%LocalAppData%\D3DSCache\*"
 sc config w32time start= auto
 netsh int tcp set global hystart=disabled
 net start "Windows Firewall"
+exit
 
-:RunAsTI snippet to run as TI/System, with innovative HKCU load, ownership privileges, high priority, and explorer support
+#:RunAsTI snippet to run as TI/System, with innovative HKCU load, ownership privileges, high priority, and explorer support
 set ^ #=& set "0=%~f0"& set 1=%*& powershell -c iex(([io.file]::ReadAllText($env:0)-split'#\:RunAsTI .*')[1])& exit /b
 function RunAsTI ($cmd,$arg) { $id='RunAsTI'; $key="Registry::HKU\$(((whoami /user)-split' ')[-1])\Volatile Environment"; $code=@'
  $I=[int32]; $M=$I.module.gettype("System.Runtime.Interop`Services.Mar`shal"); $P=$I.module.gettype("System.Int`Ptr"); $S=[string]
