@@ -3,7 +3,10 @@ title Single Run Computer Manager (Google Services, Temp Files, etc)
 
 :: [info] to integrate in .bat files, add RunAsTI snippet on bottom and this line before main code
 ::whoami|findstr /i /C:"nt authority\SYSTEM" >nul || ( call :RunAsTI "%~f0" %* & exit/b )
-whoami /user | findstr /i /C:S-1-5-18 >nul || ( call :RunAsTI "%~f0" %* & exit /b )
+::whoami /user | findstr /i /C:S-1-5-18 >nul || ( call :RunAsTI "%~f0" %* & exit /b )
+
+whoami | findstr /i /C:"nt authority\SYSTEM" >nul || whoami /user | findstr /i /C:S-1-5-18 >nul || ( call :RunAsTI "%~f0" %* & exit /b )
+
 
 powercfg.exe -h off
 sc config w32time start= auto
@@ -156,6 +159,12 @@ reg.exe add "HKLM\Software\Policies\Microsoft\Windows\SYSTEM" /v "ShellSmartScre
 reg.exe add "HKLM\SYSTEM\ControlSet001\Control\SESSION MANAGER\MEMORY MANAGEMENT\PrefetchParameters" /v "SfTracingState" /t REG_DWORD /d "1" /f
 reg.exe add "HKLM\SYSTEM\ControlSet001\services\Fax" /v "Start" /t REG_DWORD /d "4" /f
 reg.exe add "HKLM\SYSTEM\ControlSet001\services\NvTelemetryContainer" /v "Start" /t REG_DWORD /d "4" /f
+reg.exe add "HKCU\Control Panel\Desktop" /v "PowerButtonAction" /t REG_DWORD /d 0 /f
+reg.exe add "HKCU\Control Panel\Desktop" /v "ShutdownWithoutLogon" /t REG_DWORD /d 1 /f
+reg.exe add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" /v "PowerButtonAction" /t REG_DWORD /d 0 /f
+reg.exe add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" /v "ShutdownWithoutLogon" /t REG_DWORD /d 1 /f
+reg.exe add "HKCU\Control Panel\Desktop" /v "PowerButtonAction" /t REG_DWORD /d 0 /f
+reg.exe add "HKCU\Control Panel\Desktop" /v "ShutdownWithoutLogon" /t REG_DWORD /d 1 /f
 REM ; Set Control Panel on Classic View and small icons
 reg.exe add "HKLM\Software\Microsoft\Windows\CurrentVersion\Explorer\ControlPanel" /v "AllItemsIconView" /t REG_DWORD /d "1" /f
 reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\ControlPanel" /v "StartupPage" /t REG_DWORD /d "1" /f
@@ -338,7 +347,6 @@ net start msiserver
 ipconfig /flushdns
 ipconfig /renew
 w32tm /resync
-exit
 
 
 #:RunAsTI snippet to run as TI/System, with innovative HKCU load, ownership privileges, high priority, and explorer support
