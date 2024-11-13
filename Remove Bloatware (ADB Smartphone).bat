@@ -54,7 +54,6 @@ for %%X in (
 "com.google.android.feedback"
 "com.google.android.gm"
 "com.google.android.gms.location.history"
-"com.google.android.inputmethod.latin"
 "com.google.android.keep"
 "com.google.android.marvin.talkback"
 "com.google.android.music"
