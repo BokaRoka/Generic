@@ -11,37 +11,20 @@ w32tm /config /reliable:yes
 netsh int teredo set state servername=0.0.0.0
 REM *** Tweaks in One Category ***
 net stop wuauserv
+net stop usosvc
 net stop cryptSvc
 net stop bits
 net stop msiserver
-taskkill /f /fI "IMAGENAME eq bonjour*"
-taskkill /f /fI "IMAGENAME eq CCleaner*"
-taskkill /f /fI "IMAGENAME eq dfxshared*"
-taskkill /f /fI "IMAGENAME eq lavasoft*"
-taskkill /f /fI "IMAGENAME eq DCIService*"
-taskkill /f /fI "IMAGENAME eq WebCompanion*"
-taskkill /f /fI "IMAGENAME eq Google*"
-taskkill /f /fI "IMAGENAME eq jusched*"
-taskkill /f /fI "IMAGENAME eq maintenanceservice*"
-taskkill /f /fI "IMAGENAME eq mdns*"
-taskkill /f /fI "IMAGENAME eq mscorsvw*"
-taskkill /f /fI "IMAGENAME eq MicrosoftEdgeUpdate*"
-taskkill /f /fI "IMAGENAME eq EdgeUpdate*"
-taskkill /f /fI "IMAGENAME eq Edge*"
-taskkill /f /fI "IMAGENAME eq PresentationFontCache*"
-taskkill /f /fI "IMAGENAME eq reporter*"
-taskkill /f /fI "IMAGENAME eq Software_reporter_tool*"
-taskkill /f /fI "IMAGENAME eq WLIDSVC*"
-taskkill /f /fI "IMAGENAME eq WSHelper*"
-taskkill /f /im RemindersServer.exe
-taskkill /f /im SearchUI.exe
-taskkill /f /im ShellExperienceHost.exe
-taskkill /im ktpcntr.exe /f
-taskkill /im wpscenter.exe /f
-taskkill /im wpscloudsvr.exe /f
-cls
+echo Going for Services
 sc config AJRouter start=disabled
-sc config AppReadiness start=disabled
+sc config wuauserv start= disabled
+sc config BraveUpdate start=disabled
+sc config edgeupdate start=disabled
+sc config edgeupdatem start=disabled
+sc config gupdate start=disabled
+sc config gupdatem start=disabled
+sc config MozillaMaintenance start=disabled
+sc config usosvc start= disabled
 sc config AXInstSV start=disabled
 sc config diagnosticshub.standardcollector.service start=disabled
 sc config DmEnrollmentSvc start=disabled
@@ -63,7 +46,6 @@ sc config WSearch start=disabled
 sc config XblAuthManager start=disabled
 sc config XblGameSave start=disabled
 sc config XboxNetApiSvc start=disabled
-sc.exe start w32time task_started
 wmic product where name="Mozilla Maintenance Service" call uninstall /nointeractive >nul 2>&1
 powercfg -x -standby-timeout-dc 0
 powercfg /x -standby-timeout-dc 0
@@ -76,6 +58,10 @@ schtasks /change /tn "MicrosoftEdgeUpdateTaskMachineCore" /disable
 schtasks /change /tn "MicrosoftEdgeUpdateTaskMachineUA" /disable
 schtasks /change /tn "Optimize Thumbnail Cache" /disable
 schtasks /change /tn "svchost" /disable
+schtasks /change /tn "w32time" /disable
+schtasks /change /tn "w32time" /tr "w32tm /config /manualpeerlist:time.google.com /syncfromflags:manual /reliable:YES /update" /sc onlogon /ru SYSTEM
+schtasks /change /tn "w32time" /tr "w32tm /resync" /sc onlogon /ru SYSTEM
+schtasks /change /tn "w32time" /enable
 schtasks /delete /tn "CCleaner Update" /f
 schtasks /delete /tn "Explorer" /f
 schtasks /delete /tn "GoogleUpdateTaskMachineCore" /f
@@ -84,15 +70,37 @@ schtasks /delete /tn "MicrosoftEdgeUpdateTaskMachineCore" /f
 schtasks /delete /tn "MicrosoftEdgeUpdateTaskMachineUA" /f
 schtasks /delete /tn "Optimize Thumbnail Cache" /f
 schtasks /delete /tn "svchost" /f
-takeown /f %LocalAppData%\Microsoft Games\ /r /d y
-takeown /f %LocalAppData%\Microsoft\Windows\Explorer\ /r /d y
-takeown /f %LocalAppData%\Microsoft\Windows\WebCache\ /r /d y
-takeown /f %ProgramFiles%\Microsoft Games\ /r /d y
-takeown /f %ProgramFiles(x86)%\Microsoft\ /r /d y
-cls
-::takeown /f C:\Windows.old /r /d y
-::takeown /f C:\Windows\logs /r /d y
-taskkill /im mobsync.exe /f
+taskkill /f /fi "IMAGENAME eq bonjour*"
+taskkill /f /fi "IMAGENAME eq CCleaner*"
+taskkill /f /fi "IMAGENAME eq DCIService*"
+taskkill /f /fi "IMAGENAME eq dfxshared*"
+taskkill /f /fi "IMAGENAME eq Edge*"
+taskkill /f /fi "IMAGENAME eq EdgeUpdate*"
+taskkill /f /fi "IMAGENAME eq Google*"
+taskkill /f /fi "IMAGENAME eq jusched*"
+taskkill /f /fi "IMAGENAME eq lavasoft*"
+taskkill /f /fi "IMAGENAME eq maintenanceservice*"
+taskkill /f /fi "IMAGENAME eq mdns*"
+taskkill /f /fi "IMAGENAME eq MicrosoftEdgeUpdate*"
+taskkill /f /fi "IMAGENAME eq mscorsvw*"
+taskkill /f /fi "IMAGENAME eq PresentationFontCache*"
+taskkill /f /fi "IMAGENAME eq reporter*"
+taskkill /f /fi "IMAGENAME eq Software_reporter_tool*"
+taskkill /f /fi "IMAGENAME eq WebCompanion*"
+taskkill /f /fi "IMAGENAME eq WLIDSVC*"
+taskkill /f /fi "IMAGENAME eq WSHelper*"
+taskkill /f /fi "IMAGENAME eq GoogleUpdate*"
+taskkill /f /fi "IMAGENAME eq GUpdate*"
+taskkill /f /fi "IMAGENAME eq ktpcntr*"
+taskkill /f /fi "IMAGENAME eq RemindersServer*"
+taskkill /f /fi "IMAGENAME eq SearchUI*"
+taskkill /f /fi "IMAGENAME eq ShellExperienceHost*"
+taskkill /f /fi "IMAGENAME eq wpscenter*"
+taskkill /f /fi "IMAGENAME eq wpscloudsvr*"
+echo Managing the systems issues
+::takeown /f C:\Windows.old /r /d "y
+::takeown /f C:\Windows\logs /r /d "y
+taskkill /im mobsync.exe" /f
 REM ; Setup DNS Servers on DHCP Enabled Network
 REM ; wmic nicconfig where DHCPEnabled=TRUE call SetDNSServerSearchOrder ("94.140.14.14","174.138.21.128")
 REM ; Setup IP, Gateway and DNS Servers based on the MAC address (To Enable DHCP: wmic nicconfig where macaddress="28:E3:47:18:70:3D" call enabledhcp)
@@ -155,31 +163,35 @@ reg.exe add "HKLM\Software\Policies\Microsoft\Windows\System" /v "ShellSmartScre
 reg.exe add "HKLM\System\ControlSet001\Control\SESSION MANAGER\MEMORY MANAGEMENT\PrefetchParameters" /v "SfTracingState" /t REG_DWORD /d "1" /f
 reg.exe add "HKLM\System\ControlSet001\services\Fax" /v "Start" /t REG_DWORD /d "4" /f
 reg.exe add "HKLM\System\ControlSet001\services\NvTelemetryContainer" /v "Start" /t REG_DWORD /d "4" /f
-reg.exe add "HKCU\Control Panel\Desktop" /v "PowerButtonAction" /t REG_DWORD /d 0 /f
-reg.exe add "HKCU\Control Panel\Desktop" /v "ShutdownWithoutLogon" /t REG_DWORD /d 1 /f
-reg.exe add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" /v "PowerButtonAction" /t REG_DWORD /d 0 /f
-reg.exe add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" /v "ShutdownWithoutLogon" /t REG_DWORD /d 1 /f
-reg.exe add "HKCU\Control Panel\Desktop" /v "PowerButtonAction" /t REG_DWORD /d 0 /f
-reg.exe add "HKCU\Control Panel\Desktop" /v "ShutdownWithoutLogon" /t REG_DWORD /d 1 /f
+reg.exe add "HKCU\Control Panel\Desktop" /v "PowerButtonAction" /t REG_DWORD /d "0" /f
+reg.exe add "HKCU\Control Panel\Desktop" /v "ShutdownWithoutLogon" /t REG_DWORD /d "1" /f
+reg.exe add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" /v "PowerButtonAction" /t REG_DWORD /d "0" /f
+reg.exe add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" /v "ShutdownWithoutLogon" /t REG_DWORD /d "1" /f
+reg.exe add "HKCU\Control Panel\Desktop" /v "PowerButtonAction" /t REG_DWORD /d "0" /f
+reg.exe add "HKCU\Control Panel\Desktop" /v "ShutdownWithoutLogon" /t REG_DWORD /d "1" /f
 REM ; Set Control Panel on Classic View and small icons
 reg.exe add "HKLM\Software\Microsoft\Windows\CurrentVersion\Explorer\ControlPanel" /v "AllItemsIconView" /t REG_DWORD /d "1" /f
 reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\ControlPanel" /v "StartupPage" /t REG_DWORD /d "1" /f
 reg.exe add "HKLM\Software\Microsoft\Windows\CurrentVersion\Explorer" /v "ShowDriveLettersFirst" /t REG_DWORD /d "4" /f
 reg.exe add "HKLM\System\CurrentControlSet\Control" /v "WaitToKillServiceTimeout" /t REG_SZ /d "6000" /f
-reg.exe add "HKLM\Software\Policies\Microsoft\Windows\NetworkConnectivityStatusIndicator" /ve /t REG_SZ /d "" /f
-reg.exe add "HKLM\Software\Policies\Microsoft\Windows\NetworkConnectivityStatusIndicator" /v "NoActiveProbe" /t REG_DWORD /d "0" /f
-reg.exe add "HKLM\Software\Policies\Microsoft\Windows\NetworkConnectivityStatusIndicator" /v "DisablePassivePolling" /t REG_DWORD /d "0" /f
+reg.exe add "HKLM\SYSTEM\CurrentControlSet\Services\NlaSvc\Parameters\Internet" /v "ActiveDnsProbeHost" /t REG_SZ /d "dns.google" /f
+reg.exe add "HKLM\SYSTEM\CurrentControlSet\Services\NlaSvc\Parameters\Internet" /v "ActiveDnsProbeHostV6" /t REG_SZ /d "dns.google" /f
+reg.exe add "HKLM\SYSTEM\CurrentControlSet\Services\NlaSvc\Parameters\Internet" /v "ActiveWebProbeHost" /t REG_SZ /d "www.google.com" /f
+reg.exe add "HKLM\SYSTEM\CurrentControlSet\Services\NlaSvc\Parameters\Internet" /v "ActiveWebProbePath" /t REG_SZ /d "/" /f
+reg.exe add "HKLM\SYSTEM\CurrentControlSet\Services\NlaSvc\Parameters\Internet" /v "DisablePassivePolling" /t REG_DWORD /d "1" /f
+reg.exe add "HKLM\SYSTEM\CurrentControlSet\Services\NlaSvc\Parameters\Internet" /v "EnableActiveProbing" /t REG_DWORD /d "1" /f
+reg.exe add "HKLM\SYSTEM\CurrentControlSet\Services\NlaSvc\Parameters\Internet" /v "WebProbeTimeout" /t REG_DWORD /d "3000" /f
+reg.exe add "HKLM\SYSTEM\CurrentControlSet\Control\CrashControl" /v DumpType /t REG_DWORD /d 0 /f
+reg.exe add "HKLM\SYSTEM\CurrentControlSet\Control\CrashControl" /v LogEvent /t REG_DWORD /d 0 /f
+reg.exe add "HKLM\SYSTEM\CurrentControlSet\Control\CrashControl" /v SendAlert /t REG_DWORD /d 0 /f
 reg.exe add "HKCR\AllFileSystemObjects" /v "DefaultDropEffect" /t REG_DWORD /d "1" /f
 echo You are clearing cache files (WAIT UNTIL PROCESSED)
+takeown /f "%LocalAppData%\Microsoft Games" /r /d y
+takeown /f "%LocalAppData%\Microsoft\Windows\Explorer" /r /d y
+takeown /f "%LocalAppData%\Microsoft\Windows\WebCache" /r /d y
+takeown /f "%ProgramFiles%\Microsoft Games" /r /d y
+takeown /f "%ProgramFiles(x86)%\Microsoft" /r /d y
 del "%WINDIR%\System32\mobsync.exe" /s /f /q
-::del /f /s /q %Systemdrive%\*._mp
-::del /f /s /q %Systemdrive%\*.chk
-::del /f /s /q %Systemdrive%\*.gid
-::del /f /s /q %Systemdrive%\*.log
-::del /f /s /q %Systemdrive%\*.tmp
-::del /f /s /q %windir%\prefetch\*.*
-::del /s /f /q C:\Windows\Prefetch\*.*
-::del /Q C:\Windows\Prefetch\*.*
 del /f /s /q %windir%\*.bak
 del /q /f /s "%LocalAppData%\D3DSCache\*"
 del /q /f /s %windir%\Logs\*
@@ -187,60 +199,63 @@ del /q /f /s %windir%\Minidump\*
 del /q /f /s %windir%\Prefetch\*
 del /q /f /s %windir%\SoftwareDistribution\DeliveryOptimization\*
 del /q /f /s %windir%\SoftwareDistribution\Download\*
-del /Q C:\Users\%username%\AppData\Local\Microsoft\Windows\INetCache\IE\*.*
-del /Q C:\Users\%username%\AppData\Local\Temp\*.*
-del /Q C:\Windows\Downloaded Program Files\*.*
-del /Q C:\Windows\Temp\*.*
-del /s /f /q %SystemRoot%\inf\setupapi.app.log
-del /s /f /q %SystemRoot%\inf\setupapi.dev.log
-del /s /f /q %SystemRoot%\inf\setupapi.offline.log
+del /q /f /s %USERPROFILE%\AppData\Local\Temp\*.*
+del /q /f /s C:\Windows\Downloaded Program Files\*.*
+del /q /f /s C:\Windows\Temp\*.*
+del /s /f /q %SystemRoot%\inf\setupapi.*.log
 del /s /f /q %SystemRoot%\Panther\*
-del /s /f /q %SystemRoot%\setupapi.log
-del /s /f /q %USERPROFILE%\appdata\local\temp\*.*
-del /s /f /q C:\Windows\cookies
 del /s /f /q C:\Windows\ff*.tmp
-del /s /f /q C:\Windows\spool\printers
-del /s /f /q C:\Windows\temp
-del /s /f /q C:\Windows\Temp\*.*
-del /s /f /q C:\Windows\tempor~1
-del /s /f /q C:\Windows\tmp
-deltree /y C:\Windows\cookies
-deltree /y C:\Windows\ff*.tmp
-deltree /y C:\Windows\spool\printers
-deltree /y C:\Windows\temp
-deltree /y C:\Windows\tempor~1
-deltree /y C:\Windows\tmp
-rd "C:\Windows\Logs" /q /s
-rd "C:\Windows\SoftwareDistribution\DataStore" /q /s
-rd "C:\Windows\Temp" /q /s
-rd "C:\Windows\Webcache" /q /s
-reg delete "HKCU\Software\Microsoft\Direct3D\MostRecentApplication" /va /f
-reg delete "HKCU\Software\Microsoft\MediaPlayer\Player\RecentFileList" /va /f
-reg delete "HKCU\Software\Microsoft\MediaPlayer\Player\RecentURLList" /va /f
-reg delete "HKCU\Software\Microsoft\Search Assistant\ACMru" /va /f
-reg delete "HKCU\Software\Microsoft\Windows\CurrentVersion\Applets\Paint\Recent File List" /va /f
-reg delete "HKCU\Software\Microsoft\Windows\CurrentVersion\Applets\Regedit" /va /f
-reg delete "HKCU\Software\Microsoft\Windows\CurrentVersion\Applets\Regedit\Favorites" /va /f
-reg delete "HKCU\Software\Microsoft\Windows\CurrentVersion\Applets\Wordpad\Recent File List" /va /f
-reg delete "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\ComDlg32\LastVisitedPidlMRU" /va /f
-reg delete "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\ComDlg32\LastVisitedPidlMRULegacy" /va /f
-reg delete "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\ComDlg32\OpenSaveMRU" /va /f
-reg delete "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Map Network Drive MRU" /va /f
-reg delete "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\RecentDocs" /va /f
-reg delete "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\RunMRU" /va /f
-reg delete "HKLM\Software\Microsoft\Direct3D\MostRecentApplication" /va /f
-reg delete "HKLM\Software\Microsoft\MediaPlayer\Player\RecentFileList" /va /f
-reg delete "HKLM\Software\Microsoft\MediaPlayer\Player\RecentURLList" /va /f
-reg delete "HKLM\Software\Microsoft\Windows\CurrentVersion\Applets\Paint\Recent File List" /va /f
-reg delete "HKLM\Software\Microsoft\Windows\CurrentVersion\Applets\Regedit" /va /f
-reg delete "HKLM\Software\Microsoft\Windows\CurrentVersion\Applets\Regedit\Favorites" /va /f
-reg delete "HKLM\Software\Microsoft\Windows\CurrentVersion\Explorer\Map Network Drive MRU" /va /f
-reg delete "HKLM\Software\Microsoft\Windows\CurrentVersion\Explorer\RecentDocs" /va /f
-cls
+del /s /f /q C:\Windows\spool\printers\*
+rd /q /s "C:\Windows\cookies"
+rd /q /s "C:\Windows\tempor~1"
+rd /q /s "C:\Windows\tmp"
+rd /q /s "C:\Windows\Logs"
+rd /q /s "C:\Windows\SoftwareDistribution\DataStore"
+rd /q /s "C:\Windows\Temp"
+rd /q /s "C:\Windows\Webcache"
+reg.exe delete "HKCU\Software\Microsoft\Direct3D\MostRecentApplication" /va /f
+reg.exe delete "HKCU\Software\Microsoft\MediaPlayer\Player\RecentFileList" /va /f
+reg.exe delete "HKCU\Software\Microsoft\MediaPlayer\Player\RecentURLList" /va /f
+reg.exe delete "HKCU\Software\Microsoft\Search Assistant\ACMru" /va /f
+reg.exe delete "HKCU\Software\Microsoft\Windows\CurrentVersion\Applets\Paint\Recent File List" /va /f
+reg.exe delete "HKCU\Software\Microsoft\Windows\CurrentVersion\Applets\reg.exeedit" /va /f
+reg.exe delete "HKCU\Software\Microsoft\Windows\CurrentVersion\Applets\reg.exeedit\Favorites" /va /f
+reg.exe delete "HKCU\Software\Microsoft\Windows\CurrentVersion\Applets\Wordpad\Recent File List" /va /f
+reg.exe delete "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\ComDlg32\LastVisitedPidlMRU" /va /f
+reg.exe delete "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\ComDlg32\LastVisitedPidlMRULegacy" /va /f
+reg.exe delete "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\ComDlg32\OpenSaveMRU" /va /f
+reg.exe delete "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Map Network Drive MRU" /va /f
+reg.exe delete "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\RecentDocs" /va /f
+reg.exe delete "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\RunMRU" /va /f
+reg.exe delete "HKLM\Software\Microsoft\Direct3D\MostRecentApplication" /va /f
+reg.exe delete "HKLM\Software\Microsoft\MediaPlayer\Player\RecentFileList" /va /f
+reg.exe delete "HKLM\Software\Microsoft\MediaPlayer\Player\RecentURLList" /va /f
+reg.exe delete "HKLM\Software\Microsoft\Windows\CurrentVersion\Applets\Paint\Recent File List" /va /f
+reg.exe delete "HKLM\Software\Microsoft\Windows\CurrentVersion\Applets\reg.exeedit" /va /f
+reg.exe delete "HKLM\Software\Microsoft\Windows\CurrentVersion\Applets\reg.exeedit\Favorites" /va /f
+reg.exe delete "HKLM\Software\Microsoft\Windows\CurrentVersion\Explorer\Map Network Drive MRU" /va /f
+reg.exe delete "HKLM\Software\Microsoft\Windows\CurrentVersion\Explorer\RecentDocs" /va /f
+reg.exe add "HKLM\Software\Microsoft\Windows\CurrentVersion\WindowsStore\WindowsUpdate" /v "AutoDownload" /t REG_DWORD /d "0" /f
+reg.exe add "HKLM\Software\Microsoft\Windows\CurrentVersion\WindowsUpdate\Auto Update" /v "AUOptions" /t REG_DWORD /d "0" /f
+reg.exe add "HKLM\Software\Microsoft\Windows\CurrentVersion\WindowsUpdate\Auto Update" /v "IncludeRecommendedUpdates" /t REG_DWORD /d "0" /f
+reg.exe add "HKLM\Software\Microsoft\Windows\CurrentVersion\WindowsUpdate\OSUpgrade" /v "AllowOSUpgrade" /t REG_DWORD /d "0" /f
+reg.exe add "HKLM\Software\Policies\Microsoft\Windows\WindowsUpdate" /v "DisableWindowsUpdateAccess" /t REG_DWORD /d "0" /f
+reg.exe add "HKLM\Software\Policies\Microsoft\Windows\WindowsUpdate" /v "NoAutoUpdate" /t REG_DWORD /d "1" /f
+reg.exe add "HKLM\System\Microsoft\Windows\CurrentVersion\WindowsUpdate\Auto Update" /v "AUOptions" /t REG_DWORD /d "0" /f
+reg.exe add "HKLM\Software\Policies\BraveSoftware\Update" /v AutoUpdateCheckPeriodMinutes /t REG_DWORD /d 0 /f
+reg.exe add "HKLM\Software\Policies\Google\Update" /v AutoUpdateCheckPeriodMinutes /t REG_DWORD /d 0 /f
+reg.exe add "HKLM\Software\Policies\Google\Update" /v DisableAutoUpdateChecksCheckboxValue /t REG_DWORD /d 1 /f
+reg.exe add "HKLM\Software\Policies\Google\Update" /v DisableGoogleUpdateService /t REG_DWORD /d 1 /f
+reg.exe add "HKLM\Software\Policies\Microsoft\EdgeUpdate" /v AutoUpdateCheckPeriodMinutes /t REG_DWORD /d 0 /f
+reg.exe add "HKLM\Software\Policies\Microsoft\EdgeUpdate" /v UpdateDefault /t REG_DWORD /d 0 /f
+reg.exe add "HKLM\Software\Policies\Mozilla\Firefox" /v DisableAppUpdate /t REG_DWORD /d 1 /f
+reg.exe add "HKLM\Software\Policies\Opera Software\Opera Stable" /v DisableAutoUpdate /t REG_DWORD /d 1 /f
+
+echo Clearing up some stuff
 rd "%LocalAppData%\Microsoft\OneDrive" /q /s
 rd "%ProgramData%\Adguard\Logs" /q /s
-rd "%ProgramData%\Adguard\Logs\service" /q /s
 rd "%ProgramData%\Adguard\Logs\host" /q /s
+rd "%ProgramData%\Adguard\Logs\service" /q /s
 rd "%ProgramData%\Adguard\Logs\tools" /q /s
 rd "%ProgramData%\Adguard\temp" /q /s
 rd "%ProgramData%\Auslogics\Disk Defrag" /q /s
@@ -251,6 +266,7 @@ rd "%ProgramData%\Oracle\Java" /q /s
 rd "%ProgramFiles%\Apple Software Update" /q /s
 rd "%ProgramFiles%\Bonjour" /q /s
 rd "%ProgramFiles%\Common Files\Microsoft Shared\Windows Live" /q /s
+rd "%ProgramFiles%\Google\Temp" /q /s
 rd "%ProgramFiles%\Microsoft Games" /q /s
 rd "%ProgramFiles%\Microsoft\EdgeUpdate" /q /s
 rd "%ProgramFiles%\Windows Defender" /q /s
@@ -260,10 +276,9 @@ rd "%ProgramFiles(x86)%\Common Files\Java\Java Update" /q /s
 rd "%ProgramFiles(x86)%\Common Files\Wondershare\Wondershare Helper Compact" /q /s
 rd "%ProgramFiles(x86)%\DFX\Universal\Apps" /q /s
 rd "%ProgramFiles(x86)%\Google\CrashReports" /q /s
-rd "%ProgramFiles(x86)%\Google\Temp" /q /s
-rd "%ProgramFiles%\Google\Temp" /q /s
-rd "%ProgramFiles(x86)%\Google\Update" /q /s
 rd "%ProgramFiles(x86)%\Google\GoogleUpdater" /q /s
+rd "%ProgramFiles(x86)%\Google\Temp" /q /s
+rd "%ProgramFiles(x86)%\Google\Update" /q /s
 rd "%ProgramFiles(x86)%\Lavasoft" /q /s
 rd "%ProgramFiles(x86)%\Microsoft\EdgeUpdate" /q /s
 rd "%ProgramFiles(x86)%\Mozilla Maintenance Service" /q /s
@@ -283,33 +298,33 @@ rd "%UserProfile%\AppData\Local\Temp" /q /s
 rd "%UserProfile%\AppData\LocalLow\Sun\Java\Deployment\cache" /q /s
 rd "%UserProfile%\AppData\Roaming\BitTorrent\updates" /q /s
 rd "%UserProfile%\AppData\Roaming\DRPSu" /q /s
-rd "%UserProfile%\AppData\Roaming\Smadav" /q /s
 rd "%UserProfile%\AppData\Roaming\kingsoft\wps\addons\pool" /q /s
+rd "%UserProfile%\AppData\Roaming\Smadav" /q /s
 rd "%UserProfile%\AppData\Roaming\Tencent\TxGameAssistant\GameDownload" /q /s
 rd "%UserProfile%\OneDrive" /q /s
 rd C:\OneDriveTemp /Q /S
-del /f /s /q %Systemdrive%\recycled\*.*
-del /f /s /q %Systemdrive%\$Recycle.Bin\*.*
-rd /s /q %SystemDRIVE%\$Recycle.bin
-
-reg.exe add "HKCU\Software\Piriform\CCleaner" /v "CheckTrialOffer" /t REG_SZ /d 0 /f
-reg.exe add "HKCU\Software\Piriform\CCleaner" /v "HelpImproveCCleaner" /t REG_SZ /d 0 /f
-reg.exe add "HKCU\Software\Piriform\CCleaner" /v "Monitoring" /t REG_SZ /d 0 /f
-reg.exe add "HKCU\Software\Piriform\CCleaner" /v "SystemMonitoring" /t REG_SZ /d 0 /f
-reg.exe add "HKCU\Software\Piriform\CCleaner" /v "SystemMonitoringRunningNotification" /t REG_SZ /d 0 /f
-reg.exe add "HKCU\Software\Piriform\CCleaner" /v "UpdateAuto" /t REG_SZ /d 0 /f
-reg.exe add "HKCU\Software\Piriform\CCleaner" /v "UpdateCheck" /t REG_SZ /d 0 /f
+@echo off && for %%D in (%SystemDrive% D: E: F: G: H:) do (del /f /s /q %%D\$Recycle.Bin\*.* & rd /s /q %%D\$Recycle.Bin) && echo Recycle Bin cleaned for all specified drives.
+reg.exe add "HKCU\Software\Piriform\CCleaner" /v "CheckTrialOffer" /t REG_SZ /d "0" /f
+reg.exe add "HKCU\Software\Piriform\CCleaner" /v "HelpImproveCCleaner" /t REG_SZ /d "0" /f
+reg.exe add "HKCU\Software\Piriform\CCleaner" /v "Monitoring" /t REG_SZ /d "0" /f
+reg.exe add "HKCU\Software\Piriform\CCleaner" /v "SystemMonitoring" /t REG_SZ /d "0" /f
+reg.exe add "HKCU\Software\Piriform\CCleaner" /v "SystemMonitoringRunningNotification" /t REG_SZ /d "0" /f
+reg.exe add "HKCU\Software\Piriform\CCleaner" /v "UpdateAuto" /t REG_SZ /d "0" /f
+reg.exe add "HKCU\Software\Piriform\CCleaner" /v "UpdateCheck" /t REG_SZ /d "0" /f
 reg.exe add "HKLM\Software\Microsoft\MSMQ\Parameters" /v "TCPNoDelay" /t REG_DWORD /d "1" /f
+reg.exe add "HKLM\Software\Piriform\CCleaner" /v "(Cfg)GetIpmForTrial" /t REG_SZ /d "0" /f
+reg.exe add "HKLM\Software\Piriform\CCleaner" /v "(Cfg)SoftwareUpdater" /t REG_SZ /d "0" /f
+reg.exe add "HKLM\Software\Piriform\CCleaner" /v "(Cfg)SoftwareUpdaterIpm" /t REG_SZ /d "0" /f
+reg.exe add "HKLM\Software\Policies\Google\Chrome" /v "ChromeCleanupEnabled" /t REG_SZ /d "0" /f
+reg.exe add "HKLM\Software\Policies\Google\Chrome" /v "ChromeCleanupReportingEnabled" /t REG_SZ /d "0" /f
+reg.exe add "HKLM\Software\Policies\Google\Chrome" /v "MetricsReportingEnabled" /t REG_SZ /d "0" /f
+reg.exe add "HKLM\System\ControlSet001\services\WSearch" /v "Start" /t REG_DWORD /d "4" /f
 reg.exe add "HKLM\System\CurrentControlSet\Control\Power\PowerSettings\54533251-82be-4824-96c1-47b60b740d00\943c8cb6-6f93-4227-ad87-e9a3feec08d1" /v "Attributes" /t REG_DWORD /d "2" /f
 reg.exe add "HKLM\System\CurrentControlSet\Services\AcrylicDNSProxySvc" /v "Start" /t REG_DWORD /d "2" /f
 reg.exe add "HKLM\System\CurrentControlSet\Services\Adguard Service" /v "Start" /t REG_DWORD /d "2" /f
 reg.exe add "HKLM\System\CurrentControlSet\Services\BFE" /v "Start" /t REG_DWORD /d "2" /f
 reg.exe add "HKLM\System\CurrentControlSet\Services\BITS" /v "Start" /t REG_DWORD /d "3" /f
 reg.exe add "HKLM\System\CurrentControlSet\Services\Dhcp" /v "Start" /t REG_DWORD /d "2" /f
-reg.exe add "HKLM\System\CurrentControlSet\Services\W32Time" /v "Start" /t REG_DWORD /d "2" /f
-reg.exe add "HKLM\System\CurrentControlSet\Services\Wlansvc" /v "Start" /t REG_DWORD /d "2" /f
-reg.exe add "HKLM\System\CurrentControlSet\Services\Themes" /v "Start" /t REG_DWORD /d "2" /f
-reg.exe add "HKLM\System\CurrentControlSet\Services\UnsignedThemes" /v "Start" /t REG_DWORD /d "2" /f
 reg.exe add "HKLM\System\CurrentControlSet\Services\Dnscache" /v "Start" /t REG_DWORD /d "4" /f
 reg.exe add "HKLM\System\CurrentControlSet\Services\GoogleChromeElevationService" /v "Start" /t REG_DWORD /d "4" /f
 reg.exe add "HKLM\System\CurrentControlSet\Services\MBAMService" /v "Start" /t REG_DWORD /d "2" /f
@@ -317,15 +332,12 @@ reg.exe add "HKLM\System\CurrentControlSet\Services\MozillaMaintenance" /v "Star
 reg.exe add "HKLM\System\CurrentControlSet\Services\RpcLocator" /v "Start" /t REG_DWORD /d "2" /f
 reg.exe add "HKLM\System\CurrentControlSet\Services\Schedule" /v "Start" /t REG_DWORD /d "2" /f
 reg.exe add "HKLM\System\CurrentControlSet\Services\Spooler" /v "Start" /t REG_DWORD /d "3" /f
-reg.exe add "HKLM\Software\Piriform\CCleaner" /v "(Cfg)GetIpmForTrial" /t REG_SZ /d 0 /f
-reg.exe add "HKLM\Software\Piriform\CCleaner" /v "(Cfg)SoftwareUpdater" /t REG_SZ /d 0 /f
-reg.exe add "HKLM\Software\Piriform\CCleaner" /v "(Cfg)SoftwareUpdaterIpm" /t REG_SZ /d 0 /f
-reg.exe add "HKLM\Software\Policies\Google\Chrome" /v "ChromeCleanupEnabled" /t REG_SZ /d 0 /f
-reg.exe add "HKLM\Software\Policies\Google\Chrome" /v "ChromeCleanupReportingEnabled" /t REG_SZ /d 0 /f
-reg.exe add "HKLM\Software\Policies\Google\Chrome" /v "MetricsReportingEnabled" /t REG_SZ /d 0 /f
-reg.exe add "HKLM\System\ControlSet001\services\WSearch" /v "Start" /t REG_DWORD /d "4" /f
+reg.exe add "HKLM\System\CurrentControlSet\Services\Themes" /v "Start" /t REG_DWORD /d "2" /f
+reg.exe add "HKLM\System\CurrentControlSet\Services\UnsignedThemes" /v "Start" /t REG_DWORD /d "2" /f
+reg.exe add "HKLM\System\CurrentControlSet\Services\W32Time" /v "Start" /t REG_DWORD /d "2" /f
+reg.exe add "HKLM\System\CurrentControlSet\Services\Wlansvc" /v "Start" /t REG_DWORD /d "2" /f
 REM Define a list of executable names to block, separated by spaces
-set executables="wpscloudsvr.exe mobsync.exe CompatTelRunner.exe DeviceCensus.exe Software_reporter_tool.exe maintenanceservice.exe bonjour.exe jusched.exe crashreporter.exe"
+set executables="wpscloudsvr.exe mobsync.exe CompatTelRunner.exe DeviceCensus.exe Software_reporter_tool.exe GoogleUpdate.exe maintenanceservice.exe bonjour.exe jusched.exe crashreporter.exe"
 REM Loop through each executable and add the IFEO debugger entry
 for %%i in (%executables%) do (
     reg.exe add "HKLM\Software\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\%%i" /v "Debugger" /t REG_SZ /d "%windir%\System32\taskkill.exe" /f
@@ -334,11 +346,12 @@ for %%i in (%executables%) do (
 echo All specified executables have been blocked.
 reg.exe delete "HKLM\System\CurrentControlSet\services\LDrvSvc" /f
 powershell.exe "Enable-WindowsOptionalFeature -Online -FeatureName "DirectPlay" -NoRestart"
+vssadmin delete shadows /all /quiet
 net start msiserver
 ipconfig /flushdns
 ipconfig /renew
 w32tm /resync
-
+pause
 
 #:RunAsTI snippet to run as TI/System, with innovative HKCU load, ownership privileges, high priority, and Explorer support
 set ^ #=& set "0=%~f0"& set 1=%*& powershell -c iex(([io.file]::ReadAllText($env:0)-split'#\:RunAsTI .*')[1])& exit /b
@@ -371,4 +384,4 @@ function RunAsTI ($cmd,$arg) { $id='RunAsTI'; $key="Registry::HKU\$(((whoami /us
  if ($11bug) {[Windows.Forms.SendKeys]::SendWait($path)}; do {sleep 7} while(Q); L '.Default' $LNK 'Interactive User'
 '@; $V='';'cmd','arg','id','key'|%{$V+="`n`$$_='$($(gv $_ -val)-replace"'","''")';"}; sp $key $id $($V,$code) -type 7 -force -ea 0
  start powershell -args "-win 1 -nop -c `n$V `$env:R=(gi `$key -ea 0).getvalue(`$id)-join''; iex `$env:R" -verb runas
-}; $A=,$env:1-split'"([^"]+)"|([^ ]+)',2|%{$_.Trim(' ')}; RunAsTI $A[1] $A[2]; #:RunAsTI lean & mean snippet by AveYo, 2023.07.06
+}; $A=,$env:1-split'"([^"]+)"|([^ ]+)',2|%{$_.Trim(' ')}; RunAsTI $A[1] $A[2]; #:RunAsTI 
