@@ -2,6 +2,10 @@
 Color 0C
 title BokaRoka's Windows DEFENDER Disable and REMOVE Tool
 
+sc stop WinDefend
+sc config WinDefend start= disabled
+sc stop SecurityHealthService
+sc config SecurityHealthService start= disabled
 REM ; disabling Antivirus
 reg.exe add "HKLM\Software\Policies\Microsoft\Windows Defender" /v "DisableRoutinelyTakingAction" /t REG_DWORD /d "1" /f
 reg.exe add "HKLM\Software\Policies\Microsoft\Windows Defender" /v "ServiceKeepAlive" /t REG_DWORD /d "0" /f
@@ -38,7 +42,7 @@ reg.exe add "HKCU\Control Panel\Desktop" /v "LowLevelHooksTimeout" /t REG_DWORD 
 reg.exe add "HKLM\System\CurrentControlSet\Control" /v "WaitToKillServiceTimeout" /t REG_SZ /d "1" /f
 reg.exe add "HKLM\System\CurrentControlSet\Control" /v "HandlerTimeout" /t REG_DWORD /d "2147483647" /f
 reg.exe add "HKLM\System\CurrentControlSet\Control" /v "ServicesPipeTimeout" /t REG_DWORD /d "2359296" /f
-reg.exe add "HKLM\System\ControlSet001\Control" /v "WaitToKillServiceTimeout" /t REG_SZ /d "1" /f
+reg.exe add "HKLM\System\ControlSet001\Control" /v "WaitToKillServiceTimeout" /t REG_SZ /d "4" /f
 reg.exe add "HKLM\System\ControlSet001\Control" /v "HandlerTimeout" /t REG_DWORD /d "2147483647" /f
 reg.exe add "HKLM\System\ControlSet001\Control" /v "ServicesPipeTimeout" /t REG_DWORD /d "2359296" /f
 reg.exe add "HKLM\System\CurrentControlSet\Control\PnP" /v "PollBootPartitionTimeout" /t REG_DWORD /d "1" /f
