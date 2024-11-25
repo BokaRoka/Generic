@@ -1,20 +1,24 @@
 @echo off
+setlocal enabledelayedexpansion
 title Single Run Computer Manager (Google Services, Temp Files, etc)
-:: [info] to integrate in .bat files, add RunAsTI snippet on bottom and this line before main code
-::whoami|findstr /i /C:"nt authority\System" >nul || ( call :RunAsTI "%~f0" %* & exit/b )
-::whoami /user | findstr /i /C:S-1-5-18 >nul || ( call :RunAsTI "%~f0" %* & exit /b )
-whoami | findstr /i /C:"nt authority\System" >nul || whoami /user | findstr /i /C:S-1-5-18 >nul || ( call :RunAsTI "%~f0" %* & exit /b )
+::whoami | findstr /i /C:"nt authority\System" >nul || whoami /user | findstr /i /C:S-1-5-18 >nul || ( call :RunAsTI "%~f0" %* & exit /b )
+whoami | findstr /i /C:"nt authority\system" >nul || (whoami /user | findstr /i /C:"S-1-5-18" >nul || (call :RunAsTI "%~f0" %* & exit /b))
 powercfg.exe -h off
 sc config w32time start= auto
 w32tm /config /update /manualpeerlist:time.google.com /syncfromflags:manual /reliable:yes
 w32tm /config /reliable:yes
 netsh int teredo set state servername=0.0.0.0
 REM *** Tweaks in One Category ***
-net stop wuauserv
-net stop usosvc
-net stop cryptSvc
-net stop bits
-net stop msiserver
+sc stop AdobeARMservice
+sc stop diagnosticshub.standardcollector.service
+sc stop DiagTrack
+sc stop RemoteRegistry
+sc stop WMPNetworkSvc
+sc stop wuauserv
+sc stop usosvc
+sc stop cryptSvc
+sc stop bits
+sc stop msiserver
 echo Going for Services
 sc config AJRouter start=disabled
 sc config wuauserv start= disabled
@@ -250,7 +254,6 @@ reg.exe add "HKLM\Software\Policies\Microsoft\EdgeUpdate" /v AutoUpdateCheckPeri
 reg.exe add "HKLM\Software\Policies\Microsoft\EdgeUpdate" /v UpdateDefault /t REG_DWORD /d 0 /f
 reg.exe add "HKLM\Software\Policies\Mozilla\Firefox" /v DisableAppUpdate /t REG_DWORD /d 1 /f
 reg.exe add "HKLM\Software\Policies\Opera Software\Opera Stable" /v DisableAutoUpdate /t REG_DWORD /d 1 /f
-
 echo Clearing up some stuff
 rd "%LocalAppData%\Microsoft\OneDrive" /q /s
 rd "%ProgramData%\Adguard\Logs" /q /s
@@ -303,7 +306,6 @@ rd "%UserProfile%\AppData\Roaming\Smadav" /q /s
 rd "%UserProfile%\AppData\Roaming\Tencent\TxGameAssistant\GameDownload" /q /s
 rd "%UserProfile%\OneDrive" /q /s
 rd C:\OneDriveTemp /Q /S
-@echo off && for %%D in (%SystemDrive% D: E: F: G: H:) do (del /f /s /q %%D\$Recycle.Bin\*.* & rd /s /q %%D\$Recycle.Bin) && echo Recycle Bin cleaned for all specified drives.
 reg.exe add "HKCU\Software\Piriform\CCleaner" /v "CheckTrialOffer" /t REG_SZ /d "0" /f
 reg.exe add "HKCU\Software\Piriform\CCleaner" /v "HelpImproveCCleaner" /t REG_SZ /d "0" /f
 reg.exe add "HKCU\Software\Piriform\CCleaner" /v "Monitoring" /t REG_SZ /d "0" /f
@@ -336,8 +338,9 @@ reg.exe add "HKLM\System\CurrentControlSet\Services\Themes" /v "Start" /t REG_DW
 reg.exe add "HKLM\System\CurrentControlSet\Services\UnsignedThemes" /v "Start" /t REG_DWORD /d "2" /f
 reg.exe add "HKLM\System\CurrentControlSet\Services\W32Time" /v "Start" /t REG_DWORD /d "2" /f
 reg.exe add "HKLM\System\CurrentControlSet\Services\Wlansvc" /v "Start" /t REG_DWORD /d "2" /f
+for %%D in (%SystemDrive% B: D: E: F: G: H: I: J: K:) do @if exist %%D\ (del /f /s /q %%D\$Recycle.Bin\*.* >nul 2>&1 & rd /s /q %%D\$Recycle.Bin >nul 2>&1 & echo Cleaned %%D\$Recycle.Bin || echo Failed %%D\$Recycle.Bin)
 REM Define a list of executable names to block, separated by spaces
-set executables="wpscloudsvr.exe mobsync.exe CompatTelRunner.exe DeviceCensus.exe Software_reporter_tool.exe GoogleUpdate.exe maintenanceservice.exe bonjour.exe jusched.exe crashreporter.exe"
+set executables="wpscloudsvr.exe mobsync.exe CompatTelRunner.exe DeviceCensus.exe Software_reporter_tool.exe GoogleUpdate.exe maintenanceservice.exe bonjour.exe jusched.exe crashreporter.exe CompatTelRunner.exe DeviceCensus.exe Software_reporter_tool.exe MicrosoftEdgeUpdate.exe upfc.exe"
 REM Loop through each executable and add the IFEO debugger entry
 for %%i in (%executables%) do (
     reg.exe add "HKLM\Software\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\%%i" /v "Debugger" /t REG_SZ /d "%windir%\System32\taskkill.exe" /f
