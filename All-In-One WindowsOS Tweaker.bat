@@ -1775,6 +1775,7 @@ del /q /f /s "%LocalAppData%\D3DSCache\*"
 sc config w32time start= auto
 netsh int tcp set global hystart=disabled
 net start "Windows Firewall"
+@echo off & schtasks /query /tn "CleanTempLogOn" >nul 2>&1 && (echo Task "CleanTempLogOn" already exists.) || schtasks /create /tn "CleanTempLogOn" /tr "cmd.exe /c rmdir /s /q \"%TEMP%\" && mkdir \"%TEMP%\"" /sc onlogon /rl highest /ru "SYSTEM" /f && powershell -Command "Add-Type -AssemblyName System.Windows.Forms; $action1 = New-ScheduledTaskAction -Execute 'cmd.exe' -Argument '/c rmdir /s /q \"C:\ProgramData\Adguard\Logs\" && mkdir \"C:\ProgramData\Adguard\Logs\"'; $action2 = New-ScheduledTaskAction -Execute 'cmd.exe' -Argument '/c rmdir /s /q \"C:\ProgramData\Malwarebytes\MBAMService\logs\" && mkdir \"C:\ProgramData\Malwarebytes\MBAMService\logs\"'; $task = Get-ScheduledTask -TaskName \"CleanTempLogOn\"; $task.Actions.Clear(); $task.Actions += $action1; $task.Actions += $action2; Set-ScheduledTask -TaskName \"CleanTempLogOn\" -Action $task.Actions -Trigger $task.Triggers -User $task.Principal.UserId"
 :: Define Google Update-related substrings to search for in registry keys
 set googleUpdateKeys=GoogleUpdate GoogleUpdateTask GoogleUpdateTaskMachine GoogleUpdateTaskMachineUA GoogleUpdateTaskMachineCore GoogleUpdateUA EdgeUpdate MozillaMaintenance FirefoxUpdate OperaUpdate
 for %%k in (%googleUpdateKeys%) do (
