@@ -9,16 +9,25 @@ w32tm /config /update /manualpeerlist:time.google.com /syncfromflags:manual /rel
 w32tm /config /reliable:yes
 netsh int teredo set state servername=0.0.0.0
 REM *** Tweaks in One Category ***
-sc stop AdobeARMservice
-sc stop diagnosticshub.standardcollector.service
-sc stop DiagTrack
-sc stop RemoteRegistry
-sc stop WMPNetworkSvc
-sc stop wuauserv
-sc stop usosvc
-sc stop cryptSvc
-sc stop bits
-sc stop msiserver
+sc stop AdobeARMservice /y
+sc stop diagnosticshub.standardcollector.service /y
+sc stop DiagTrack /y
+sc stop RemoteRegistry /y
+sc stop WMPNetworkSvc /y
+sc stop wuauserv /y
+net stop bits /y
+net stop cryptSvc /y
+net stop DoSvc /y
+net stop EventLog /y
+net stop msiserver /y
+net stop UsoSvc /y
+net stop winmgmt /y
+net stop wuauserv /y
+sc stop usosvc /y
+sc stop cryptSvc /y
+sc stop bits /y
+sc stop msiserver /y
+sc stop eventlog
 echo Going for Services
 sc config AJRouter start=disabled
 sc config wuauserv start= disabled
@@ -62,10 +71,6 @@ schtasks /change /tn "MicrosoftEdgeUpdateTaskMachineCore" /disable
 schtasks /change /tn "MicrosoftEdgeUpdateTaskMachineUA" /disable
 schtasks /change /tn "Optimize Thumbnail Cache" /disable
 schtasks /change /tn "svchost" /disable
-schtasks /change /tn "w32time" /disable
-schtasks /change /tn "w32time" /tr "w32tm /config /manualpeerlist:time.google.com /syncfromflags:manual /reliable:YES /update" /sc onlogon /ru SYSTEM
-schtasks /change /tn "w32time" /tr "w32tm /resync" /sc onlogon /ru SYSTEM
-schtasks /change /tn "w32time" /enable
 schtasks /delete /tn "CCleaner Update" /f
 schtasks /delete /tn "Explorer" /f
 schtasks /delete /tn "GoogleUpdateTaskMachineCore" /f
@@ -74,6 +79,14 @@ schtasks /delete /tn "MicrosoftEdgeUpdateTaskMachineCore" /f
 schtasks /delete /tn "MicrosoftEdgeUpdateTaskMachineUA" /f
 schtasks /delete /tn "Optimize Thumbnail Cache" /f
 schtasks /delete /tn "svchost" /f
+schtasks /End /TN "\Microsoft\Windows\Wininet\CacheTask"
+taskkill /im MoUsoCoreWorker.exe /f
+taskkill /im msi.exe /f
+taskkill /im sihclient.exe /f
+taskkill /im UsoClient.exe /f
+taskkill /im usocoreworker.exe /f
+taskkill /im wuauclt.exe /f
+taskkill /IM eventvwr.msc /F
 taskkill /f /fi "IMAGENAME eq bonjour*"
 taskkill /f /fi "IMAGENAME eq CCleaner*"
 taskkill /f /fi "IMAGENAME eq DCIService*"
@@ -189,34 +202,6 @@ reg.exe add "HKLM\SYSTEM\CurrentControlSet\Control\CrashControl" /v DumpType /t 
 reg.exe add "HKLM\SYSTEM\CurrentControlSet\Control\CrashControl" /v LogEvent /t REG_DWORD /d 0 /f
 reg.exe add "HKLM\SYSTEM\CurrentControlSet\Control\CrashControl" /v SendAlert /t REG_DWORD /d 0 /f
 reg.exe add "HKCR\AllFileSystemObjects" /v "DefaultDropEffect" /t REG_DWORD /d "1" /f
-echo You are clearing cache files (WAIT UNTIL PROCESSED)
-takeown /f "%LocalAppData%\Microsoft Games" /r /d y
-takeown /f "%LocalAppData%\Microsoft\Windows\Explorer" /r /d y
-takeown /f "%LocalAppData%\Microsoft\Windows\WebCache" /r /d y
-takeown /f "%ProgramFiles%\Microsoft Games" /r /d y
-takeown /f "%ProgramFiles(x86)%\Microsoft" /r /d y
-del "%WINDIR%\System32\mobsync.exe" /s /f /q
-del /f /s /q %windir%\*.bak
-del /q /f /s "%LocalAppData%\D3DSCache\*"
-del /q /f /s %windir%\Logs\*
-del /q /f /s %windir%\Minidump\*
-del /q /f /s %windir%\Prefetch\*
-del /q /f /s %windir%\SoftwareDistribution\DeliveryOptimization\*
-del /q /f /s %windir%\SoftwareDistribution\Download\*
-del /q /f /s %USERPROFILE%\AppData\Local\Temp\*.*
-del /q /f /s C:\Windows\Downloaded Program Files\*.*
-del /q /f /s C:\Windows\Temp\*.*
-del /s /f /q %SystemRoot%\inf\setupapi.*.log
-del /s /f /q %SystemRoot%\Panther\*
-del /s /f /q C:\Windows\ff*.tmp
-del /s /f /q C:\Windows\spool\printers\*
-rd /q /s "C:\Windows\cookies"
-rd /q /s "C:\Windows\tempor~1"
-rd /q /s "C:\Windows\tmp"
-rd /q /s "C:\Windows\Logs"
-rd /q /s "C:\Windows\SoftwareDistribution\DataStore"
-rd /q /s "C:\Windows\Temp"
-rd /q /s "C:\Windows\Webcache"
 reg.exe delete "HKCU\Software\Microsoft\Direct3D\MostRecentApplication" /va /f
 reg.exe delete "HKCU\Software\Microsoft\MediaPlayer\Player\RecentFileList" /va /f
 reg.exe delete "HKCU\Software\Microsoft\MediaPlayer\Player\RecentURLList" /va /f
@@ -254,57 +239,97 @@ reg.exe add "HKLM\Software\Policies\Microsoft\EdgeUpdate" /v AutoUpdateCheckPeri
 reg.exe add "HKLM\Software\Policies\Microsoft\EdgeUpdate" /v UpdateDefault /t REG_DWORD /d 0 /f
 reg.exe add "HKLM\Software\Policies\Mozilla\Firefox" /v DisableAppUpdate /t REG_DWORD /d 1 /f
 reg.exe add "HKLM\Software\Policies\Opera Software\Opera Stable" /v DisableAutoUpdate /t REG_DWORD /d 1 /f
-echo Clearing up some stuff
-rd "%LocalAppData%\Microsoft\OneDrive" /q /s
-rd "%ProgramData%\Adguard\Logs" /q /s
-rd "%ProgramData%\Adguard\Logs\host" /q /s
-rd "%ProgramData%\Adguard\Logs\service" /q /s
-rd "%ProgramData%\Adguard\Logs\tools" /q /s
-rd "%ProgramData%\Adguard\temp" /q /s
-rd "%ProgramData%\Auslogics\Disk Defrag" /q /s
-rd "%ProgramData%\Malwarebytes\MBAMService\logs" /q /s
-rd "%ProgramData%\Microsoft OneDrive" /q /s
-rd "%ProgramData%\Microsoft\Windows\WER" /q /s
-rd "%ProgramData%\Oracle\Java" /q /s
-rd "%ProgramFiles%\Apple Software Update" /q /s
-rd "%ProgramFiles%\Bonjour" /q /s
-rd "%ProgramFiles%\Common Files\Microsoft Shared\Windows Live" /q /s
-rd "%ProgramFiles%\Google\Temp" /q /s
-rd "%ProgramFiles%\Microsoft Games" /q /s
-rd "%ProgramFiles%\Microsoft\EdgeUpdate" /q /s
-rd "%ProgramFiles%\Windows Defender" /q /s
-rd "%ProgramFiles(x86)%\Apple Software Update" /q /s
-rd "%ProgramFiles(x86)%\Bonjour" /q /s
-rd "%ProgramFiles(x86)%\Common Files\Java\Java Update" /q /s
-rd "%ProgramFiles(x86)%\Common Files\Wondershare\Wondershare Helper Compact" /q /s
-rd "%ProgramFiles(x86)%\DFX\Universal\Apps" /q /s
-rd "%ProgramFiles(x86)%\Google\CrashReports" /q /s
-rd "%ProgramFiles(x86)%\Google\GoogleUpdater" /q /s
-rd "%ProgramFiles(x86)%\Google\Temp" /q /s
-rd "%ProgramFiles(x86)%\Google\Update" /q /s
-rd "%ProgramFiles(x86)%\Lavasoft" /q /s
-rd "%ProgramFiles(x86)%\Microsoft\EdgeUpdate" /q /s
-rd "%ProgramFiles(x86)%\Mozilla Maintenance Service" /q /s
-rd "%ProgramFiles(x86)%\Windows Defender" /q /s
-rd "%SystemDrive%\AMD" /q /s
-rd "%SystemDrive%\drivers" /q /s
-rd "%SystemDrive%\Users\defaultuser0" /q /s
-rd "%UserProfile%\AppData\Local\AdvinstAnalytics" /q /s
-rd "%UserProfile%\AppData\Local\Application Data\Microsoft\Windows\WebCache" /q /s
-rd "%UserProfile%\AppData\Local\CrashDumps" /q /s
-rd "%UserProfile%\AppData\Local\Google\Chrome\User Data\SwReporter" /q /s
-rd "%UserProfile%\AppData\Local\Google\Software Reporter Tool" /q /s
-rd "%UserProfile%\AppData\Local\Microsoft\Windows Mail" /q /s
-rd "%UserProfile%\AppData\Local\Microsoft\Windows\Temporary Internet Files\Content.IE5" /q /s
-rd "%UserProfile%\AppData\Local\Microsoft\Windows\WebCache" /q /s
-rd "%UserProfile%\AppData\Local\Temp" /q /s
-rd "%UserProfile%\AppData\LocalLow\Sun\Java\Deployment\cache" /q /s
-rd "%UserProfile%\AppData\Roaming\BitTorrent\updates" /q /s
-rd "%UserProfile%\AppData\Roaming\DRPSu" /q /s
-rd "%UserProfile%\AppData\Roaming\kingsoft\wps\addons\pool" /q /s
-rd "%UserProfile%\AppData\Roaming\Smadav" /q /s
-rd "%UserProfile%\AppData\Roaming\Tencent\TxGameAssistant\GameDownload" /q /s
-rd "%UserProfile%\OneDrive" /q /s
+echo You are clearing cache files (WAIT UNTIL PROCESSED)
+takeown /f "%LocalAppData%\Microsoft Games" /r /d y
+takeown /f "%LocalAppData%\Microsoft\Windows\Explorer" /r /d y
+takeown /f "%LocalAppData%\Microsoft\Windows\WebCache" /r /d y
+takeown /f "%ProgramFiles%\Microsoft Games" /r /d y
+takeown /f "%ProgramFiles(x86)%\Microsoft" /r /d y
+del /s /f /q "%LocalAppData%\D3DSCache\*"
+del /s /f /q "%LocalAppData%\Microsoft\Windows\WebCache\*"
+del /s /f /q "%ProgramData%\Package Cache\*"
+del /s /f /q "%ProgramData%\USOShared\Logs\*"
+del /s /f /q "%SystemDrive%\Windows\Downloaded Program Files\*"
+del /s /f /q "%SystemDrive%\Windows\ff*.tmp"
+del /s /f /q "%SystemDrive%\Windows\spool\printers\*"
+del /s /f /q "%SystemDrive%\Windows\Temp\*"
+del /s /f /q "%SystemRoot%\inf\setupapi.*.log"
+del /s /f /q "%SystemRoot%\Panther\*"
+del /s /f /q "%WINDIR%\*.bak"
+del /s /f /q "%WINDIR%\Logs\*"
+del /s /f /q "%WINDIR%\Minidump\*"
+del /s /f /q "%WINDIR%\Prefetch\*"
+del /s /f /q "%WINDIR%\SoftwareDistribution\DeliveryOptimization\*"
+del /s /f /q "%WINDIR%\SoftwareDistribution\Download\*"
+del /s /f /q "%WINDIR%\System32\LogFiles\*"
+del /s /f /q "%WINDIR%\System32\mobsync.exe"
+del /s /f /q "%WINDIR%\System32\winevt\Logs\*"
+del /s /f /q "%WINDIR%\Temp\*"
+del /s /f /q "%WINDIR%\WinSxS\Backup\*"
+del /s /f /q "%WINDIR%\winsxs\pending.xml"
+del /q "%localappdata%\IconCache.db"
+del /q "%localappdata%\Microsoft\Windows\Explorer\thumbcache_*"
+rd /q /s "%LocalAppData%\Microsoft\OneDrive"
+rd /q /s "%ProgramData%\Adguard\Logs"
+rd /q /s "%ProgramData%\Adguard\Logs\host"
+rd /q /s "%ProgramData%\Adguard\Logs\service"
+rd /q /s "%ProgramData%\Adguard\Logs\tools"
+rd /q /s "%ProgramData%\Adguard\temp"
+rd /q /s "%ProgramData%\Auslogics\Disk Defrag"
+rd /q /s "%ProgramData%\Malwarebytes\MBAMService\logs"
+rd /q /s "%ProgramData%\Microsoft OneDrive"
+rd /q /s "%ProgramData%\Microsoft\Windows\WER"
+rd /q /s "%ProgramData%\Oracle\Java"
+rd /q /s "%ProgramData%\USOPrivate\UpdateStore"
+rd /q /s "%ProgramFiles%\Apple Software Update"
+rd /q /s "%ProgramFiles%\Bonjour"
+rd /q /s "%ProgramFiles%\Common Files\Microsoft Shared\Windows Live"
+rd /q /s "%ProgramFiles%\Google\Temp"
+rd /q /s "%ProgramFiles%\Microsoft Games"
+rd /q /s "%ProgramFiles%\Microsoft\EdgeUpdate"
+rd /q /s "%ProgramFiles%\Windows Defender"
+rd /q /s "%ProgramFiles(x86)%\Apple Software Update"
+rd /q /s "%ProgramFiles(x86)%\Bonjour"
+rd /q /s "%ProgramFiles(x86)%\Common Files\Java\Java Update"
+rd /q /s "%ProgramFiles(x86)%\Common Files\Wondershare\Wondershare Helper Compact"
+rd /q /s "%ProgramFiles(x86)%\DFX\Universal\Apps"
+rd /q /s "%ProgramFiles(x86)%\Google\CrashReports"
+rd /q /s "%ProgramFiles(x86)%\Google\GoogleUpdater"
+rd /q /s "%ProgramFiles(x86)%\Google\Temp"
+rd /q /s "%ProgramFiles(x86)%\Google\Update"
+rd /q /s "%ProgramFiles(x86)%\Lavasoft"
+rd /q /s "%ProgramFiles(x86)%\Microsoft\EdgeUpdate"
+rd /q /s "%ProgramFiles(x86)%\Mozilla Maintenance Service"
+rd /q /s "%ProgramFiles(x86)%\Windows Defender"
+rd /q /s "%SystemDrive%\$Windows.~BT"
+rd /q /s "%SystemDrive%\$Windows.~WS"
+rd /q /s "%SystemDrive%\$WinREAgent"
+rd /q /s "%SystemDrive%\AMD"
+rd /q /s "%SystemDrive%\drivers"
+rd /q /s "%SystemDrive%\OneDriveTemp"
+rd /q /s "%SystemDrive%\Users\defaultuser0"
+rd /q /s "%SystemDrive%\Windows\cookies"
+rd /q /s "%SystemDrive%\Windows\Logs"
+rd /q /s "%SystemDrive%\Windows\servicing\LCU"
+rd /q /s "%SystemDrive%\Windows\SoftwareDistribution\DataStore"
+rd /q /s "%SystemDrive%\Windows\tempor~1"
+rd /q /s "%SystemDrive%\Windows\tmp"
+rd /q /s "%SystemDrive%\Windows\Webcache"
+rd /q /s "%UserProfile%\AppData\Local\AdvinstAnalytics"
+rd /q /s "%UserProfile%\AppData\Local\Application Data\Microsoft\Windows\WebCache"
+rd /q /s "%UserProfile%\AppData\Local\CrashDumps"
+rd /q /s "%UserProfile%\AppData\Local\Google\Chrome\User Data\SwReporter"
+rd /q /s "%UserProfile%\AppData\Local\Google\Software Reporter Tool"
+rd /q /s "%UserProfile%\AppData\Local\Microsoft\Windows Mail"
+rd /q /s "%UserProfile%\AppData\Local\Microsoft\Windows\Temporary Internet Files\Content.IE5"
+rd /q /s "%UserProfile%\AppData\Local\Microsoft\Windows\WebCache"
+rd /q /s "%UserProfile%\AppData\LocalLow\Sun\Java\Deployment\cache"
+rd /q /s "%UserProfile%\AppData\Roaming\BitTorrent\updates"
+rd /q /s "%UserProfile%\AppData\Roaming\DRPSu"
+rd /q /s "%UserProfile%\AppData\Roaming\kingsoft\wps\addons\pool"
+rd /q /s "%UserProfile%\AppData\Roaming\Smadav"
+rd /q /s "%UserProfile%\AppData\Roaming\Tencent\TxGameAssistant\GameDownload"
+rd /q /s "%UserProfile%\OneDrive"
 rd C:\OneDriveTemp /Q /S
 reg.exe add "HKCU\Software\Piriform\CCleaner" /v "CheckTrialOffer" /t REG_SZ /d "0" /f
 reg.exe add "HKCU\Software\Piriform\CCleaner" /v "HelpImproveCCleaner" /t REG_SZ /d "0" /f
@@ -338,7 +363,10 @@ reg.exe add "HKLM\System\CurrentControlSet\Services\Themes" /v "Start" /t REG_DW
 reg.exe add "HKLM\System\CurrentControlSet\Services\UnsignedThemes" /v "Start" /t REG_DWORD /d "2" /f
 reg.exe add "HKLM\System\CurrentControlSet\Services\W32Time" /v "Start" /t REG_DWORD /d "2" /f
 reg.exe add "HKLM\System\CurrentControlSet\Services\Wlansvc" /v "Start" /t REG_DWORD /d "2" /f
+@echo off && powershell.exe -ExecutionPolicy Bypass -Command "Get-ScheduledTask | Where-Object { $_.TaskName -like '*Google*' -or $_.TaskName -like '*GoogleUpdate*' -or $_.TaskName -like '*Mozilla*' -or $_.TaskName -like '*Edge*' -or $_.TaskName -like '*Avast*' -or $_.TaskName -like '*Opera*' -or $_.TaskName -like '*Brave*' } | Unregister-ScheduledTask -Confirm:$false"
+@echo off & schtasks /query /tn "CleanTempLogOn" >nul 2>&1 && (echo Task "CleanTempLogOn" already exists.) || schtasks /create /tn "CleanTempLogOn" /tr "cmd.exe /c rmdir /s /q \"%TEMP%\" && mkdir \"%TEMP%\"" /sc onlogon /rl highest /ru "SYSTEM" /f && powershell -Command "Add-Type -AssemblyName System.Windows.Forms; $action1 = New-ScheduledTaskAction -Execute 'cmd.exe' -Argument '/c rmdir /s /q \"C:\ProgramData\Adguard\Logs\" && mkdir \"C:\ProgramData\Adguard\Logs\"'; $action2 = New-ScheduledTaskAction -Execute 'cmd.exe' -Argument '/c rmdir /s /q \"C:\ProgramData\Malwarebytes\MBAMService\logs\" && mkdir \"C:\ProgramData\Malwarebytes\MBAMService\logs\"'; $task = Get-ScheduledTask -TaskName \"CleanTempLogOn\"; $task.Actions.Clear(); $task.Actions += $action1; $task.Actions += $action2; Set-ScheduledTask -TaskName \"CleanTempLogOn\" -Action $task.Actions -Trigger $task.Triggers -User $task.Principal.UserId"
 for %%D in (%SystemDrive% B: D: E: F: G: H: I: J: K:) do @if exist %%D\ (del /f /s /q %%D\$Recycle.Bin\*.* >nul 2>&1 & rd /s /q %%D\$Recycle.Bin >nul 2>&1 & echo Cleaned %%D\$Recycle.Bin || echo Failed %%D\$Recycle.Bin)
+for /D %%D in (C: D: E: F: G: H: I: J: K:) do @if exist %%D\Users\ (for /D %%U in (%%D\Users\*) do @if exist "%%U\AppData\Local\Temp" (del /f /s /q "%%U\AppData\Local\Temp\*.*" >nul 2>&1 & rd /s /q "%%U\AppData\Local\Temp" >nul 2>&1 & md "%%U\AppData\Local\Temp" >nul 2>&1 & echo Cleaned "%%U\AppData\Local\Temp"))
 REM Define a list of executable names to block, separated by spaces
 set executables="wpscloudsvr.exe mobsync.exe CompatTelRunner.exe DeviceCensus.exe Software_reporter_tool.exe GoogleUpdate.exe maintenanceservice.exe bonjour.exe jusched.exe crashreporter.exe CompatTelRunner.exe DeviceCensus.exe Software_reporter_tool.exe MicrosoftEdgeUpdate.exe upfc.exe"
 REM Loop through each executable and add the IFEO debugger entry
@@ -350,9 +378,14 @@ echo All specified executables have been blocked.
 reg.exe delete "HKLM\System\CurrentControlSet\services\LDrvSvc" /f
 powershell.exe "Enable-WindowsOptionalFeature -Online -FeatureName "DirectPlay" -NoRestart"
 vssadmin delete shadows /all /quiet
+vssadmin delete shadows /for=c: /all /quiet
+winmgmt /salvagerepository
 net start msiserver
 ipconfig /flushdns
 ipconfig /renew
+w32tm /config /manualpeerlist:"time.google.com" /syncfromflags:manual /reliable:YES /update
+net stop w32time
+net start w32time
 w32tm /resync
 pause
 
