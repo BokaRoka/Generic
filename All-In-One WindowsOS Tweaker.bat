@@ -543,6 +543,11 @@ reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\EOSNotify" /v "Disco
 reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\EOSNotify" /v "DontRemindMe" /t REG_DWORD /d "1" /f
 reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\EOSNotify" /v "LastRunTimestamp" /t REG_QWORD /d "0x0" /f
 reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\EOSNotify" /v "TimestampOverride" /t REG_QWORD /d "0x0" /f
+reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer" /v "Max Cached Icons" /t REG_DWORD /d 4096 /f
+reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v "ThumbnailQuality" /t REG_DWORD /d 1 /f
+reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v "ExtendedUIHoverTime" /t REG_DWORD /d 0 /f
+reg.exe add "HKLM\Software\Microsoft\Windows Search" /v "SetupCompletedSuccessfully" /t REG_DWORD /d 0 /f
+reg.exe add "HKLM\SOFTWARE\Microsoft\Windows Search" /v "DisableBackoff" /t REG_DWORD /d 1 /f
 reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer" /v "DisableEdgeDesktopShortcutCreation" /t REG_DWORD /d "1" /f
 reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer" /v "HidePeopleBar" /t REG_DWORD /d "1" /f
 reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer" /v "IconUnderline" /t REG_DWORD /d "3" /f
