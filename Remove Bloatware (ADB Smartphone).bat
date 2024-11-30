@@ -1,26 +1,39 @@
 @setlocal enableextensions
-title BokaRoka's Safe-to-Remove BLOATWARE Apps
+title BokaRoka's Safe-to-Remove BLOATWARE APK's
 color 1b
 taskkill /f /im adb.exe
-adb start-server
-cls
 adb devices
-adb shell dumpsys deviceidle sys-whitelist -com.google.android.googlequicksearchbox
-adb shell dumpsys deviceidle sys-whitelist -com.google.android.gms.location.history
-adb shell dumpsys deviceidle sys-whitelist -com.google.android.youtube
-adb shell dumpsys deviceidle sys-whitelist -com.google.android.tts
+:: Removes Transsion Phone Manager from the Doze mode whitelist to prevent system maintenance tasks while the device is idle
 adb shell dumpsys deviceidle sys-whitelist -com.transsion.phonemanager
+:: Removes Google Quick Search Box (Google Search) from the Doze mode whitelist to restrict background activity when idle
+adb shell dumpsys deviceidle sys-whitelist -com.google.android.googlequicksearchbox
+:: Removes Google Location History from the Doze mode whitelist to prevent background location tracking when idle
+adb shell dumpsys deviceidle sys-whitelist -com.google.android.gms.location.history
+:: Removes YouTube from the Doze mode whitelist to stop background updates and notifications while the device is idle
+adb shell dumpsys deviceidle sys-whitelist -com.google.android.youtube
+:: Removes Google Text-to-Speech from the Doze mode whitelist to reduce unnecessary background activity in idle mode
+adb shell dumpsys deviceidle sys-whitelist -com.google.android.tts
+:: Removes Facebook Services from the Doze mode whitelist to stop background tasks and notifications during idle time
 adb shell dumpsys deviceidle sys-whitelist -com.facebook.services
+:: Removes Facebook app from the Doze mode whitelist to limit background updates and battery drain while idle
 adb shell dumpsys deviceidle sys-whitelist -com.facebook.katana
+:: Removes Facebook App Manager from the Doze mode whitelist, preventing it from managing Facebook-related app updates and background activities while idle
+adb shell dumpsys deviceidle sys-whitelist -com.facebook.appmanager
+:: Removes Facebook System Services from the Doze mode whitelist, stopping it from running system-level Facebook tasks while the device is idle
+adb shell dumpsys deviceidle sys-whitelist -com.facebook.system
+:: Removes Facebook Lite from the Doze mode whitelist, restricting its background activity and updates while idle
+adb shell dumpsys deviceidle sys-whitelist -com.facebook.lite
+:: Removes Scorpio Security from the Doze mode whitelist to restrict its background activity and save battery in idle mode
 adb shell dumpsys deviceidle sys-whitelist -com.scorpio.securitycom
-adb shell dumpsys deviceidle whitelist +idm.internet.download.manager.plus
+:: Adds 1DM+ Downloader App to the Doze mode whitelist, allowing it to bypass Doze and continue downloads even when idle
+adb shell dumpsys deviceidle whitelist +idm.internet.download.manager.plus\
+echo Do you want to Begin?
 pause
 adb devices
 cls
 for %%X in (
 "android.autoinstalls.config.xiaomi.daisy"
 "cn.wps.moffice_eng"
-"coloros.gamespaceui"
 "com.alibaba.aliexpresshd"
 "com.amazon.appmanager"
 "com.amazon.mshop.android.shopping"
@@ -79,7 +92,6 @@ for %%X in (
 "com.app.market"
 "com.asa.xnotelite"
 "com.baidu.duersdk.opensdk"
-"com.baidu.input_vivo"
 "com.bbk.account"
 "com.bbk.calendar"
 "com.bbk.cloud"
@@ -93,6 +105,7 @@ for %%X in (
 "com.bbk.updater"
 "com.caf.fmradio"
 "com.calpa.share"
+"coloros.gamespaceui"
 "com.coloros.activation"
 "com.coloros.assistantscreen"
 "com.coloros.avastofferwall"
@@ -130,6 +143,7 @@ for %%X in (
 "com.coloros.weather.widget"
 "com.coloros.weather2"
 "com.coloros.widget.smallweather"
+"com.coloros.aftersalesservice"
 "com.heytap.accessory"
 "com.heytap.browser"
 "com.heytap.cloud"
@@ -245,6 +259,8 @@ for %%X in (
 "samsung.ecomm.global"
 "samsung.safetyinformation"
 "samsung.storyservice"
+"com.sec.android.widgetapp.samsungapps"
+"sec.android.widgetapp.samsungapps"
 ) do (
 adb shell pm uninstall %%X
 adb shell pm uninstall --user 0 %%X
@@ -256,6 +272,14 @@ adb devices
 echo	Removing part 4...
 cls
 for %%X in (
+"com.facebook.appmanager"
+"com.facebook.katana"
+"com.facebook.services"
+"com.facebook.system"
+"facebook.appmanager"
+"facebook.katana"
+"facebook.services"
+"facebook.system"
 "com.mi.android.globalpersonalassistant"
 "com.mi.global.bbs"
 "com.mi.globalbrowser"
@@ -319,6 +343,8 @@ for %%X in (
 "com.netflix.mediaclient"
 "com.netflix.partner.activation"
 "com.nt36xxxtouchscreen.deltadiff"
+"com.opos.cs"
+"com.oppo.atlas"
 "com.oplus.aod"
 "com.oplus.apprecover"
 "com.oplus.atlas"
@@ -338,8 +364,6 @@ for %%X in (
 "com.oplus.statistics.rom"
 "com.oplus.stdid"
 "com.oplus.synergy"
-"com.opos.cs"
-"com.oppo.atlas"
 "com.oppo.market"
 "com.oppo.operationmanual"
 "com.oppo.opperationmanual"
@@ -381,10 +405,6 @@ for %%X in (
 "com.ebay.carrier"
 "com.ebay.mobile"
 "com.enhance.gameservice"
-"com.facebook.appmanager"
-"com.facebook.katana"
-"com.facebook.services"
-"com.facebook.system"
 "com.finshell.fin"
 "com.funbase.xradio"
 "com.glance.internet"
@@ -396,7 +416,6 @@ for %%X in (
 "com.ino.weatherapp"
 "com.iqoo.powersaving"
 "com.iqoo.secure"
-"com.kikaoem.vivo.qisiemoji.inputmethod"
 "com.lenovo.anyshare"
 "com.lenovo.component.translationservice"
 "com.lenovo.gameworldphone"
@@ -428,7 +447,6 @@ for %%X in (
 "com.sec.android.easymover.agent"
 "com.sec.android.easyonehand"
 "com.sec.android.mimage.avatarstickers"
-"com.sec.android.widgetapp.samsungapps"
 "com.smartlife.nebula"
 "com.sprd.logmanager"
 "com.spreadtrum.proxy.nfwlocation"
@@ -436,6 +454,7 @@ for %%X in (
 "com.talpa.share"
 "com.tencent.igxiaomi"
 "com.tencent.soter.soterserver"
+"com.transsnet.store"
 "com.transsion.agingfunction"
 "com.transsion.aibox"
 "com.transsion.aivoiceassistant"
@@ -481,8 +500,8 @@ for %%X in (
 "com.transsion.videocallenhancer"
 "com.transsion.wezone"
 "com.transsion.wifiplaytogether"
-"com.transsnet.store"
 "com.trassion.infinix.xclub"
+"com.transsion.infinix.xclub"
 "com.trustonic.teeservice"
 "com.verizon.remotesimlock"
 ) do (
@@ -494,6 +513,8 @@ taskkill /f /im adb.exe
 adb start-server
 adb devices
 for %%X in (
+"com.baidu.input_vivo"
+"com.kikaoem.vivo.qisiemoji.inputmethod"
 "com.vivo.agent"
 "com.vivo.appfilter"
 "com.vivo.appstore"
@@ -564,10 +585,6 @@ for %%X in (
 "com.xui.xhide"
 "com.zaz.translate"
 "cootek.smartinputv5.language.oem.hindi"
-"facebook.appmanager"
-"facebook.katana"
-"facebook.services"
-"facebook.system"
 "flipboard.boxer.app"
 "google.android.printservice.recommendation"
 "mobeam.barcodeservice"
@@ -582,10 +599,8 @@ for %%X in (
 "sec.android.easyonehand"
 "sec.android.mimage.avatarstickers"
 "sec.android.splitsound"
-"sec.android.widgetapp.samsungapps"
 "sg.bigo.live"
 "tech.palm.id"
-"com.coloros.aftersalesservice"
 ) do (
 adb shell pm uninstall %%X
 adb shell pm uninstall --user 0 %%X
