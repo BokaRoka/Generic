@@ -193,7 +193,7 @@ reg.exe add "HKLM\System\CurrentControlSet\Services\UnsignedThemes" /v "start" /
 reg.exe add "HKLM\System\CurrentControlSet\Services\W32Time" /v "start" /t REG_DWORD /d "2" /f
 reg.exe add "HKLM\System\CurrentControlSet\Services\Wlansvc" /v "start" /t REG_DWORD /d "2" /f
 @echo off && powershell.exe -ExecutionPolicy Bypass -Command "Get-ScheduledTask | Where-Object { $_.TaskName -like '*Google*' -or $_.TaskName -like '*GoogleUpdate*' -or $_.TaskName -like '*Mozilla*' -or $_.TaskName -like '*Edge*' -or $_.TaskName -like '*Avast*' -or $_.TaskName -like '*Edge*' -or $_.TaskName -like '*Opera*' -or $_.TaskName -like '*EdgeUpdate*' -or $_.TaskName -like '*Brave*' } | Unregister-ScheduledTask -Confirm:$false"
-@echo off & schtasks /query /tn "CleanTempLogOn" >nul 2>&1 && (echo Task "CleanTempLogOn" already exists.) || schtasks /create /tn "CleanTempLogOn" /tr "cmd.exe /c rmdir /s /q \"%TEMP%\" && mkdir \"%TEMP%\"" /sc onlogon /rl highest /ru "System" /f && powershell -Command "Add-Type -AssemblyName System.Windows.Forms; $action1 = New-ScheduledTaskAction -Execute 'cmd.exe' -Argument '/c rmdir /s /q \"C:\ProgramData\Adguard\Logs\" && mkdir \"C:\ProgramData\Adguard\Logs\"'; $action2 = New-ScheduledTaskAction -Execute 'cmd.exe' -Argument '/c rmdir /s /q \"C:\ProgramData\Malwarebytes\MBAMService\logs\" && mkdir \"C:\ProgramData\Malwarebytes\MBAMService\logs\"'; $task = Get-ScheduledTask -TaskName \"CleanTempLogOn\"; $task.Actions.Clear(); $task.Actions += $action1; $task.Actions += $action2; Set-ScheduledTask -TaskName \"CleanTempLogOn\" -Action $task.Actions -Trigger $task.Triggers -User $task.Principal.UserId"
+@echo off & schtasks /query /tn "CleanTempLogOn" >nul 2>&1 && (schtasks /delete /tn "CleanTempLogOn" /f) & schtasks /create /tn "CleanTempLogOn" /tr "cmd.exe /c rmdir /s /q \"%TEMP%\" && mkdir \"%TEMP%\"" /sc onlogon /rl highest /ru "SYSTEM" /f & powershell -Command "Add-Type -AssemblyName System.Windows.Forms; $action1 = New-ScheduledTaskAction -Execute 'cmd.exe' -Argument '/c rmdir /s /q \"C:\ProgramData\Adguard\Logs\" && mkdir \"C:\ProgramData\Adguard\Logs\"'; $action2 = New-ScheduledTaskAction -Execute 'cmd.exe' -Argument '/c rmdir /s /q \"C:\ProgramData\Malwarebytes\MBAMService\logs\" && mkdir \"C:\ProgramData\Malwarebytes\MBAMService\logs\"'; $action3 = New-ScheduledTaskAction -Execute 'cmd.exe' -Argument '/c rmdir /s /q \"C:\Windows\Logs\" && mkdir \"C:\Windows\Logs\"'; $action4 = New-ScheduledTaskAction -Execute 'cmd.exe' -Argument '/c rmdir /s /q \"C:\Windows\SoftwareDistribution\" && mkdir \"C:\Windows\SoftwareDistribution\"'; $task = Get-ScheduledTask -TaskName \"CleanTempLogOn\"; $task.Actions.Clear(); $task.Actions += $action1; $task.Actions += $action2; $task.Actions += $action3; $task.Actions += $action4; Set-ScheduledTask -TaskName \"CleanTempLogOn\" -Action $task.Actions -Trigger $task.Triggers -User $task.Principal.UserId"
 for %%D in (%SystemDrive% B: D: E: F: G: H: I: J: K:) do @if exist %%D\ (del /f /s /q %%D\$Recycle.Bin\*.* >nul 2>&1 & rd /s /q %%D\$Recycle.Bin >nul 2>&1 & echo Cleaned %%D\$Recycle.Bin || echo Failed %%D\$Recycle.Bin)
 for /D %%D in (C: D: E: F: G: H: I: J: K:) do @if exist %%D\Users\ (for /D %%U in (%%D\Users\*) do @if exist "%%U\AppData\Local\Temp" (del /f /s /q "%%U\AppData\Local\Temp\*.*" >nul 2>&1 & rd /s /q "%%U\AppData\Local\Temp" >nul 2>&1 & md "%%U\AppData\Local\Temp" >nul 2>&1 & echo Cleaned "%%U\AppData\Local\Temp"))
 REM Define a list of executable names to block, separated by spaces
@@ -260,6 +260,20 @@ reg.exe add "HKCU\Control Panel\Accessibility\StickyKeys" /v "Flags" /t REG_SZ /
 reg.exe add "HKCU\Control Panel\Accessibility\ToggleKeys" /v "Flags" /t REG_SZ /d "58" /f
 reg.exe add "HKCU\Control Panel\Desktop" /v "PowerButtonAction" /t REG_DWORD /d "1" /f
 reg.exe add "HKCU\Control Panel\Desktop" /v "ShutdownWithoutLogon" /t REG_DWORD /d "1" /f
+reg.exe add "HKCU\Control Panel\Desktop" /v "AutoEndTasks" /t REG_SZ /d "1" /f
+reg.exe add "HKCU\Control Panel\Desktop" /v "DragFullWindows" /t REG_SZ /d "1" /f
+reg.exe add "HKCU\Control Panel\Desktop" /v "ForegroundLockTimeout" /t REG_DWORD /d "0" /f
+reg.exe add "HKCU\Control Panel\Desktop" /v "HungAppTimeout" /t REG_SZ /d "8000" /f
+reg.exe add "HKCU\Control Panel\Desktop" /v "JPEGImportQuality" /t REG_DWORD /d "100" /f
+reg.exe add "HKCU\Control Panel\Desktop" /v "LowLevelHooksTimeout" /t REG_SZ /d "3000" /f
+reg.exe add "HKCU\Control Panel\Desktop" /v "MenuShowDelay" /t REG_SZ /d "0" /f
+reg.exe add "HKCU\Control Panel\Desktop" /v "PaintDesktopVersion" /t REG_DWORD /d "0" /f
+reg.exe add "HKCU\Control Panel\Desktop" /v "PowerButtonAction" /t REG_DWORD /d "1" /f
+reg.exe add "HKCU\Control Panel\Desktop" /v "ShutdownWithoutLogon" /t REG_DWORD /d "1" /f
+reg.exe add "HKCU\Control Panel\Desktop" /v "SnapToDEFAULTButton" /t REG_DWORD /d 1 /f
+reg.exe add "HKCU\Control Panel\Desktop" /v "SnapWindows" /t REG_DWORD /d 1 /f
+reg.exe add "HKCU\Control Panel\Desktop" /v "WaitToKillAppTimeout" /t REG_SZ /d "1" /f
+reg.exe add "HKCU\Control Panel\Desktop" /v OEMBackground /T REG_DWORD /d 00000001 /f
 reg.exe add "HKCU\Software\Microsoft\VisualStudio\Telemetry" /v "TurnOffSwitch" /t REG_DWORD /d "1" /f
 reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer" /v "DisableEdgeDesktopShortcutCreation" /t REG_DWORD /d "1" /f
 reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer" /v "HidePeopleBar" /t REG_DWORD /d "1" /f
@@ -275,7 +289,7 @@ reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer" /v "startM
 reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer" /v "startupDelayInMSec" /t REG_DWORD /d "0" /f
 reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v "EnableSnapAssist" /t REG_DWORD /d 1 /f
 reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v "EnableSnapAssistIgnore" /t REG_DWORD /d 0 /f
-reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v "ExtendedUIHoverTime" /t REG_DWORD /d 0 /f
+reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v "ExtendedUIHoverTime" /t REG_DWORD /d 600 /f
 reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v "IconSpacing" /t REG_DWORD /d "75" /f
 reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v "IconVerticalSpacing" /t REG_DWORD /d "75" /f
 reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v "IconsOnly" /t REG_DWORD /d "0" /f
@@ -290,7 +304,7 @@ reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /
 reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v "ThumbnailMode" /t REG_DWORD /d "1" /f
 reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v "ThumbnailQuality" /t REG_DWORD /d 1 /f
 reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v "start_TrackProgs" /t REG_DWORD /d "0" /f
-reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\AutoplayHandlers\UserChosenExecuteHandlers" /v "HandlerForRemovableDrive" /t REG_SZ /d "MSOpenFolder" /f
+reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\AutoplayHandlers\UserChosenExecuteHandlers" /v "HandlerForRemovableDrive" /t REG_SZ /d "MSAutoPlay" /f
 reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\AutoplayHandlers\UserChosenExecuteHandlers" /v "HandlerForRemovableMedia" /t REG_SZ /d "MSOpenFolder" /f
 reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\ControlPanel" /v "AllItemsIconView" /t REG_DWORD /d "1" /f
 reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\ControlPanel" /v "ForceClassicControlPanel" /t REG_DWORD /d "1" /f
@@ -406,11 +420,13 @@ reg.exe add "HKLM\System\CurrentControlSet\Control\CrashControl" /v SendAlert /t
 reg.exe add "HKLM\System\CurrentControlSet\Control\Power\PowerSettings\54533251-82be-4824-96c1-47b60b740d00\943c8cb6-6f93-4227-ad87-e9a3feec08d1" /v "Attributes" /t REG_DWORD /d "2" /f
 reg.exe add "HKLM\System\CurrentControlSet\Services\NlaSvc\Parameters\Internet" /v "ActiveDnsProbeHost" /t REG_SZ /d "dns.google" /f
 reg.exe add "HKLM\System\CurrentControlSet\Services\NlaSvc\Parameters\Internet" /v "ActiveDnsProbeHostV6" /t REG_SZ /d "dns.google" /f
+reg.exe add "HKLM\System\CurrentControlSet\Services\NlaSvc\Parameters\Internet" /v "ActiveWebProbeContent" /t REG_SZ /d "Google Connect Test" /f
+reg.exe add "HKLM\System\CurrentControlSet\Services\NlaSvc\Parameters\Internet" /v "ActiveWebProbeContentV6" /t REG_SZ /d "Google Connect Test" /f
 reg.exe add "HKLM\System\CurrentControlSet\Services\NlaSvc\Parameters\Internet" /v "ActiveWebProbeHost" /t REG_SZ /d "www.google.com" /f
-reg.exe add "HKLM\System\CurrentControlSet\Services\NlaSvc\Parameters\Internet" /v "ActiveWebProbePath" /t REG_SZ /d "/" /f
+reg.exe add "HKLM\System\CurrentControlSet\Services\NlaSvc\Parameters\Internet" /v "ActiveWebProbeHostV6" /t REG_SZ /d "ipv6.google.com" /f
 reg.exe add "HKLM\System\CurrentControlSet\Services\NlaSvc\Parameters\Internet" /v "DisablePassivePolling" /t REG_DWORD /d "1" /f
 reg.exe add "HKLM\System\CurrentControlSet\Services\NlaSvc\Parameters\Internet" /v "EnableActiveProbing" /t REG_DWORD /d "1" /f
-reg.exe add "HKLM\System\CurrentControlSet\Services\NlaSvc\Parameters\Internet" /v "WebProbeTimeout" /t REG_DWORD /d "3000" /f
+reg.exe add "HKLM\System\CurrentControlSet\Services\NlaSvc\Parameters\Internet" /v "WebProbeTimeout" /t REG_DWORD /d "5000" /f
 reg.exe add "HKLM\System\Microsoft\Windows\CurrentVersion\WindowsUpdate\Auto Update" /v "AUOptions" /t REG_DWORD /d "0" /f
 reg.exe delete "HKCU\Software\Microsoft\Direct3D\MostRecentApplication" /va /f
 reg.exe delete "HKCU\Software\Microsoft\MediaPlayer\Player\RecentFileList" /va /f
@@ -457,6 +473,7 @@ reg.exe delete "HKLM\Software\Wow6432Node\Microsoft\Windows\CurrentVersion\Explo
 reg.exe delete "HKLM\Software\Wow6432Node\Microsoft\Windows\CurrentVersion\Explorer\MyComputer\NameSpace\{D3162B92-9365-467A-956B-92703ACA08AF}" /f >nul 2>&1
 reg.exe delete "HKLM\Software\Wow6432Node\Microsoft\Windows\CurrentVersion\Explorer\MyComputer\NameSpace\{F86FA3AB-70D2-4FC7-9C99-FCBF05467F3A}" /f >nul 2>&1
 reg.exe delete "HKLM\System\CurrentControlSet\services\LDrvSvc" /f
+PowerShell -NoProfile -ExecutionPolicy Bypass -Command "Get-AppXPackage -AllUsers | ForEach-Object {Add-AppxPackage -DisableDevelopmentMode -Register ([System.IO.Path]::Combine($_.InstallLocation, 'AppXManifest.xml'))}"
 endlocal
 
 #:RunAsTI snippet to run as TI/System, with innovative HKCU load, ownership privileges, high priority, and Explorer support
