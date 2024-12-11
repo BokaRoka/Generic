@@ -371,7 +371,7 @@ reg.exe add "HKCU\Control Panel\Accessibility\ToggleKeys" /v "Flags" /t REG_SZ /
 reg.exe add "HKCU\Control Panel\Desktop" /v "AutoEndTasks" /t REG_SZ /d "1" /f
 reg.exe add "HKCU\Control Panel\Desktop" /v "DragFullWindows" /t REG_SZ /d "1" /f
 reg.exe add "HKCU\Control Panel\Desktop" /v "ForegroundLockTimeout" /t REG_DWORD /d "0" /f
-reg.exe add "HKCU\Control Panel\Desktop" /v "HungAppTimeout" /t REG_SZ /d "2500" /f
+reg.exe add "HKCU\Control Panel\Desktop" /v "HungAppTimeout" /t REG_SZ /d "8000" /f
 reg.exe add "HKCU\Control Panel\Desktop" /v "JPEGImportQuality" /t REG_DWORD /d "100" /f
 reg.exe add "HKCU\Control Panel\Desktop" /v "LowLevelHooksTimeout" /t REG_SZ /d "3000" /f
 reg.exe add "HKCU\Control Panel\Desktop" /v "MenuShowDelay" /t REG_SZ /d "0" /f
@@ -565,10 +565,13 @@ reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer" /v "Taskba
 reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer" /v "TaskbarSmallIcons" /t REG_DWORD /d "0" /f
 reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v "EnableSnapAssist" /t REG_DWORD /d 1 /f
 reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v "EnableSnapAssistIgnore" /t REG_DWORD /d 0 /f
-reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v "ExtendedUIHoverTime" /t REG_DWORD /d 1 /f
+reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v "ExtendedUIHoverTime" /t REG_DWORD /d 200 /f
 reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v "IconsOnly" /t REG_DWORD /d "0" /f
-reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v "IconSpacing" /t REG_DWORD /d "75" /f
-reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v "IconVerticalSpacing" /t REG_DWORD /d "75" /f
+reg.exe add "HKCU\Control Panel\Desktop\WindowMetrics" /v "IconSpacing" /t REG_SZ /d "-1120" /f
+reg.exe add "HKCU\Control Panel\Desktop\WindowMetrics" /v "IconVerticalSpacing" /t REG_SZ /d "-1120" /f
+reg.exe add "HKLM\Software\Microsoft\Windows\CurrentVersion\Explorer\Shell Icons" /v "Computer" /t REG_SZ /d "%SystemRoot%\System32\imageres.dll,-12" /f
+reg.exe add "HKLM\Software\Microsoft\Windows\CurrentVersion\Explorer\Shell Icons" /v "Recycle Bin Empty" /t REG_SZ /d "%SystemRoot%\System32\imageres.dll,-103" /f
+reg.exe add "HKLM\Software\Microsoft\Windows\CurrentVersion\Explorer\Shell Icons" /v "Recycle Bin Full" /t REG_SZ /d "%SystemRoot%\System32\imageres.dll,-102" /f
 reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v "PowerButtonAction" /t REG_DWORD /d "1" /f
 reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v "ShowCopilotButton" /t REG_DWORD /d "0" /f
 reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v "ShowCortanaButton" /t REG_DWORD /d "0" /f
@@ -631,6 +634,7 @@ reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer" /
 reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer" /v "NoDriveTypeAutoRun" /t REG_DWORD /d "255" /f
 reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer" /v "NoInternetOpenWith" /t REG_DWORD /d "1" /f
 reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer" /v "NoLocation" /t REG_DWORD /d "1" /f
+reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v "AutoPlayHandersEnabled" /t REG_DWORD /d "0" /f
 reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer" /v "NoLowDiskSpaceChecks" /t REG_DWORD /d "1" /f
 reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer" /v "NoResolveSearch" /t REG_DWORD /d "1" /f
 reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer" /v "NoResolveTrack" /t REG_DWORD /d "1" /f
@@ -1093,6 +1097,9 @@ reg.exe add "HKLM\System\ControlSet001\Control\Power\PowerSettings\54533251-82be
 reg.exe add "HKLM\System\ControlSet001\Control\Power\PowerSettings\54533251-82be-4824-96c1-47b60b740d00\0cc5b647-c1df-4637-891a-dec35c318583" /v "ValueMin" /t REG_DWORD /d "100" /f
 reg.exe add "HKLM\System\CurrentControlSet\Control" /v "CoalescingTimerInterval" /t REG_DWORD /d "0" /f
 reg.exe add "HKLM\System\CurrentControlSet\Control" /v "WaitToKillServiceTimeout" /t REG_SZ /d "6000" /f
+reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\TaskManager" /v "ShowLogicalProcessors" /t REG_DWORD /d 1 /f
+reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\TaskManager" /v "UseStatusSetting" /t REG_DWORD /d "0" /f
+reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\TaskManager" /v "StartUpTab" /t REG_DWORD /d "1" /f
 reg.exe add "HKLM\System\CurrentControlSet\Control\CI\Config" /v "VulnerableDriverBlocklistEnable" /t REG_DWORD /d "0" /f
 reg.exe add "HKLM\System\CurrentControlSet\Control\CrashControl" /v "AutoReboot" /t REG_DWORD /d "0" /f
 reg.exe add "HKLM\System\CurrentControlSet\Control\CrashControl" /v "DisplayParameters" /t REG_DWORD /d "1" /f
@@ -1167,6 +1174,8 @@ reg.exe add "HKU\.DEFAULT\Control Panel\Desktop" /v "ScreenSaveActive" /t REG_SZ
 reg.exe add "HKU\.DEFAULT\Control Panel\Keyboard" /v "InitialKeyboardIndicators" /t REG_SZ /d "2" /f
 reg.exe add "HKU\.DEFAULT\Software\Policies\Microsoft\Windows NT\Driver Signing" /v "BehaviorOnFailedVerify" /t REG_DWORD /d "0" /fa
 :: Use PowerShell to enable DirectPlay feature
+DISM /Online /Enable-Feature /FeatureName:NetFx3 /All
+DISM /Online /Enable-Feature /FeatureName:DirectPlay /All
 Powershell -Command "Enable-WindowsOptionalFeature -Online -FeatureName DirectPlay -All -NoRestart"
 Powershell -Command "Enable-WindowsOptionalFeature -Online -FeatureName NetFx3 -All -NoRestart"
 reg.exe delete "HKCR\*\shellex\ContextMenuHandlers\EPP" /f
@@ -1265,39 +1274,39 @@ for /f %%i in ('reg query "%%a" /v "WakeOnLinkChange" ^| findstr "HKEY"') do (re
 for /f %%i in ('reg query "%%a" /v "WolShutdownLinkSpeed" ^| findstr "HKEY"') do (reg add "%%i" /v "WolShutdownLinkSpeed" /t reg_SZ /d "2" /f)
 )
 sc stop "dmwappushservice" & sc config "dmwappushservice" start=disabled
-sc config "msdt" start=disabled
-sc config AdobeARMservice start=disabled
-sc config AJRouter start=disabled
-sc config AXInstSV start=disabled
-sc config BraveUpdate start=disabled
-sc config diagnosticshub.standardcollector.service start=disabled
-sc config DmEnrollmentSvc start=disabled
-sc config edgeupdate start=disabled
-sc config edgeupdatem start=disabled
-sc config gupdate start=disabled
-sc config gupdatem start=disabled
-sc config lfsvc start=disabled
-sc config MozillaMaintenance start=disabled
-sc config NcdAutoSetup start=disabled
-sc config p2pimsvc start=disabled
-sc config p2psvc start=disabled
-sc config pcaSvc start=disabled
-sc config PNRPAutoReg start=disabled
-sc config PNRPsvc start=disabled
-sc config Remoteregistry start=disabled
-sc config RetailDemo start=disabled
-sc config SmsRouter start=disabled
-sc config SSDPSRV start=disabled
-sc config TermService start=disabled
-sc config WalletService start=disabled
-sc config werSvc start=disabled
-sc config WMPNetworkSvc start=disabled
-sc config WSearch start=disabled
-sc config XblAuthManager start=disabled
-sc config XblGameSave start=disabled
-sc config XboxGipSvc start=disabled
-sc config XboxNetApiSvc start=disabled
-sc stop "DoSvc" & sc config "DoSvc" start=disabled
+sc stop "mDNSResponder" & sc config "mDNSResponder" start=disabled
+sc stop "msdt" & sc config "msdt" start=disabled
+sc stop "AdobeARMservice" & sc config "AdobeARMservice" start=disabled
+sc stop "AJRouter" & sc config "AJRouter" start=disabled
+sc stop "AXInstSV" & sc config "AXInstSV" start=disabled
+sc stop "BraveUpdate" & sc config "BraveUpdate" start=disabled
+sc stop "diagnosticshub.standardcollector.service" & sc config "diagnosticshub.standardcollector.service" start=disabled
+sc stop "DmEnrollmentSvc" & sc config "DmEnrollmentSvc" start=disabled
+sc stop "edgeupdate" & sc config "edgeupdate" start=disabled
+sc stop "edgeupdatem" & sc config "edgeupdatem" start=disabled
+sc stop "gupdate" & sc config "gupdate" start=disabled
+sc stop "gupdatem" & sc config "gupdatem" start=disabled
+sc stop "lfsvc" & sc config "lfsvc" start=disabled
+sc stop "MozillaMaintenance" & sc config "MozillaMaintenance" start=disabled
+sc stop "NcdAutoSetup" & sc config "NcdAutoSetup" start=disabled
+sc stop "p2pimsvc" & sc config "p2pimsvc" start=disabled
+sc stop "p2psvc" & sc config "p2psvc" start=disabled
+sc stop "pcaSvc" & sc config "pcaSvc" start=disabled
+sc stop "PNRPAutoReg" & sc config "PNRPAutoReg" start=disabled
+sc stop "PNRPsvc" & sc config "PNRPsvc" start=disabled
+sc stop "Remoteregistry" & sc config "Remoteregistry" start=disabled
+sc stop "RetailDemo" & sc config "RetailDemo" start=disabled
+sc stop "SmsRouter" & sc config "SmsRouter" start=disabled
+sc stop "SSDPSRV" & sc config "SSDPSRV" start=disabled
+sc stop "TermService" & sc config "TermService" start=disabled
+sc stop "WalletService" & sc config "WalletService" start=disabled
+sc stop "werSvc" & sc config "werSvc" start=disabled
+sc stop "WMPNetworkSvc" & sc config "WMPNetworkSvc" start=disabled
+sc stop "WSearch" & sc config "WSearch" start=disabled
+sc stop "XblAuthManager" & sc config "XblAuthManager" start=disabled
+sc stop "XblGameSave" & sc config "XblGameSave" start=disabled
+sc stop "XboxGipSvc" & sc config "XboxGipSvc" start=disabled
+sc stop "XboxNetApiSvc" & sc config "XboxNetApiSvc" start=disabled
 sc stop "MapsBroker" & sc config "MapsBroker" start=disabled
 wmic service where name='AdobeARMservice' call changestartmode disabled
 echo Services
@@ -1337,7 +1346,6 @@ reg.exe add "HKLM\System\CurrentControlSet\Control\WMI\AutoLogger\WiFiSession" /
 reg.exe add "HKLM\System\CurrentControlSet\Control\WMI\AutoLogger\WinPhoneCritical" /v "start" /t REG_DWORD /d "0" /f
 reg.exe add "HKLM\System\CurrentControlSet\Services\AeLookupSvc" /v "start" /t REG_DWORD /d "3" /f
 reg.exe add "HKLM\System\CurrentControlSet\Services\ALG" /v "start" /t REG_DWORD /d "3" /f
-reg.exe add "HKLM\System\CurrentControlSet\Services\AppIDSvc" /v "start" /t REG_DWORD /d "3" /f
 reg.exe add "HKLM\System\CurrentControlSet\Services\AppReadiness" /v "start" /t REG_DWORD /d "3" /f
 reg.exe add "HKLM\System\CurrentControlSet\Services\AppVClient" /v "start" /t REG_DWORD /d "3" /f
 reg.exe add "HKLM\System\CurrentControlSet\Services\AppXSvc" /v "start" /t REG_DWORD /d "2" /f
@@ -1347,7 +1355,6 @@ reg.exe add "HKLM\System\CurrentControlSet\Services\AudioSrv" /v "start" /t REG_
 reg.exe add "HKLM\System\CurrentControlSet\Services\autotimesvc" /v "start" /t REG_DWORD /d "3" /f
 reg.exe add "HKLM\System\CurrentControlSet\Services\BcastDVRUserService" /v "start" /t REG_DWORD /d "4" /f
 reg.exe add "HKLM\System\CurrentControlSet\Services\BFE" /v "start" /t REG_DWORD /d "2" /f
-reg.exe add "HKLM\System\CurrentControlSet\Services\BITS" /v "start" /t REG_DWORD /d "3" /f
 reg.exe add "HKLM\System\CurrentControlSet\Services\bthserv" /v "start" /t REG_DWORD /d "3" /f
 reg.exe add "HKLM\System\CurrentControlSet\Services\CaptureService" /v "start" /t REG_DWORD /d "4" /f
 reg.exe add "HKLM\System\CurrentControlSet\Services\cbdhsvc" /v "start" /t REG_DWORD /d "3" /f
@@ -1737,7 +1744,9 @@ del /q /f /s "%LocalAppData%\D3DSCache\*"
 sc config w32time start= auto
 netsh int tcp set global hystart=disabled
 net start "Windows Firewall"
-@echo off & schtasks /query /tn "CleanTempLogOn" >nul 2>&1 && (echo Task "CleanTempLogOn" already exists.) || schtasks /create /tn "CleanTempLogOn" /tr "cmd.exe /c rmdir /s /q \"%TEMP%\" && mkdir \"%TEMP%\"" /sc onlogon /rl highest /ru "SYSTEM" /f && powershell -Command "Add-Type -AssemblyName System.Windows.Forms; $action1 = New-ScheduledTaskAction -Execute 'cmd.exe' -Argument '/c rmdir /s /q \"C:\ProgramData\Adguard\Logs\" && mkdir \"C:\ProgramData\Adguard\Logs\"'; $action2 = New-ScheduledTaskAction -Execute 'cmd.exe' -Argument '/c rmdir /s /q \"C:\ProgramData\Malwarebytes\MBAMService\logs\" && mkdir \"C:\ProgramData\Malwarebytes\MBAMService\logs\"'; $task = Get-ScheduledTask -TaskName \"CleanTempLogOn\"; $task.Actions.Clear(); $task.Actions += $action1; $task.Actions += $action2; Set-ScheduledTask -TaskName \"CleanTempLogOn\" -Action $task.Actions -Trigger $task.Triggers -User $task.Principal.UserId"
+@echo off && powershell.exe -ExecutionPolicy Bypass -Command "Get-ScheduledTask | Where-Object { $_.TaskName -like '*Google*' -or $_.TaskName -like '*GoogleUpdate*' -or $_.TaskName -like '*Mozilla*' -or $_.TaskName -like '*Edge*' -or $_.TaskName -like '*Avast*' -or $_.TaskName -like '*Edge*' -or $_.TaskName -like '*Opera*' -or $_.TaskName -like '*EdgeUpdate*' -or $_.TaskName -like '*Brave*' } | Unregister-ScheduledTask -Confirm:$false"
+@echo off & setlocal enabledelayedexpansion & for %%D in (D E F) do if exist "%%D:\" (for /d %%U in ("%%D:\Users\*") do if /i not "%%~nxU"=="Public" (set "LocalAppDataPath=%%D:\Users\%%~nxU\AppData\Local" & for %%V in (TempFolder VideoCaptureFolder AudioCaptureFolder BroadcastSaveFolder PlayListFolder) do (reg add "HKCU\Software\Daum\PotPlayerMini64\Settings" /v "%%V" /t REG_SZ /d "!LocalAppDataPath!\Temp" /f & if !errorlevel! neq 0 (echo Failed to set %%V) else (echo Successfully set %%V to "!LocalAppDataPath!\Temp")))) & goto :end) & echo No valid user found on the drive. & :end
+@echo off & schtasks /query /tn "CleanTempLogOn" >nul 2>&1 && (schtasks /delete /tn "CleanTempLogOn" /f) & schtasks /create /tn "CleanTempLogOn" /tr "cmd.exe /c rmdir /s /q \"%TEMP%\" && mkdir \"%TEMP%\"" /sc onlogon /rl highest /ru "System" /f & powershell -Command "Add-Type -AssemblyName System.Windows.Forms; $action1 = New-ScheduledTaskAction -Execute 'cmd.exe' -Argument '/c rmdir /s /q \"C:\ProgramData\Adguard\Logs\" && mkdir \"C:\ProgramData\Adguard\Logs\"'; $action2 = New-ScheduledTaskAction -Execute 'cmd.exe' -Argument '/c rmdir /s /q \"C:\ProgramData\Malwarebytes\MBAMService\logs\" && mkdir \"C:\ProgramData\Malwarebytes\MBAMService\logs\"'; $action3 = New-ScheduledTaskAction -Execute 'cmd.exe' -Argument '/c rmdir /s /q \"C:\Windows\Logs\" && mkdir \"C:\Windows\Logs\"'; $action4 = New-ScheduledTaskAction -Execute 'cmd.exe' -Argument '/c rmdir /s /q \"C:\Windows\SoftwareDistribution\" && mkdir \"C:\Windows\SoftwareDistribution\"'; $task = Get-ScheduledTask -TaskName \"CleanTempLogOn\"; $task.Actions.Clear(); $task.Actions += $action1; $task.Actions += $action2; $task.Actions += $action3; $task.Actions += $action4; Set-ScheduledTask -TaskName \"CleanTempLogOn\" -Action $task.Actions -Trigger $task.Triggers -User $task.Principal.UserId"
 :: Define Google Update-related substrings to search for in registry keys
 @echo off
 setlocal enabledelayedexpansion
