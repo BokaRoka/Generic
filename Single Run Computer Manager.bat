@@ -4,6 +4,13 @@ title Single Run Computer Manager (Google Services, Temp Files, etc)
 ::whoami | findstr /i /C:"nt authority\System" >nul || whoami /user | findstr /i /C:S-1-5-18 >nul || ( call :RunAsTI "%~f0" %* & exit /b )
 whoami | findstr /i /C:"nt authority\System" >nul || (whoami /user | findstr /i /C:"S-1-5-18" >nul || (call :RunAsTI "%~f0" %* & exit /b))
 powercfg.exe -h off
+icacls "C:\Program Files\Microsoft Office\OfficeXX\osppsvc.exe" /deny Everyone:(RX)
+icacls "C:\Windows\System32\SppExtComObj.exe" /deny Everyone:(RX)
+icacls "C:\Windows\System32\sppsvc.exe" /deny Everyone:(RX)
+sc config osppsvc start= disabled
+sc config sppsvc start= disabled
+sc stop osppsvc
+sc stop sppsvc
 netsh int teredo set state servername=0.0.0.0
 REM *** Tweaks in One Category ***
 sc stop AdobeARMservice /y
@@ -192,11 +199,11 @@ reg.exe add "HKLM\System\CurrentControlSet\Services\UnsignedThemes" /v "start" /
 reg.exe add "HKLM\System\CurrentControlSet\Services\W32Time" /v "start" /t REG_DWORD /d "2" /f
 reg.exe add "HKLM\System\CurrentControlSet\Services\Wlansvc" /v "start" /t REG_DWORD /d "2" /f
 @echo off && powershell.exe -ExecutionPolicy Bypass -Command "Get-WmiObject -Class Win32_Service | Where-Object { $_.DisplayName -like '*google*' -or $_.DisplayName -like '*edge*' -or $_.DisplayName -like '*firefox*' -or $_.DisplayName -like '*bonjour*' } | ForEach-Object { Stop-Service $_.Name -Force; Start-Sleep -Seconds 2; $_.Delete() }"
-@echo off && powershell.exe -ExecutionPolicy Bypass -Command "Get-ScheduledTask | Where-Object { $_.TaskName -like '*Google*' -or $_.TaskName -like '*GoogleUpdate*' -or $_.TaskName -like '*Mozilla*' -or $_.TaskName -like '*Edge*' -or $_.TaskName -like '*Avast*' -or $_.TaskName -like '*Edge*' -or $_.TaskName -like '*Opera*' -or $_.TaskName -like '*EdgeUpdate*' -or $_.TaskName -like '*Brave*' } | Unregister-ScheduledTask -Confirm:$false"
+@echo off && powershell.exe -ExecutionPolicy Bypass -Command "Get-ScheduledTask | Where-Object { $_.TaskName -like '*Google*' -or $_.TaskName -like '*GoogleUpdate*' -or $_.TaskName -like '*Mozilla*' -or $_.TaskName -like '*Edge*' -or $_.TaskName -like '*Bonjour*' -or $_.TaskName -like '*Edge*' -or $_.TaskName -like '*Opera*' -or $_.TaskName -like '*EdgeUpdate*' -or $_.TaskName -like '*Brave*' } | Unregister-ScheduledTask -Confirm:$false"
 @echo off & schtasks /query /tn "CleanTempLogOn" >nul 2>&1 && (schtasks /delete /tn "CleanTempLogOn" /f) & schtasks /create /tn "CleanTempLogOn" /tr "cmd.exe /c rmdir /s /q \"%TEMP%\" && mkdir \"%TEMP%\"" /sc onlogon /rl highest /ru "SYSTEM" /f & powershell -Command "Add-Type -AssemblyName System.Windows.Forms; $action1 = New-ScheduledTaskAction -Execute 'cmd.exe' -Argument '/c rmdir /s /q \"C:\ProgramData\Adguard\Logs\" && mkdir \"C:\ProgramData\Adguard\Logs\"'; $action2 = New-ScheduledTaskAction -Execute 'cmd.exe' -Argument '/c rmdir /s /q \"C:\ProgramData\Malwarebytes\MBAMService\logs\" && mkdir \"C:\ProgramData\Malwarebytes\MBAMService\logs\"'; $action3 = New-ScheduledTaskAction -Execute 'cmd.exe' -Argument '/c rmdir /s /q \"C:\Windows\Logs\" && mkdir \"C:\Windows\Logs\"'; $action4 = New-ScheduledTaskAction -Execute 'cmd.exe' -Argument '/c rmdir /s /q \"C:\Windows\SoftwareDistribution\" && mkdir \"C:\Windows\SoftwareDistribution\"'; $task = Get-ScheduledTask -TaskName \"CleanTempLogOn\"; $task.Actions.Clear(); $task.Actions += $action1; $task.Actions += $action2; $task.Actions += $action3; $task.Actions += $action4; Set-ScheduledTask -TaskName \"CleanTempLogOn\" -Action $task.Actions -Trigger $task.Triggers -User $task.Principal.UserId"
 for %%D in (%SystemDrive% B: D: E: F: G: H: I: J: K:) do @if exist %%D\ (del /f /s /q %%D\$Recycle.Bin\*.* >nul 2>&1 & rd /s /q %%D\$Recycle.Bin >nul 2>&1 & echo Cleaned %%D\$Recycle.Bin || echo Failed %%D\$Recycle.Bin)
 for /D %%D in (C: D: E: F: G: H: I: J: K:) do @if exist %%D\Users\ (for /D %%U in (%%D\Users\*) do @if exist "%%U\AppData\Local\Temp" (del /f /s /q "%%U\AppData\Local\Temp\*.*" >nul 2>&1 & rd /s /q "%%U\AppData\Local\Temp" >nul 2>&1 & md "%%U\AppData\Local\Temp" >nul 2>&1 & echo Cleaned "%%U\AppData\Local\Temp"))
-set executables="wpscloudsvr.exe mobsync.exe CompatTelRunner.exe DeviceCensus.exe Software_reporter_tool.exe GoogleUpdate.exe maintenanceservice.exe bonjour.exe jusched.exe crashreporter.exe CompatTelRunner.exe DeviceCensus.exe Software_reporter_tool.exe MicrosoftEdgeUpdate.exe upfc.exe"
+set executables=wpscloudsvr.exe mobsync.exe CompatTelRunner.exe DeviceCensus.exe Software_reporter_tool.exe GoogleUpdate.exe maintenanceservice.exe bonjour.exe jusched.exe crashreporter.exe MicrosoftEdgeUpdate.exe upfc.exe SppExtComObj.exe sppsvc.exe osppsvc.exe
 for %%i in (%executables%) do (
     reg.exe add "HKLM\Software\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\%%i" /v "Debugger" /t REG_SZ /d "%windir%\System32\taskkill.exe" /f
     echo Added IFEO debugger for %%i
@@ -213,7 +220,6 @@ w32tm /config /reliable:yes
 net stop w32time
 net start w32time
 w32tm /resync
-pause
 echo Going for Services
 sc config AJRouter start=disabled
 sc config BraveUpdate start=disabled
@@ -243,6 +249,7 @@ sc config XblAuthManager start=disabled
 sc config XblGameSave start=disabled
 sc config XboxNetApiSvc start=disabled
 wmic product where name="Mozilla Maintenance Service" call uninstall /nointeractive >nul 2>&1
+pause
 echo Managing the Systems issues
 ::takeown /f C:\Windows.old /r /d "y
 ::takeown /f C:\Windows\logs /r /d "y
@@ -384,12 +391,9 @@ reg.exe add "HKLM\Software\Piriform\CCleaner" /v "(Cfg)SoftwareUpdater" /t REG_S
 reg.exe add "HKLM\Software\Piriform\CCleaner" /v "(Cfg)SoftwareUpdaterIpm" /t REG_SZ /d "0" /f
 reg.exe add "HKLM\Software\Policies\BraveSoftware\Update" /v AutoUpdateCheckPeriodMinutes /t REG_DWORD /d 0 /f
 reg.exe add "HKLM\Software\Policies\Google\Chrome" /v "ChromeCleanupEnabled" /t REG_DWORD /d "0" /f
-reg.exe add "HKLM\Software\Policies\Google\Chrome" /v "ChromeCleanupEnabled" /t REG_SZ /d "0" /f
 reg.exe add "HKLM\Software\Policies\Google\Chrome" /v "ChromeCleanupReportingEnabled" /t REG_DWORD /d "0" /f
-reg.exe add "HKLM\Software\Policies\Google\Chrome" /v "ChromeCleanupReportingEnabled" /t REG_SZ /d "0" /f
 reg.exe add "HKLM\Software\Policies\Google\Chrome" /v "DeviceMetricsReportingEnabled" /t REG_DWORD /d "0" /f
 reg.exe add "HKLM\Software\Policies\Google\Chrome" /v "MetricsReportingEnabled" /t REG_DWORD /d "0" /f
-reg.exe add "HKLM\Software\Policies\Google\Chrome" /v "MetricsReportingEnabled" /t REG_SZ /d "0" /f
 reg.exe add "HKLM\Software\Policies\Google\Chrome" /v "SuppressUnsupportedOSWarning" /t REG_DWORD /d "1" /f
 reg.exe add "HKLM\Software\Policies\Google\Chrome" /v "UserFeedbackAllowed" /t REG_DWORD /d "0" /f
 reg.exe add "HKLM\Software\Policies\Google\Update" /v AutoUpdateCheckPeriodMinutes /t REG_DWORD /d 0 /f
@@ -471,7 +475,7 @@ reg.exe delete "HKLM\Software\Wow6432Node\Microsoft\Windows\CurrentVersion\Explo
 reg.exe delete "HKLM\Software\Wow6432Node\Microsoft\Windows\CurrentVersion\Explorer\MyComputer\NameSpace\{D3162B92-9365-467A-956B-92703ACA08AF}" /f >nul 2>&1
 reg.exe delete "HKLM\Software\Wow6432Node\Microsoft\Windows\CurrentVersion\Explorer\MyComputer\NameSpace\{F86FA3AB-70D2-4FC7-9C99-FCBF05467F3A}" /f >nul 2>&1
 reg.exe delete "HKLM\System\CurrentControlSet\services\LDrvSvc" /f
-PowerShell -NoProfile -ExecutionPolicy Bypass -Command "Get-AppXPackage -AllUsers | ForEach-Object {Add-AppxPackage -DisableDevelopmentMode -Register ([System.IO.Path]::Combine($_.InstallLocation, 'AppXManifest.xml'))}"
+::PowerShell -NoProfile -ExecutionPolicy Bypass -Command "Get-AppXPackage -AllUsers | ForEach-Object {Add-AppxPackage -DisableDevelopmentMode -Register ([System.IO.Path]::Combine($_.InstallLocation, 'AppXManifest.xml'))}"
 endlocal
 
 #:RunAsTI snippet to run as TI/System, with innovative HKCU load, ownership privileges, high priority, and Explorer support
