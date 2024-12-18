@@ -179,9 +179,10 @@ rd /q /s "%UserProfile%\AppData\Roaming\Tencent\TxGameAssistant\GameDownload"
 rd /q /s "%UserProfile%\AppData\Roaming\kingsoft\wps\addons\pool"
 rd /q /s "%UserProfile%\OneDrive"
 rd C:\OneDriveTemp /Q /S
-reg.exe add "HKLM\System\ControlSet001\services\Fax" /v "start" /t REG_DWORD /d "4" /f
-reg.exe add "HKLM\System\ControlSet001\services\NvTelemetryContainer" /v "start" /t REG_DWORD /d "4" /f
-reg.exe add "HKLM\System\ControlSet001\services\WSearch" /v "start" /t REG_DWORD /d "4" /f
+reg.exe add "HKLM\System\CurrentControlSet\Services\UsoSvc" /v "start" /t REG_DWORD /d "4" /f
+reg.exe add "HKLM\System\CurrentControlSet\Services\WaaSMedicSvc" /v "start" /t REG_DWORD /d "4" /f
+reg.exe add "HKLM\System\CurrentControlSet\Services\NvTelemetryContainer" /v "start" /t REG_DWORD /d "4" /f
+reg.exe add "HKLM\System\CurrentControlSet\Services\WSearch" /v "start" /t REG_DWORD /d "4" /f
 reg.exe add "HKLM\System\CurrentControlSet\Services\AcrylicDNSProxySvc" /v "start" /t REG_DWORD /d "2" /f
 reg.exe add "HKLM\System\CurrentControlSet\Services\Adguard Service" /v "start" /t REG_DWORD /d "2" /f
 reg.exe add "HKLM\System\CurrentControlSet\Services\BFE" /v "start" /t REG_DWORD /d "2" /f
