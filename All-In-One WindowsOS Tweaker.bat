@@ -344,6 +344,9 @@ reg.exe add "HKLM\System\CurrentControlSet\Control\Session Manager\Memory Manage
 reg.exe add "HKLM\System\CurrentControlSet\Control\Session Manager\Memory Management" /v "PagingFiles" /t REG_SZ /d "D:\pagefile.sys 0 0" /f
 reg.exe add "HKLM\System\CurrentControlSet\Control\Session Manager\Memory Management" /v "PagingFiles" /t REG_SZ /d "E:\pagefile.sys 0 0" /f
 echo Main REGEDIT Entries
+reg.exe add "HKLM\Software\Microsoft\Windows NT\CurrentVersion\MTCUVC" /v "EnableMtcUvc" /t REG_DWORD /d 0 /f
+reg.exe add "HKLM\Software\Microsoft\Windows\CurrentVersion\DriverSearching" /v "SearchOrderConfig" /t REG_DWORD /d 0 /f
+reg.exe add "HKLM\Software\Microsoft\Windows\CurrentVersion\DriverSearching" /v "DontSearchWindowsUpdate" /t REG_DWORD /d 1 /f
 reg.exe add "HKCR\AllFileSystemObjects" /v "DEFAULTDropEffect" /t REG_DWORD /d "1" /f
 reg.exe add "HKCR\AppX43hnxtbyyps62jhe9sqpdzxn1790zetc\Shell\ShellCreateVideo" /v "ProgrammaticAccessOnly" /t REG_SZ /d "" /f
 reg.exe add "HKCR\AppXk0g4vb8gvt7b93tg50ybcy892pge6jmt\Shell\ShellCreateVideo" /v "ProgrammaticAccessOnly" /t REG_SZ /d "" /f
@@ -703,7 +706,7 @@ reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\SipNotify" /v "DontR
 reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\SipNotify" /v "LastShown" /t REG_QWORD /d "0x0" /f
 reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\SmartGlass" /v "UserAuthPolicy" /t REG_DWORD /d "0" /f
 reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\TaskManager" /v "ShowLogicalProcessors" /t REG_DWORD /d 1 /f
-reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\TaskManager" /v "StartUpTab" /t REG_DWORD /d "1" /f
+reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\TaskManager" /v "startUpTab" /t REG_DWORD /d "1" /f
 reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\TaskManager" /v "UseStatusSetting" /t REG_DWORD /d "0" /f
 reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize" /v "EnableTransparency" /t REG_DWORD /d "1" /f
 reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize" /v "ThemechangesMousePointers" /t REG_DWORD /d "0" /f
@@ -805,7 +808,7 @@ reg.exe add "HKLM\Software\Microsoft\Speech_OneCore\Preferences" /v "VoiceActiva
 reg.exe add "HKLM\Software\Microsoft\WBEM\CIMOM" /v "EnableEvents" /t REG_DWORD /d "0" /f
 reg.exe add "HKLM\Software\Microsoft\WBEM\CIMOM" /v "Logging" /t REG_SZ /d "0" /f
 reg.exe add "HKLM\Software\Microsoft\WcmSvc\Tethering" /v "Hotspot2SignUp" /t REG_DWORD /d "1" /f
-reg.exe add "HKLM\Software\Microsoft\WcmSvc\Tethering" /v "RemoteStartupDisabled" /t REG_DWORD /d "1" /f
+reg.exe add "HKLM\Software\Microsoft\WcmSvc\Tethering" /v "RemotestartupDisabled" /t REG_DWORD /d "1" /f
 reg.exe add "HKLM\Software\Microsoft\WcmSvc\wifinetworkmanager\config" /v "AutoConnectAllowedOEM" /t REG_DWORD /d "0" /f
 reg.exe add "HKLM\Software\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\AIT" /v "AITEnable" /t REG_DWORD /d "0" /f
 reg.exe add "HKLM\Software\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\Appraiser" /v "HaveUploadedForTarget" /t REG_DWORD /d "1" /f
@@ -846,7 +849,7 @@ reg.exe add "HKLM\Software\Microsoft\WindowsUpdate\UX" /v "IsConvergedUpdateStac
 reg.exe add "HKLM\Software\Microsoft\WindowsUpdate\UX\Settings" /v "UxOption" /t REG_DWORD /d "0" /f
 reg.exe add "HKLM\Software\Microsoft\WindowsUpdate\UX\Settings" /v "UxOption" /t REG_DWORD /d "1" /f
 reg.exe add "HKLM\Software\Microsoft\Windows\CurrentVersion\AdvertisingInfo" /v "Enabled" /t REG_DWORD /d "0" /f
-reg.exe add "HKLM\Software\Microsoft\Windows\CurrentVersion\Authentication\LogonUI\Background" /V OEMBackground /T REG_DWORD /d 00000001 /f
+reg.exe add "HKLM\Software\Microsoft\Windows\CurrentVersion\Authentication\LogonUI\Background" /v OEMBackground /T REG_DWORD /d 00000001 /f
 reg.exe add "HKLM\Software\Microsoft\Windows\CurrentVersion\Authentication\LogonUI\SessionData" /v "AllowLockScreen" /t REG_DWORD /d "0" /f
 reg.exe add "HKLM\Software\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\location" /v "Value" /t "REG_SZ" /d "Deny" /f
 reg.exe add "HKLM\Software\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\location" /v "Value" /t REG_DWORD /d "0" /f
@@ -1068,7 +1071,7 @@ reg.exe add "HKLM\Software\Policies\Microsoft\Windows\SettingSync" /v "DisableWi
 reg.exe add "HKLM\Software\Policies\Microsoft\Windows\SettingSync" /v "DisablestartLayoutSettingSync" /t REG_DWORD /d "2" /f
 reg.exe add "HKLM\Software\Policies\Microsoft\Windows\SettingSync" /v "DisablestartLayoutSettingSyncUserOverride" /t REG_DWORD /d "1" /f
 reg.exe add "HKLM\Software\Policies\Microsoft\Windows\SettingSync" /v "SyncPolicy" /t REG_DWORD /d "5" /f
-reg.exe add "HKLM\Software\Policies\Microsoft\Windows\System" /V OEMBackground /T REG_DWORD /d 00000001 /f
+reg.exe add "HKLM\Software\Policies\Microsoft\Windows\System" /v OEMBackground /T REG_DWORD /d 00000001 /f
 reg.exe add "HKLM\Software\Policies\Microsoft\Windows\System" /v "AllowBlockingAppsAtShutdown" /t REG_DWORD /d "0" /f
 reg.exe add "HKLM\Software\Policies\Microsoft\Windows\System" /v "AllowClipboardHistory" /t REG_DWORD /d "0" /f
 reg.exe add "HKLM\Software\Policies\Microsoft\Windows\System" /v "AllowCrossDeviceClipboard" /t REG_DWORD /d "0" /f
@@ -1148,9 +1151,12 @@ reg.exe add "HKLM\System\CurrentControlSet\Control" /v "WaitToKillServiceTimeout
 reg.exe add "HKLM\System\CurrentControlSet\Control\CI\Config" /v "VulnerableDriverBlocklistEnable" /t REG_DWORD /d "0" /f
 reg.exe add "HKLM\System\CurrentControlSet\Control\CrashControl" /v "AutoReboot" /t REG_DWORD /d "0" /f
 reg.exe add "HKLM\System\CurrentControlSet\Control\CrashControl" /v "DisplayParameters" /t REG_DWORD /d "1" /f
+fsutil behavior set DisableCompression 1
+reg.exe add "HKLM\System\CurrentControlSet\Control\FileSystem" /v "DisableCompression" /t REG_DWORD /d "1" /f
+reg.exe add "HKLM\System\CurrentControlSet\Control\FileSystem" /v "NtfsDisableCompression" /t REG_DWORD /d "1" /f
 reg.exe add "HKLM\System\CurrentControlSet\Control\FileSystem" /v "LongPathsEnabled" /t REG_DWORD /d "1" /f
 reg.exe add "HKLM\System\CurrentControlSet\Control\FileSystem" /v "NtfsDisable8dot3NameCreation" /t REG_DWORD /d "1" /f
-reg.exe add "HKLM\System\CurrentControlSet\Control\FileSystem" /v "NtfsDisableLastAccessUpdate" /t REG_DWORD /d "2147483651" /f
+reg.exe add "HKLM\System\CurrentControlSet\Control\FileSystem" /v "NtfsDisableLastAccessUpdate" /t REG_DWORD /d "1" /f
 reg.exe add "HKLM\System\CurrentControlSet\Control\Lsa\Credssp" /v "DebugLogLevel" /t REG_DWORD /d "0" /f
 reg.exe add "HKLM\System\CurrentControlSet\Control\Power" /v "CoalescingTimerInterval" /t REG_DWORD /d "0" /f
 reg.exe add "HKLM\System\CurrentControlSet\Control\Power" /v "CsEnabled" /t REG_DWORD /d 0 /f
@@ -1334,16 +1340,7 @@ reg.exe add "HKLM\System\CurrentControlSet\Control\WMI\AutoLogger\WiFiDriverIHVS
 reg.exe add "HKLM\System\CurrentControlSet\Control\WMI\AutoLogger\WiFiDriverIHVSessionRepro" /v "start" /t REG_DWORD /d "0" /f
 reg.exe add "HKLM\System\CurrentControlSet\Control\WMI\AutoLogger\WiFiSession" /v "start" /t REG_DWORD /d "0" /f
 reg.exe add "HKLM\System\CurrentControlSet\Control\WMI\AutoLogger\WinPhoneCritical" /v "start" /t REG_DWORD /d "0" /f
-reg.exe add "HKLM\System\ControlSet001\Control\WMI\Autologger\AutoLogger-Diagtrack-Listener" /v "Start" /t REG_DWORD /d "0" /f
-reg.exe add "HKLM\System\ControlSet001\Services\DcpSvc" /v "Start" /t REG_DWORD /d "4" /f
-reg.exe add "HKLM\System\ControlSet001\Services\NvTelemetryContainer" /v "Start" /t REG_DWORD /d "4" /f
-reg.exe add "HKLM\System\ControlSet001\Services\PcaSvc" /v "Start" /t REG_DWORD /d "4" /f
-reg.exe add "HKLM\System\ControlSet001\Services\SensorService" /v "Start" /t REG_DWORD /d "3" /f
-reg.exe add "HKLM\System\ControlSet001\Services\SensrSvc" /v "Start" /t REG_DWORD /d "3" /f
-reg.exe add "HKLM\System\ControlSet001\Services\WMPNetworkSvc" /v "Start" /t REG_DWORD /d "4" /f
-reg.exe add "HKLM\System\ControlSet001\Services\WSearch" /v "Start" /t REG_DWORD /d "4" /f
-reg.exe add "HKLM\System\ControlSet001\Services\WerSvc" /v "Start" /t REG_DWORD /d "4" /f
-reg.exe add "HKLM\System\ControlSet001\Services\wercplsupport" /v "Start" /t REG_DWORD /d "4" /f
+reg.exe add "HKLM\System\ControlSet001\Control\WMI\Autologger\AutoLogger-Diagtrack-Listener" /v "start" /t REG_DWORD /d "0" /f
 reg.exe add "HKLM\System\CurrentControlSet\Services\ALG" /v "start" /t REG_DWORD /d "3" /f
 reg.exe add "HKLM\System\CurrentControlSet\Services\AeLookupSvc" /v "start" /t REG_DWORD /d "3" /f
 reg.exe add "HKLM\System\CurrentControlSet\Services\AppReadiness" /v "start" /t REG_DWORD /d "3" /f
@@ -1360,6 +1357,7 @@ reg.exe add "HKLM\System\CurrentControlSet\Services\CryptSvc" /v "start" /t REG_
 reg.exe add "HKLM\System\CurrentControlSet\Services\CscService" /v "start" /t REG_DWORD /d "3" /f
 reg.exe add "HKLM\System\CurrentControlSet\Services\DHCP" /v "start" /t REG_DWORD /d "2" /f
 reg.exe add "HKLM\System\CurrentControlSet\Services\DPS" /v "start" /t REG_DWORD /d "3" /f
+reg.exe add "HKLM\System\CurrentControlSet\Services\DcpSvc" /v "start" /t REG_DWORD /d "4" /f
 reg.exe add "HKLM\System\CurrentControlSet\Services\DeviceAssociationBrokerSvc" /v "start" /t REG_DWORD /d "3" /f
 reg.exe add "HKLM\System\CurrentControlSet\Services\DevicePickerUserSvc" /v "start" /t REG_DWORD /d "4" /f
 reg.exe add "HKLM\System\CurrentControlSet\Services\DevicesFlowUserSvc" /v "start" /t REG_DWORD /d "3" /f
@@ -1377,7 +1375,6 @@ reg.exe add "HKLM\System\CurrentControlSet\Services\IKEEXT" /v "start" /t REG_DW
 reg.exe add "HKLM\System\CurrentControlSet\Services\InstallService" /v "start" /t REG_DWORD /d "3" /f
 reg.exe add "HKLM\System\CurrentControlSet\Services\IpxlatCfgSvc" /v "start" /t REG_DWORD /d "4" /f
 reg.exe add "HKLM\System\CurrentControlSet\Services\KeyIso" /v "start" /t REG_DWORD /d "2" /f
-reg.exe add "HKLM\System\CurrentControlSet\Services\LanmanWorkstation" /v "start" /t REG_DWORD /d "2" /f
 reg.exe add "HKLM\System\CurrentControlSet\Services\LanmanWorkstation" /v "start" /t REG_DWORD /d "3" /f
 reg.exe add "HKLM\System\CurrentControlSet\Services\MMCSS" /v "start" /t REG_DWORD /d "2" /f
 reg.exe add "HKLM\System\CurrentControlSet\Services\MSiSCSI" /v "start" /t REG_DWORD /d "3" /f
@@ -1389,11 +1386,13 @@ reg.exe add "HKLM\System\CurrentControlSet\Services\MpsSvc" /v "start" /t REG_DW
 reg.exe add "HKLM\System\CurrentControlSet\Services\Netlogon" /v "start" /t REG_DWORD /d "4" /f
 reg.exe add "HKLM\System\CurrentControlSet\Services\NfsClnt" /v "start" /t REG_DWORD /d "3" /f
 reg.exe add "HKLM\System\CurrentControlSet\Services\NlaSvc" /v "start" /t REG_DWORD /d "2" /f
+reg.exe add "HKLM\System\CurrentControlSet\Services\NvTelemetryContainer" /v "start" /t REG_DWORD /d "4" /f
 reg.exe add "HKLM\System\CurrentControlSet\Services\OSRSS" /v "start" /t REG_DWORD /d "4" /f
 reg.exe add "HKLM\System\CurrentControlSet\Services\OneSyncSvc" /v "start" /t REG_DWORD /d "4" /f
 reg.exe add "HKLM\System\CurrentControlSet\Services\Origin Client Service" /v "start" /t REG_DWORD /d "4" /f
 reg.exe add "HKLM\System\CurrentControlSet\Services\Origin Web Helper Service" /v "start" /t REG_DWORD /d "4" /f
 reg.exe add "HKLM\System\CurrentControlSet\Services\PNRPsvc" /v "start" /t REG_DWORD /d "4" /f
+reg.exe add "HKLM\System\CurrentControlSet\Services\PcaSvc" /v "start" /t REG_DWORD /d "4" /f
 reg.exe add "HKLM\System\CurrentControlSet\Services\PhoneSvc" /v "start" /t REG_DWORD /d "4" /f
 reg.exe add "HKLM\System\CurrentControlSet\Services\PimIndexMaintenanceSvc" /v "start" /t REG_DWORD /d "4" /f
 reg.exe add "HKLM\System\CurrentControlSet\Services\PlugPlay" /v "start" /t REG_DWORD /d "2" /f
@@ -1412,11 +1411,13 @@ reg.exe add "HKLM\System\CurrentControlSet\Services\Schedule" /v "start" /t REG_
 reg.exe add "HKLM\System\CurrentControlSet\Services\SecurityHealthService" /v "start" /t REG_DWORD /d "4" /f
 reg.exe add "HKLM\System\CurrentControlSet\Services\Sense" /v "start" /t REG_DWORD /d "4" /f
 reg.exe add "HKLM\System\CurrentControlSet\Services\SensorDataService" /v "start" /t REG_DWORD /d "4" /f
+reg.exe add "HKLM\System\CurrentControlSet\Services\SensorService" /v "start" /t REG_DWORD /d "3" /f
+reg.exe add "HKLM\System\CurrentControlSet\Services\SensrSvc" /v "start" /t REG_DWORD /d "3" /f
 reg.exe add "HKLM\System\CurrentControlSet\Services\SgrmBroker" /v "start" /t REG_DWORD /d "4" /f
 reg.exe add "HKLM\System\CurrentControlSet\Services\SharedAccess" /v "start" /t REG_DWORD /d "3" /f
 reg.exe add "HKLM\System\CurrentControlSet\Services\SharedRealitySvc" /v "start" /t REG_DWORD /d "4" /f
 reg.exe add "HKLM\System\CurrentControlSet\Services\ShellHWDetection" /v "start" /t REG_DWORD /d "2" /f
-reg.exe add "HKLM\System\CurrentControlSet\Services\Spooler" /v "start" /t REG_DWORD /d "3" /f
+reg.exe add "HKLM\System\CurrentControlSet\Services\Spooler" /v "start" /t REG_DWORD /d "2" /f
 reg.exe add "HKLM\System\CurrentControlSet\Services\StiSvc" /v "start" /t REG_DWORD /d "3" /f
 reg.exe add "HKLM\System\CurrentControlSet\Services\StorSvc" /v "start" /t REG_DWORD /d "2" /f
 reg.exe add "HKLM\System\CurrentControlSet\Services\SysMain" /v "start" /t REG_DWORD /d "4" /f
@@ -1476,6 +1477,7 @@ reg.exe add "HKLM\System\CurrentControlSet\Services\lltdsvc" /v "start" /t REG_D
 reg.exe add "HKLM\System\CurrentControlSet\Services\msiserver" /v "start" /t REG_DWORD /d "2" /f
 reg.exe add "HKLM\System\CurrentControlSet\Services\netprofm" /v "start" /t REG_DWORD /d "3" /f
 reg.exe add "HKLM\System\CurrentControlSet\Services\nsi" /v "start" /t REG_DWORD /d "2" /f
+reg.exe add "HKLM\System\CurrentControlSet\Services\osppsvc" /v "start" /t REG_DWORD /d "3" /f
 reg.exe add "HKLM\System\CurrentControlSet\Services\p2pimsvc" /v "start" /t REG_DWORD /d "4" /f
 reg.exe add "HKLM\System\CurrentControlSet\Services\p2psvc" /v "start" /t REG_DWORD /d "4" /f
 reg.exe add "HKLM\System\CurrentControlSet\Services\perceptionsimulation" /v "start" /t REG_DWORD /d "4" /f
@@ -1485,6 +1487,7 @@ reg.exe add "HKLM\System\CurrentControlSet\Services\sppsvc" /v "start" /t REG_DW
 reg.exe add "HKLM\System\CurrentControlSet\Services\ssh-agent" /v "start" /t REG_DWORD /d "4" /f
 reg.exe add "HKLM\System\CurrentControlSet\Services\svsvc" /v "start" /t REG_DWORD /d "4" /f
 reg.exe add "HKLM\System\CurrentControlSet\Services\tzautoUpdate" /v "start" /t REG_DWORD /d "4" /f
+reg.exe add "HKLM\System\CurrentControlSet\Services\wercplsupport" /v "start" /t REG_DWORD /d "4" /f
 reg.exe add "HKLM\System\CurrentControlSet\Services\wisvc" /v "start" /t REG_DWORD /d "4" /f
 reg.exe add "HKLM\System\CurrentControlSet\Services\wscsvc" /v "start" /t REG_DWORD /d "4" /f
 reg.exe add "HKLM\System\CurrentControlSet\Services\xbgm" /v "start" /t REG_DWORD /d "4" /f
