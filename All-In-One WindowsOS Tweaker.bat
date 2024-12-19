@@ -51,6 +51,7 @@ sc stop RemoteRegistry
 sc stop WMPNetworkSvc
 sc stop wuauserv
 sc stop usosvc
+sc stop Dnscache
 sc stop cryptSvc
 sc stop bits
 sc stop msiserver
@@ -1269,42 +1270,101 @@ reg add %%r /v "TcpInitialRTT" /t REG_DWORD /d "2" /f
 reg add %%r /v "TCPNoDelay" /t REG_DWORD /d "1" /f
 reg add %%r /v "UseZeroBroadcast" /t REG_DWORD /d "0" /f
 )
-sc stop "dmwappushservice" & sc config "dmwappushservice" start=disabled
-sc stop "mDNSResponder" & sc config "mDNSResponder" start=disabled
-sc stop "msdt" & sc config "msdt" start=disabled
-sc stop "AdobeARMservice" & sc config "AdobeARMservice" start=disabled
+wmic service where name='AdobeARMservice' call changestartmode disabled
 sc stop "AJRouter" & sc config "AJRouter" start=disabled
 sc stop "AXInstSV" & sc config "AXInstSV" start=disabled
+sc stop "AdobeARMService" & sc config "AdobeARMService" start=disabled
+sc stop "BcastDVRUserService" & sc config "BcastDVRUserService" start=disabled
 sc stop "BraveUpdate" & sc config "BraveUpdate" start=disabled
-sc stop "diagnosticshub.standardcollector.service" & sc config "diagnosticshub.standardcollector.service" start=disabled
+sc stop "CDPUserSvc" & sc config "CDPUserSvc" start=disabled
+sc stop "CaptureService" & sc config "CaptureService" start=disabled
+sc stop "ConsentUxUserSvc" & sc config "ConsentUxUserSvc" start=disabled
+sc stop "DcpSvc" & sc config "DcpSvc" start=disabled
+sc stop "DefragSvc" & sc config "DefragSvc" start=disabled
+sc stop "DevicePickerUserSvc" & sc config "DevicePickerUserSvc" start=disabled
+sc stop "DiagSvc" & sc config "DiagSvc" start=disabled
+sc stop "DiagTrack" & sc config "DiagTrack" start=disabled
+sc stop "Diagnosticshub.StandardCollector.Service" & sc config "Diagnosticshub.StandardCollector.Service" start=disabled
 sc stop "DmEnrollmentSvc" & sc config "DmEnrollmentSvc" start=disabled
-sc stop "edgeupdate" & sc config "edgeupdate" start=disabled
-sc stop "edgeupdatem" & sc config "edgeupdatem" start=disabled
-sc stop "gupdate" & sc config "gupdate" start=disabled
-sc stop "gupdatem" & sc config "gupdatem" start=disabled
-sc stop "lfsvc" & sc config "lfsvc" start=disabled
+sc stop "DmwappushService" & sc config "DmwappushService" start=disabled
+sc stop "DmwappushSvc" & sc config "DmwappushSvc" start=disabled
+sc stop "Dnscache" & sc config "Dnscache" start=disabled
+sc stop "DsSvc" & sc config "DsSvc" start=disabled
+sc stop "DusmSvc" & sc config "DusmSvc" start=disabled
+sc stop "EdgeUpdate" & sc config "EdgeUpdate" start=disabled
+sc stop "EdgeUpdateM" & sc config "EdgeUpdateM" start=disabled
+sc stop "FrameServer" & sc config "FrameServer" start=disabled
+sc stop "GUpdate" & sc config "GUpdate" start=disabled
+sc stop "GUpdatem" & sc config "GUpdatem" start=disabled
+sc stop "GoogleChromeElevationService" & sc config "GoogleChromeElevationService" start=disabled
+sc stop "IpxlatCfgSvc" & sc config "IpxlatCfgSvc" start=disabled
+sc stop "Lfsvc" & sc config "Lfsvc" start=disabled
+sc stop "MapsBroker" & sc config "MapsBroker" start=disabled
+sc stop "MessagingService" & sc config "MessagingService" start=disabled
+sc stop "MicrosoftEdgeElevationService" & sc config "MicrosoftEdgeElevationService" start=disabled
 sc stop "MozillaMaintenance" & sc config "MozillaMaintenance" start=disabled
+sc stop "Msdt" & sc config "Msdt" start=disabled
 sc stop "NcdAutoSetup" & sc config "NcdAutoSetup" start=disabled
-sc stop "p2pimsvc" & sc config "p2pimsvc" start=disabled
-sc stop "p2psvc" & sc config "p2psvc" start=disabled
-sc stop "pcaSvc" & sc config "pcaSvc" start=disabled
+sc stop "Netlogon" & sc config "Netlogon" start=disabled
+sc stop "NvTelemetryContainer" & sc config "NvTelemetryContainer" start=disabled
+sc stop "OSRSS" & sc config "OSRSS" start=disabled
+sc stop "OneSyncSvc" & sc config "OneSyncSvc" start=disabled
+sc stop "Origin Client Service" & sc config "Origin Client Service" start=disabled
+sc stop "Origin Web Helper Service" & sc config "Origin Web Helper Service" start=disabled
+sc stop "P2pimsvc" & sc config "P2pimsvc" start=disabled
+sc stop "P2psvc" & sc config "P2psvc" start=disabled
 sc stop "PNRPAutoReg" & sc config "PNRPAutoReg" start=disabled
 sc stop "PNRPsvc" & sc config "PNRPsvc" start=disabled
-sc stop "Remoteregistry" & sc config "Remoteregistry" start=disabled
+sc stop "PcaSvc" & sc config "PcaSvc" start=disabled
+sc stop "PerceptionSimulation" & sc config "PerceptionSimulation" start=disabled
+sc stop "PhoneSvc" & sc config "PhoneSvc" start=disabled
+sc stop "PimIndexMaintenanceSvc" & sc config "PimIndexMaintenanceSvc" start=disabled
+sc stop "QWAVE" & sc config "QWAVE" start=disabled
+sc stop "RasAuto" & sc config "RasAuto" start=disabled
+sc stop "RemoteRegistry" & sc config "RemoteRegistry" start=disabled
 sc stop "RetailDemo" & sc config "RetailDemo" start=disabled
-sc stop "SmsRouter" & sc config "SmsRouter" start=disabled
+sc stop "RmSvc" & sc config "RmSvc" start=disabled
+sc stop "SEMgrSvc" & sc config "SEMgrSvc" start=disabled
+sc stop "SENS" & sc config "SENS" start=disabled
 sc stop "SSDPSRV" & sc config "SSDPSRV" start=disabled
+sc stop "SSH-Agent" & sc config "SSH-Agent" start=disabled
+sc stop "SecurityHealthService" & sc config "SecurityHealthService" start=disabled
+sc stop "Sedsvc" & sc config "Sedsvc" start=disabled
+sc stop "Sense" & sc config "Sense" start=disabled
+sc stop "SensorDataService" & sc config "SensorDataService" start=disabled
+sc stop "SgrmBroker" & sc config "SgrmBroker" start=disabled
+sc stop "SharedRealitySvc" & sc config "SharedRealitySvc" start=disabled
+sc stop "Shpamsvc" & sc config "Shpamsvc" start=disabled
+sc stop "SmsRouter" & sc config "SmsRouter" start=disabled
+sc stop "Svsvc" & sc config "Svsvc" start=disabled
+sc stop "SysMain" & sc config "SysMain" start=disabled
+sc stop "TabletInputService" & sc config "TabletInputService" start=disabled
 sc stop "TermService" & sc config "TermService" start=disabled
-sc stop "WalletService" & sc config "WalletService" start=disabled
-sc stop "werSvc" & sc config "werSvc" start=disabled
+sc stop "TrkWks" & sc config "TrkWks" start=disabled
+sc stop "TroubleshootingSvc" & sc config "TroubleshootingSvc" start=disabled
+sc stop "TzautoUpdate" & sc config "TzautoUpdate" start=disabled
+sc stop "UevAgentService" & sc config "UevAgentService" start=disabled
+sc stop "VaultSvc" & sc config "VaultSvc" start=disabled
 sc stop "WMPNetworkSvc" & sc config "WMPNetworkSvc" start=disabled
 sc stop "WSearch" & sc config "WSearch" start=disabled
+sc stop "WalletService" & sc config "WalletService" start=disabled
+sc stop "WdFilter" & sc config "WdFilter" start=disabled
+sc stop "WdNisDrv" & sc config "WdNisDrv" start=disabled
+sc stop "WdNisSvc" & sc config "WdNisSvc" start=disabled
+sc stop "WdiServiceHost" & sc config "WdiServiceHost" start=disabled
+sc stop "WdiSystemHost" & sc config "WdiSystemHost" start=disabled
+sc stop "WerSvc" & sc config "WerSvc" start=disabled
+sc stop "Wercplsupport" & sc config "Wercplsupport" start=disabled
+sc stop "WinDefend" & sc config "WinDefend" start=disabled
+sc stop "Wisvc" & sc config "Wisvc" start=disabled
+sc stop "WpcMonSvc" & sc config "WpcMonSvc" start=disabled
+sc stop "WpnService" & sc config "WpnService" start=disabled
+sc stop "Wscsvc" & sc config "Wscsvc" start=disabled
+sc stop "Xbgm" & sc config "Xbgm" start=disabled
 sc stop "XblAuthManager" & sc config "XblAuthManager" start=disabled
 sc stop "XblGameSave" & sc config "XblGameSave" start=disabled
 sc stop "XboxGipSvc" & sc config "XboxGipSvc" start=disabled
 sc stop "XboxNetApiSvc" & sc config "XboxNetApiSvc" start=disabled
-sc stop "MapsBroker" & sc config "MapsBroker" start=disabled
-wmic service where name='AdobeARMservice' call changestartmode disabled
 echo Services
 reg.exe add "HKLM\System\CurrentControlSet\Control\WMI\AutoLogger\AppModel" /v "start" /t REG_DWORD /d "0" /f
 reg.exe add "HKLM\System\CurrentControlSet\Control\WMI\AutoLogger\AutoLogger-Diagtrack-Listener" /v "start" /t REG_DWORD /d "0" /f
