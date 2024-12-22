@@ -4,13 +4,7 @@ title Single Run Computer Manager (Google Services, Temp Files, etc)
 ::whoami | findstr /i /C:"nt authority\System" >nul || whoami /user | findstr /i /C:S-1-5-18 >nul || ( call :RunAsTI "%~f0" %* & exit /b )
 whoami | findstr /i /C:"nt authority\System" >nul || (whoami /user | findstr /i /C:"S-1-5-18" >nul || (call :RunAsTI "%~f0" %* & exit /b))
 powercfg.exe -h off
-icacls "C:\Program Files\Microsoft Office\OfficeXX\osppsvc.exe" /deny Everyone:(RX)
-icacls "C:\Windows\System32\SppExtComObj.exe" /deny Everyone:(RX)
-icacls "C:\Windows\System32\sppsvc.exe" /deny Everyone:(RX)
-sc config osppsvc start= disabled
-sc config sppsvc start= disabled
-sc stop osppsvc
-sc stop sppsvc
+::icacls "C:\Program Files\Microsoft Office\OfficeXX\osppsvc.exe" /deny Everyone:(RX)
 netsh int teredo set state servername=0.0.0.0
 REM *** Tweaks in One Category ***
 sc stop AdobeARMservice /y
@@ -88,6 +82,7 @@ taskkill /f /fi "IMAGENAME eq wpscenter*"
 taskkill /f /fi "IMAGENAME eq wpscloudsvr*"
 taskkill /im mobsync.exe" /f
 echo You are clearing cache files (WAIT UNTIL PROCESSED)
+icacls "%LOCALAPPDATA%\Temp" /reset /t /c
 takeown /f "%LocalAppData%\Microsoft Games" /r /d y
 takeown /f "%LocalAppData%\Microsoft\Windows\Explorer" /r /d y
 takeown /f "%LocalAppData%\Microsoft\Windows\WebCache" /r /d y
@@ -209,7 +204,7 @@ powershell -command "Get-ScheduledTask -TaskPath '\Microsoft\Windows\InstallServ
 @echo off & schtasks /query /tn "CleanTempLogOn" >nul 2>&1 && (schtasks /delete /tn "CleanTempLogOn" /f) & schtasks /create /tn "CleanTempLogOn" /tr "cmd.exe /c rmdir /s /q \"%TEMP%\" && mkdir \"%TEMP%\"" /sc onlogon /rl highest /ru "SYSTEM" /f & powershell -Command "Add-Type -AssemblyName System.Windows.Forms; $action1 = New-ScheduledTaskAction -Execute 'cmd.exe' -Argument '/c rmdir /s /q \"C:\ProgramData\Adguard\Logs\" && mkdir \"C:\ProgramData\Adguard\Logs\"'; $action2 = New-ScheduledTaskAction -Execute 'cmd.exe' -Argument '/c rmdir /s /q \"C:\ProgramData\Malwarebytes\MBAMService\logs\" && mkdir \"C:\ProgramData\Malwarebytes\MBAMService\logs\"'; $action3 = New-ScheduledTaskAction -Execute 'cmd.exe' -Argument '/c rmdir /s /q \"C:\Windows\Logs\" && mkdir \"C:\Windows\Logs\"'; $action4 = New-ScheduledTaskAction -Execute 'cmd.exe' -Argument '/c rmdir /s /q \"C:\Windows\SoftwareDistribution\" && mkdir \"C:\Windows\SoftwareDistribution\"'; $action5 = New-ScheduledTaskAction -Execute 'cmd.exe' -Argument '/c rmdir /s /q \"C:\ProgramData\usoshared\" && mkdir \"C:\ProgramData\usoshared\"'; $action6 = New-ScheduledTaskAction -Execute 'cmd.exe' -Argument '/c rmdir /s /q \"%LOCALAPPDATA%\Steam\htmlcache\" && mkdir \"%LOCALAPPDATA%\Steam\htmlcache\"'; $task = Get-ScheduledTask -TaskName \"CleanTempLogOn\"; $task.Actions.Clear(); $task.Actions += $action1; $task.Actions += $action2; $task.Actions += $action3; $task.Actions += $action4; $task.Actions += $action5; $task.Actions += $action6; Set-ScheduledTask -TaskName \"CleanTempLogOn\" -Action $task.Actions -Trigger $task.Triggers -User $task.Principal.UserId"
 for %%D in (%SystemDrive% B: D: E: F: G: H: I: J: K:) do @if exist %%D\ (del /f /s /q %%D\$Recycle.Bin\*.* >nul 2>&1 & rd /s /q %%D\$Recycle.Bin >nul 2>&1 & echo Cleaned %%D\$Recycle.Bin || echo Failed %%D\$Recycle.Bin)
 for /D %%D in (C: D: E: F: G: H: I: J: K:) do @if exist %%D\Users\ (for /D %%U in (%%D\Users\*) do @if exist "%%U\AppData\Local\Temp" (del /f /s /q "%%U\AppData\Local\Temp\*.*" >nul 2>&1 & rd /s /q "%%U\AppData\Local\Temp" >nul 2>&1 & md "%%U\AppData\Local\Temp" >nul 2>&1 & echo Cleaned "%%U\AppData\Local\Temp"))
-set executables=wpscloudsvr.exe mobsync.exe CompatTelRunner.exe DeviceCensus.exe Software_reporter_tool.exe GoogleUpdate.exe maintenanceservice.exe bonjour.exe jusched.exe crashreporter.exe MicrosoftEdgeUpdate.exe upfc.exe SppExtComObj.exe sppsvc.exe osppsvc.exe
+set executables=wpscloudsvr.exe mobsync.exe CompatTelRunner.exe DeviceCensus.exe Software_reporter_tool.exe GoogleUpdate.exe maintenanceservice.exe bonjour.exe jusched.exe crashreporter.exe MicrosoftEdgeUpdate.exe upfc.exe SppExtComObj.exe osppsvc.exe
 for %%i in (%executables%) do (
     reg.exe add "HKLM\Software\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\%%i" /v "Debugger" /t REG_SZ /d "%windir%\System32\taskkill.exe" /f
     echo Added IFEO debugger for %%i
