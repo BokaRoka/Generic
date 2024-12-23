@@ -1235,6 +1235,11 @@ reg.exe delete "HKLM\Software\Microsoft\Windows NT\CurrentVersion\AppCompatFlags
 reg.exe delete "HKLM\Software\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\ClientTelemetry" /f
 reg.exe delete "HKLM\Software\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\TelemetryController" /f
 reg.exe delete "HKLM\Software\Microsoft\Windows\CurrentVersion\Diagnostics\DiagTrack" /f
+reg.exe delete "HKLM\Software\Microsoft\Windows\CurrentVersion\Run" /v "SecurityHealth" /f
+reg.exe delete "HKLM\Software\Microsoft\Windows\CurrentVersion\WindowsUpdate\OSUpgrade" /f
+reg.exe delete "HKLM\Software\Policies\Microsoft\Windows\DataCollection" /f
+reg.exe delete "HKLM\System\CurrentControlSet\Control\WMI\AutoLogger\AutoLogger-Diagtrack-Listener" /f
+reg.exe delete "HKLM\System\CurrentControlSet\Control\WMI\AutoLogger\Diagtrack-Listener" /f
 reg.exe delete "HKLM\Software\Microsoft\Windows\CurrentVersion\Explorer\MyComputer\NameSpace\{018D5C66-4533-4307-9B53-224DE2ED1FE6}" /f >nul 2>&1
 reg.exe delete "HKLM\Software\Microsoft\Windows\CurrentVersion\Explorer\MyComputer\NameSpace\{088E3905-0323-4B02-9826-5D99428E115F}" /f >nul 2>&1
 reg.exe delete "HKLM\Software\Microsoft\Windows\CurrentVersion\Explorer\MyComputer\NameSpace\{0DB7E03F-FC29-4DC6-9020-FF41B59E513A}" /f >nul 2>&1
@@ -1248,15 +1253,10 @@ reg.exe delete "HKLM\Software\Microsoft\Windows\CurrentVersion\Explorer\MyComput
 reg.exe delete "HKLM\Software\Microsoft\Windows\CurrentVersion\Explorer\MyComputer\NameSpace\{D3162B92-9365-467A-956B-92703ACA08AF}" /f >nul 2>&1
 reg.exe delete "HKLM\Software\Microsoft\Windows\CurrentVersion\Explorer\MyComputer\NameSpace\{F02C1A0D-BE21-4350-88B0-7367FC96EF3C}" /f >nul 2>&1
 reg.exe delete "HKLM\Software\Microsoft\Windows\CurrentVersion\Explorer\MyComputer\NameSpace\{F86FA3AB-70D2-4FC7-9C99-FCBF05467F3A}" /f >nul 2>&1
-reg.exe delete "HKLM\Software\Microsoft\Windows\CurrentVersion\Run" /v "SecurityHealth" /f
-reg.exe delete "HKLM\Software\Microsoft\Windows\CurrentVersion\WindowsUpdate\OSUpgrade" /f
-reg.exe delete "HKLM\Software\Policies\Microsoft\Windows\DataCollection" /f
-reg.exe delete "HKLM\System\CurrentControlSet\Control\WMI\AutoLogger\AutoLogger-Diagtrack-Listener" /f
-reg.exe delete "HKLM\System\CurrentControlSet\Control\WMI\AutoLogger\Diagtrack-Listener" /f
-reg.exe delete "HKLM\Software\Wow6432Node\Microsoft\Windows\CurrentVersion\Explorer\MyComputer\NameSpace\{088E3905-0323-4B02-9826-5D99428E115F}" /f >nul 2>&1
 reg.exe delete "HKLM\Software\Wow6432Node\Microsoft\Windows\CurrentVersion\Explorer\MyComputer\NameSpace\{0DB7E03F-FC29-4DC6-9020-FF41B59E513A}" /f >nul 2>&1
-reg.exe delete "HKLM\Software\Wow6432Node\Microsoft\Windows\CurrentVersion\Explorer\MyComputer\NameSpace\{24AD3AD4-A569-4530-98E1-AB02F9417AA8}" /f >nul 2>&1
 reg.exe delete "HKLM\Software\Wow6432Node\Microsoft\Windows\CurrentVersion\Explorer\MyComputer\NameSpace\{3DFDF296-DBEC-4FB4-81D1-6A3438BCF4DE}" /f >nul 2>&1
+reg.exe delete "HKLM\Software\Wow6432Node\Microsoft\Windows\CurrentVersion\Explorer\MyComputer\NameSpace\{24AD3AD4-A569-4530-98E1-AB02F9417AA8}" /f >nul 2>&1
+reg.exe delete "HKLM\Software\Wow6432Node\Microsoft\Windows\CurrentVersion\Explorer\MyComputer\NameSpace\{088E3905-0323-4B02-9826-5D99428E115F}" /f >nul 2>&1
 reg.exe delete "HKLM\Software\Wow6432Node\Microsoft\Windows\CurrentVersion\Explorer\MyComputer\NameSpace\{B4BFCC3A-DB2C-424C-B029-7FE99A87C641}" /f >nul 2>&1
 reg.exe delete "HKLM\Software\Wow6432Node\Microsoft\Windows\CurrentVersion\Explorer\MyComputer\NameSpace\{D3162B92-9365-467A-956B-92703ACA08AF}" /f >nul 2>&1
 reg.exe delete "HKLM\Software\Wow6432Node\Microsoft\Windows\CurrentVersion\Explorer\MyComputer\NameSpace\{F86FA3AB-70D2-4FC7-9C99-FCBF05467F3A}" /f >nul 2>&1
@@ -1783,15 +1783,15 @@ net start "Windows Firewall"
 @echo off & setlocal enabledelayedexpansion & for %%D in (D E F) do if exist "%%D:\" (for /d %%U in ("%%D:\Users\*") do if /i not "%%~nxU"=="Public" (set "LocalAppDataPath=%%D:\Users\%%~nxU\AppData\Local" & for %%V in (TempFolder VideoCaptureFolder AudioCaptureFolder BroadcastSaveFolder PlayListFolder) do (reg add "HKCU\Software\Daum\PotPlayerMini64\Settings" /v "%%V" /t REG_SZ /d "!LocalAppDataPath!\Temp" /f & if !errorlevel! neq 0 (echo Failed to set %%V) else (echo Successfully set %%V to "!LocalAppDataPath!\Temp")))) & goto :end) & echo No valid user found on the drive. & :end
 @echo off & schtasks /query /tn "CleanTempLogOn" >nul 2>&1 && (schtasks /delete /tn "CleanTempLogOn" /f) & schtasks /create /tn "CleanTempLogOn" /tr "cmd.exe /c rmdir /s /q \"%TEMP%\" && mkdir \"%TEMP%\"" /sc onlogon /rl highest /ru "System" /f & powershell -Command "Add-Type -AssemblyName System.Windows.Forms; $action1 = New-ScheduledTaskAction -Execute 'cmd.exe' -Argument '/c rmdir /s /q \"C:\ProgramData\Adguard\Logs\" && mkdir \"C:\ProgramData\Adguard\Logs\"'; $action2 = New-ScheduledTaskAction -Execute 'cmd.exe' -Argument '/c rmdir /s /q \"C:\ProgramData\Malwarebytes\MBAMService\logs\" && mkdir \"C:\ProgramData\Malwarebytes\MBAMService\logs\"'; $action3 = New-ScheduledTaskAction -Execute 'cmd.exe' -Argument '/c rmdir /s /q \"C:\Windows\Logs\" && mkdir \"C:\Windows\Logs\"'; $action4 = New-ScheduledTaskAction -Execute 'cmd.exe' -Argument '/c rmdir /s /q \"C:\Windows\SoftwareDistribution\" && mkdir \"C:\Windows\SoftwareDistribution\"'; $task = Get-ScheduledTask -TaskName \"CleanTempLogOn\"; $task.Actions.Clear(); $task.Actions += $action1; $task.Actions += $action2; $task.Actions += $action3; $task.Actions += $action4; Set-ScheduledTask -TaskName \"CleanTempLogOn\" -Action $task.Actions -Trigger $task.Triggers -User $task.Principal.UserId"
 :: Define Google Update-related substrings to search for in registry keys
-set googleUpdateKeys=GoogleUpdate GoogleUpdateTask GoogleUpdateTaskMachine GoogleUpdateTaskMachineUA GoogleUpdateTaskMachineCore GoogleUpdateUA EdgeUpdate MozillaMaintenance FirefoxUpdate OperaUpdate
-for %%k in (%googleUpdateKeys%) do (
-    for /f "tokens=*" %%a in ('schtasks /query /fo LIST /v ^| findstr /i "%%k"') do (
-        set taskName=%%a
-        echo Deleting Task: !taskName!
-        schtasks /delete /tn "!taskName!" /f >nul 2>&1
-        echo Deleted Task: !taskName!
-    )
-)
+::set googleUpdateKeys=GoogleUpdate GoogleUpdateTask GoogleUpdateTaskMachine GoogleUpdateTaskMachineUA GoogleUpdateTaskMachineCore GoogleUpdateUA EdgeUpdate MozillaMaintenance FirefoxUpdate OperaUpdate
+::for %%k in (%googleUpdateKeys%) do (
+::    for /f "tokens=*" %%a in ('schtasks /query /fo LIST /v ^| findstr /i "%%k"') do (
+::        set taskName=%%a
+::        echo Deleting Task: !taskName!
+::        schtasks /delete /tn "!taskName!" /f >nul 2>&1
+::        echo Deleted Task: !taskName!
+::    )
+::)
 for %%k in (%googleUpdateKeys%) do (
     for %%r in (HKCU HKLM HKCR "HKCU\Software\Microsoft\Windows\CurrentVersion\Run" "HKLM\Software\Microsoft\Windows\CurrentVersion\Run") do (
         for /f "tokens=*" %%a in ('reg query "%%r" /f "%%k*" /k /s 2^>nul ^| findstr /i "%%k"') do (
