@@ -2,15 +2,37 @@
 Color 0C
 title BokaRoka's Windows DEFENDER Disable and REMOVE Tool
 
-sc stop WinDefend
-sc config WinDefend start= disabled
-sc stop SecurityHealthService
-sc config SecurityHealthService start= disabled
+taskkill /f /im "AppXDeploymentClient.exe" 2>nul
+taskkill /f /im "DeviceCensus.exe" 2>nul
+taskkill /f /im "FileSystemGuard.exe" 2>nul
+taskkill /f /im "MsMpEng.exe" 2>nul
+taskkill /f /im "SecurityHealthSystray.exe" 2>nul
+taskkill /f /im "Sense.exe" 2>nul
+taskkill /f /im "ServiceHost.exe" 2>nul
+taskkill /f /im "WdNisSvc.exe" 2>nul
+taskkill /f /im "WinDefend.exe" 2>nul
+taskkill /f /im "WindowsDefender.exe" 2>nul
+taskkill /f /im "dasHost.exe" 2>nul
+taskkill /f /im "smartscreen.exe" 2>nul
+sc stop SecurityHealthService 2>nul && sc config SecurityHealthService start= disabled
+sc stop WinDefend 2>nul && sc config WinDefend start= disabled
+sc stop WdNisSvc 2>nul && sc config WdNisSvc start= disabled
+sc stop WdBoot 2>nul && sc config WdBoot start= disabled
+sc stop MsMpEng 2>nul && sc config MsMpEng start= disabled
 powershell -Command "Set-MpPreference -DisableRealtimeMonitoring $true"
+reg.exe add "HKLM\System\CurrentControlSet\Services\WinDefend" /v "Start" /t REG_DWORD /d "4" /f
 reg.exe add "HKCU\Software\Classes\Local Settings\Software\Microsoft\Windows\CurrentVersion\AppContainer\Storage\Microsoft.Microsoftedge_8wekyb3d8bbwe\MicrosoftEdge\PhishingFilter" /v "EnabledV9" /t REG_DWORD /d "0" /f
 reg.exe add "HKCU\Software\Classes\Local Settings\Software\Microsoft\Windows\CurrentVersion\AppContainer\Storage\Microsoft.Microsoftedge_8wekyb3d8bbwe\MicrosoftEdge\PhishingFilter" /v "PreventOverride" /t REG_DWORD /d "0" /f
 reg.exe add "HKCU\Software\Microsoft\Edge" /v "SmartScreenEnabled" /t REG_DWORD /d "0" /f
 reg.exe add "HKCU\Software\Microsoft\Edge\SmartScreenEnabled" /ve /t REG_DWORD /d "0" /f
+reg.exe add "HKCU\Software\Microsoft\Windows Defender" /v "DisableAntiSpyware" /t REG_DWORD /d "1" /f
+reg.exe add "HKCU\Software\Microsoft\Windows Defender" /v "DisableAutoExclusions" /t REG_DWORD /d "1" /f
+reg.exe add "HKCU\Software\Microsoft\Windows Defender" /v "DisableBehaviorMonitoring" /t REG_DWORD /d "1" /f
+reg.exe add "HKCU\Software\Microsoft\Windows Defender" /v "DisableCloudProtection" /t REG_DWORD /d "1" /f
+reg.exe add "HKCU\Software\Microsoft\Windows Defender" /v "DisableNotifications" /t REG_DWORD /d "1" /f
+reg.exe add "HKCU\Software\Microsoft\Windows Defender" /v "DisableRealTimeMonitoring" /t REG_DWORD /d "1" /f
+reg.exe add "HKCU\Software\Microsoft\Windows Defender" /v "DisableScheduledScan" /t REG_DWORD /d "1" /f
+reg.exe add "HKCU\Software\Microsoft\Windows Defender" /v "DisableSmartScreen" /t REG_DWORD /d "1" /f
 reg.exe add "HKCU\Software\Microsoft\Windows Defender\UX Configuration" /v "Notification_Suppress" /t REG_DWORD /d "1" /f
 reg.exe add "HKCU\Software\Microsoft\Windows Security Health\State" /v "Disabled" /t REG_DWORD /d "1" /f
 reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\AppHost" /v "EnableWebContentEvaluation" /t REG_DWORD /d "0" /f
@@ -80,13 +102,52 @@ reg.exe add "HKLM\Software\Microsoft\Windows Defender Security Center\Notificati
 reg.exe add "HKLM\Software\Microsoft\Windows Defender Security Center\Virus and threat protection" /v "DisableEnhancedNotifications" /t REG_DWORD /d "1" /f
 reg.exe add "HKLM\Software\Microsoft\Windows Defender Security Center\Virus and threat protection" /v "NoActionNotificationDisabled" /t REG_DWORD /d "1" /f
 reg.exe add "HKLM\Software\Microsoft\Windows Defender Security Center\Virus and threat protection" /v "SummaryNotificationDisabled" /t REG_DWORD /d "1" /f
+reg.exe add "HKLM\Software\Microsoft\Windows Defender" /v "AllowAnonymousUsageData" /t REG_DWORD /d "0" /f
+reg.exe add "HKLM\Software\Microsoft\Windows Defender" /v "AllowTelemetry" /t REG_DWORD /d "0" /f
+reg.exe add "HKLM\Software\Microsoft\Windows Defender" /v "AllowUserToManage" /t REG_DWORD /d "0" /f
+reg.exe add "HKLM\Software\Microsoft\Windows Defender" /v "AllowUserToUninstall" /t REG_DWORD /d "1" /f
+reg.exe add "HKLM\Software\Microsoft\Windows Defender" /v "DisableAntiMalware" /t REG_DWORD /d "1" /f
+reg.exe add "HKLM\Software\Microsoft\Windows Defender" /v "DisableAntiPhishing" /t REG_DWORD /d "1" /f
+reg.exe add "HKLM\Software\Microsoft\Windows Defender" /v "DisableAntiSpyware" /t REG_DWORD /d "1" /f
+reg.exe add "HKLM\Software\Microsoft\Windows Defender" /v "DisableAntiVirus" /t REG_DWORD /d "1" /f
+reg.exe add "HKLM\Software\Microsoft\Windows Defender" /v "DisableAutoExclusions" /t REG_DWORD /d "1" /f
+reg.exe add "HKLM\Software\Microsoft\Windows Defender" /v "DisableAutomaticSampleSubmission" /t REG_DWORD /d "1" /f
+reg.exe add "HKLM\Software\Microsoft\Windows Defender" /v "DisableBehaviorMonitoring" /t REG_DWORD /d "1" /f
+reg.exe add "HKLM\Software\Microsoft\Windows Defender" /v "DisableCloudProtection" /t REG_DWORD /d "1" /f
+reg.exe add "HKLM\Software\Microsoft\Windows Defender" /v "DisableEnhancedNotifications" /t REG_DWORD /d "1" /f
+reg.exe add "HKLM\Software\Microsoft\Windows Defender" /v "DisableMalwareProtection" /t REG_DWORD /d "1" /f
+reg.exe add "HKLM\Software\Microsoft\Windows Defender" /v "DisableNetworkProtection" /t REG_DWORD /d "1" /f
+reg.exe add "HKLM\Software\Microsoft\Windows Defender" /v "DisableProtection" /t REG_DWORD /d "1" /f
+reg.exe add "HKLM\Software\Microsoft\Windows Defender" /v "DisableRealTimeProtection" /t REG_DWORD /d "1" /f
+reg.exe add "HKLM\Software\Microsoft\Windows Defender" /v "DisableScans" /t REG_DWORD /d "1" /f
+reg.exe add "HKLM\Software\Microsoft\Windows Defender" /v "DisableScheduledScans" /t REG_DWORD /d "1" /f
+reg.exe add "HKLM\Software\Microsoft\Windows Defender" /v "DisableSecurityCenter" /t REG_DWORD /d "1" /f
+reg.exe add "HKLM\Software\Microsoft\Windows Defender" /v "DisableSmartScreen" /t REG_DWORD /d "1" /f
+reg.exe add "HKLM\Software\Microsoft\Windows Defender" /v "DisableSystemNotifications" /t REG_DWORD /d "1" /f
+reg.exe add "HKLM\Software\Microsoft\Windows Defender" /v "DisableTamperProtection" /t REG_DWORD /d "1" /f
+reg.exe add "HKLM\Software\Microsoft\Windows Defender" /v "NoDefenderUI" /t REG_DWORD /d "1" /f
+reg.exe add "HKLM\Software\Microsoft\Windows Defender" /v "ServiceDisabled" /t REG_DWORD /d "1" /f
+reg.exe add "HKLM\Software\Microsoft\Windows Defender" /v "SubmitSamplesConsent" /t REG_DWORD /d "2" /f
+reg.exe add "HKLM\Software\Microsoft\Windows Defender\AM" /v "DisableAntiMalware" /t REG_DWORD /d "1" /f
+reg.exe add "HKLM\Software\Microsoft\Windows Defender\AM" /v "DisableOnAccessProtection" /t REG_DWORD /d "1" /f
+reg.exe add "HKLM\Software\Microsoft\Windows Defender\Exclusions" /v "ExcludeExtensions" /t REG_SZ /d "" /f
+reg.exe add "HKLM\Software\Microsoft\Windows Defender\Exclusions" /v "ExcludeFileTypes" /t REG_SZ /d "" /f
+reg.exe add "HKLM\Software\Microsoft\Windows Defender\Exclusions" /v "ExcludePaths" /t REG_SZ /d "" /f
+reg.exe add "HKLM\Software\Microsoft\Windows Defender\Exclusions" /v "ExcludeProcesses" /t REG_SZ /d "" /f
 reg.exe add "HKLM\Software\Microsoft\Windows Defender\Features" /v "MpCapability" /t REG_BINARY /d "0000000000000000" /f
 reg.exe add "HKLM\Software\Microsoft\Windows Defender\Features" /v "MpPlatformKillbitsFromEngine" /t REG_BINARY /d "0000000000000000" /f
 reg.exe add "HKLM\Software\Microsoft\Windows Defender\Features" /v "TamperProtection" /t REG_DWORD /d "0" /f
 reg.exe add "HKLM\Software\Microsoft\Windows Defender\Features" /v "TamperProtectionSource" /t REG_DWORD /d "0" /f
+reg.exe add "HKLM\Software\Microsoft\Windows Defender\Network Protection" /v "EnableNetworkProtection" /t REG_DWORD /d "0" /f
 reg.exe add "HKLM\Software\Microsoft\Windows Defender\Real-Time Protection" /v "DisableAsyncScanOnOpen" /t REG_DWORD /d "1" /f
+reg.exe add "HKLM\Software\Microsoft\Windows Defender\Real-Time Protection" /v "DisableRealtimeMonitoring" /t REG_DWORD /d "1" /f
 reg.exe add "HKLM\Software\Microsoft\Windows Defender\Reporting" /v "DisableEnhancedNotifications" /t REG_DWORD /d "1" /f
+reg.exe add "HKLM\Software\Microsoft\Windows Defender\Scanning" /v "DisableOnAccessProtection" /t REG_DWORD /d "1" /f
+reg.exe add "HKLM\Software\Microsoft\Windows Defender\Scans" /v "DisableFileSystemMonitoring" /t REG_DWORD /d "1" /f
+reg.exe add "HKLM\Software\Microsoft\Windows Defender\Scans" /v "DisableOnAccessScanning" /t REG_DWORD /d "1" /f
+reg.exe add "HKLM\Software\Microsoft\Windows Defender\Scans" /v "DisableScheduledScan" /t REG_DWORD /d "1" /f
 reg.exe add "HKLM\Software\Microsoft\Windows Defender\Windows Defender Exploit Guard\ASR" /v "EnableASRConsumers" /t REG_DWORD /d "0" /f
+reg.exe add "HKLM\Software\Microsoft\Windows Defender\Windows Defender" /v "DisableWindowsDefender" /t REG_DWORD /d "1" /f
 reg.exe add "HKLM\Software\Microsoft\Windows NT\CurrentVersion\Windows" /v "ShutdownWarningDialogTimeout" /t REG_DWORD /d "1" /f
 reg.exe add "HKLM\Software\Microsoft\Windows Security Health\Health Advisor" /v "UIReportingDisabled" /t REG_DWORD /d "1" /f
 reg.exe add "HKLM\Software\Microsoft\Windows Security Health\Health Advisor\Battery" /v "UIReportingDisabled" /t REG_DWORD /d "1" /f
@@ -144,15 +205,40 @@ reg.exe add "HKLM\Software\Policies\Microsoft\Windows Defender Security Center\S
 reg.exe add "HKLM\Software\Policies\Microsoft\Windows Defender Security Center\Virus and threat protection" /v "HideRansomwareRecovery" /t REG_DWORD /d "1" /f
 reg.exe add "HKLM\Software\Policies\Microsoft\Windows Defender Security Center\Virus and threat protection" /v "UILockdown" /t REG_DWORD /d "1" /f
 reg.exe add "HKLM\Software\Policies\Microsoft\Windows Defender" /v "AllowFastServiceStartup" /t REG_DWORD /d "0" /f
+reg.exe add "HKLM\Software\Policies\Microsoft\Windows Defender" /v "AllowUserOverride" /t REG_DWORD /d "0" /f
+reg.exe add "HKLM\Software\Policies\Microsoft\Windows Defender" /v "AllowUserToManage" /t REG_DWORD /d "0" /f
+reg.exe add "HKLM\Software\Policies\Microsoft\Windows Defender" /v "DisableAntiPhishing" /t REG_DWORD /d "1" /f
 reg.exe add "HKLM\Software\Policies\Microsoft\Windows Defender" /v "DisableAntiSpyware" /t REG_DWORD /d "1" /f
 reg.exe add "HKLM\Software\Policies\Microsoft\Windows Defender" /v "DisableAntiVirus" /t REG_DWORD /d "1" /f
+reg.exe add "HKLM\Software\Policies\Microsoft\Windows Defender" /v "DisableAutoExclusions" /t REG_DWORD /d "1" /f
+reg.exe add "HKLM\Software\Policies\Microsoft\Windows Defender" /v "DisableBehaviorMonitoring" /t REG_DWORD /d "1" /f
+reg.exe add "HKLM\Software\Policies\Microsoft\Windows Defender" /v "DisableBlockAtFirstSeen" /t REG_DWORD /d "1" /f
+reg.exe add "HKLM\Software\Policies\Microsoft\Windows Defender" /v "DisableDefender" /t REG_DWORD /d "1" /f
+reg.exe add "HKLM\Software\Policies\Microsoft\Windows Defender" /v "DisableIntrusionPreventionSystem" /t REG_DWORD /d "1" /f
 reg.exe add "HKLM\Software\Policies\Microsoft\Windows Defender" /v "DisableLocalAdminMerge" /t REG_DWORD /d "1" /f
+reg.exe add "HKLM\Software\Policies\Microsoft\Windows Defender" /v "DisableLogging" /t REG_DWORD /d "1" /f
+reg.exe add "HKLM\Software\Policies\Microsoft\Windows Defender" /v "DisableNetworkProtection" /t REG_DWORD /d "1" /f
+reg.exe add "HKLM\Software\Policies\Microsoft\Windows Defender" /v "DisableOnAccessProtection" /t REG_DWORD /d "1" /f
+reg.exe add "HKLM\Software\Policies\Microsoft\Windows Defender" /v "DisableRealtime" /t REG_DWORD /d "1" /f
 reg.exe add "HKLM\Software\Policies\Microsoft\Windows Defender" /v "DisableRoutinelyTakingAction" /t REG_DWORD /d "1" /f
+reg.exe add "HKLM\Software\Policies\Microsoft\Windows Defender" /v "DisableSelfProtection" /t REG_DWORD /d "1" /f
 reg.exe add "HKLM\Software\Policies\Microsoft\Windows Defender" /v "DisableSpecialRunningModes" /t REG_DWORD /d "1" /f
+reg.exe add "HKLM\Software\Policies\Microsoft\Windows Defender" /v "DisableTamperProtection" /t REG_DWORD /d "1" /f
+reg.exe add "HKLM\Software\Policies\Microsoft\Windows Defender" /v "DisableThreatService" /t REG_DWORD /d "1" /f
+reg.exe add "HKLM\Software\Policies\Microsoft\Windows Defender" /v "DisableWindowsDefender" /t REG_DWORD /d "1" /f
+reg.exe add "HKLM\Software\Policies\Microsoft\Windows Defender" /v "DisallowShields" /t REG_DWORD /d "1" /f
+reg.exe add "HKLM\Software\Policies\Microsoft\Windows Defender" /v "NoDefenderUI" /t REG_DWORD /d "1" /f
 reg.exe add "HKLM\Software\Policies\Microsoft\Windows Defender" /v "PUAProtection" /t REG_DWORD /d "0" /f
 reg.exe add "HKLM\Software\Policies\Microsoft\Windows Defender" /v "RandomizeScheduleTaskTimes" /t REG_DWORD /d "0" /f
 reg.exe add "HKLM\Software\Policies\Microsoft\Windows Defender" /v "ServiceKeepAlive" /t REG_DWORD /d 0 /f
+reg.exe add "HKLM\Software\Policies\Microsoft\Windows Defender" /v "SubmitSamplesConsent" /t REG_DWORD /d "2" /f
+reg.exe add "HKLM\Software\Policies\Microsoft\Windows Defender\AM" /v "DisableAntiMalware" /t REG_DWORD /d "1" /f
+reg.exe add "HKLM\Software\Policies\Microsoft\Windows Defender\AV" /v "DisableAntivirus" /t REG_DWORD /d "1" /f
 reg.exe add "HKLM\Software\Policies\Microsoft\Windows Defender\Exclusions" /v "DisableAutoExclusions" /t REG_DWORD /d "1" /f
+reg.exe add "HKLM\Software\Policies\Microsoft\Windows Defender\Exclusions" /v "ExcludeFileTypes" /t REG_SZ /d "" /f
+reg.exe add "HKLM\Software\Policies\Microsoft\Windows Defender\Exclusions" /v "ExcludeFiles" /t REG_SZ /d "" /f
+reg.exe add "HKLM\Software\Policies\Microsoft\Windows Defender\Exclusions" /v "ExcludePaths" /t REG_SZ /d "" /f
+reg.exe add "HKLM\Software\Policies\Microsoft\Windows Defender\Exclusions" /v "ExcludeProcesses" /t REG_SZ /d "" /f
 reg.exe add "HKLM\Software\Policies\Microsoft\Windows Defender\MpEngine" /v "EnableFileHashComputation" /t REG_DWORD /d "0" /f
 reg.exe add "HKLM\Software\Policies\Microsoft\Windows Defender\MpEngine" /v "MpBafsExtendedTimeout" /t REG_DWORD /d "0" /f
 reg.exe add "HKLM\Software\Policies\Microsoft\Windows Defender\MpEngine" /v "MpBafsExtendedTimeout" /t REG_DWORD /d "50" /f
@@ -164,6 +250,7 @@ reg.exe add "HKLM\Software\Policies\Microsoft\Windows Defender\NIS\Consumers\IPS
 reg.exe add "HKLM\Software\Policies\Microsoft\Windows Defender\NIS\Consumers\IPS" /v "ThrottleDetectionEventsRate" /t REG_DWORD /d "0" /f
 reg.exe add "HKLM\Software\Policies\Microsoft\Windows Defender\Policy Manager" /v "DisableScanningNetworkFiles" /t REG_DWORD /d "1" /f
 reg.exe add "HKLM\Software\Policies\Microsoft\Windows Defender\Quarantine" /v "PurgeItemsAfterDelay" /t REG_DWORD /d "1" /f
+reg.exe add "HKLM\Software\Policies\Microsoft\Windows Defender\Real-Time Protection" /v "AllowRealtimeMonitoring" /t REG_DWORD /d "0" /f
 reg.exe add "HKLM\Software\Policies\Microsoft\Windows Defender\Real-Time Protection" /v "DisableBehaviorMonitoring" /t REG_DWORD /d "1" /f
 reg.exe add "HKLM\Software\Policies\Microsoft\Windows Defender\Real-Time Protection" /v "DisableIOAVProtection" /t REG_DWORD /d "1" /f
 reg.exe add "HKLM\Software\Policies\Microsoft\Windows Defender\Real-Time Protection" /v "DisableInformationProtectionControl" /t REG_DWORD /d "1" /f
@@ -210,6 +297,10 @@ reg.exe add "HKLM\Software\Policies\Microsoft\Windows Defender\Scan" /v "QuickSc
 reg.exe add "HKLM\Software\Policies\Microsoft\Windows Defender\Scan" /v "ScanOnlyIfIdle" /t REG_DWORD /d "1" /f
 reg.exe add "HKLM\Software\Policies\Microsoft\Windows Defender\Scan" /v "ScanParameters" /t REG_DWORD /d "1" /f
 reg.exe add "HKLM\Software\Policies\Microsoft\Windows Defender\Scan" /v "ScheduleDay" /t REG_DWORD /d "8" /f
+reg.exe add "HKLM\Software\Policies\Microsoft\Windows Defender\Scanning" /v "DisableIOAVProtection" /t REG_DWORD /d "1" /f
+reg.exe add "HKLM\Software\Policies\Microsoft\Windows Defender\Scanning" /v "DisableScanningNetworkFiles" /t REG_DWORD /d "1" /f
+reg.exe add "HKLM\Software\Policies\Microsoft\Windows Defender\Scans" /v "DisableAutoScan" /t REG_DWORD /d "1" /f
+reg.exe add "HKLM\Software\Policies\Microsoft\Windows Defender\Scans" /v "DisableScheduledScan" /t REG_DWORD /d "1" /f
 reg.exe add "HKLM\Software\Policies\Microsoft\Windows Defender\Signature Updates" /v "ASSignatureDue" /t REG_DWORD /d "4294967295" /f
 reg.exe add "HKLM\Software\Policies\Microsoft\Windows Defender\Signature Updates" /v "AVSignatureDue" /t REG_DWORD /d "4294967295" /f
 reg.exe add "HKLM\Software\Policies\Microsoft\Windows Defender\Signature Updates" /v "CheckAlternateDownloadLocation" /t REG_DWORD /d "0" /f
@@ -227,6 +318,7 @@ reg.exe add "HKLM\Software\Policies\Microsoft\Windows Defender\Signature Updates
 reg.exe add "HKLM\Software\Policies\Microsoft\Windows Defender\SmartScreen" /v "ConfigureAppInstallControl" /t REG_SZ /d "Anywhere" /f
 reg.exe add "HKLM\Software\Policies\Microsoft\Windows Defender\SmartScreen" /v "ConfigureAppInstallControlEnabled" /t REG_DWORD /d "0" /f
 reg.exe add "HKLM\Software\Policies\Microsoft\Windows Defender\SmartScreen" /v "ConfigurgeAppInstallControl" /t "REG_SZ" /d "Anywhere" /f
+reg.exe add "HKLM\Software\Policies\Microsoft\Windows Defender\SmartScreen" /v "EnableSmartScreen" /t REG_DWORD /d "0" /f
 reg.exe add "HKLM\Software\Policies\Microsoft\Windows Defender\Threats" /v "Threats_ThreatSeveritydefaultAction" /t REG_DWORD /d "1" /f
 reg.exe add "HKLM\Software\Policies\Microsoft\Windows Defender\Threats\ThreatSeveritydefaultAction" /v "1" /t "REG_SZ" /d "9" /f
 reg.exe add "HKLM\Software\Policies\Microsoft\Windows Defender\Threats\ThreatSeveritydefaultAction" /v "2" /t "REG_SZ" /d "9" /f
@@ -287,23 +379,23 @@ reg.exe add "HKLM\System\CurrentControlSet\Control\Session Manager\Memory Manage
 reg.exe add "HKLM\System\CurrentControlSet\Control\Session Manager\kernel" /v "KernelSEHOPEnabled" /t REG_DWORD /d "0" /f
 reg.exe add "HKLM\System\CurrentControlSet\Control\Session Manager\kernel" /v "MitigationAuditOptions" /t REG_BINARY /d "000000000000202200000000000000200000000000000000" /f
 reg.exe add "HKLM\System\CurrentControlSet\Control\Session Manager\kernel" /v "MitigationOptions" /t REG_BINARY /d "002222202220222220000000002000200000000000000000" /f
-reg.exe add "HKLM\System\CurrentControlSet\Services\SharedAccess\Parameters\FirewallPolicy\RestrictedServices\Configurable\System" /f
-reg.exe add "HKLM\System\CurrentControlSet\Services\SharedAccess\Parameters\FirewallPolicy\RestrictedServices\Static\System" /f
 reg.exe add "HKLM\System\CurrentControlSet\Control\WMI\AutoLogger\DefenderApiLogger" /v "start" /t REG_DWORD /d "0" /f
 reg.exe add "HKLM\System\CurrentControlSet\Control\WMI\AutoLogger\DefenderAuditLogger" /v "start" /t REG_DWORD /d "0" /f
 reg.exe add "HKLM\System\CurrentControlSet\Services\SecurityHealthService" /v "Start" /t REG_DWORD /d "4" /f
+reg.exe add "HKLM\System\CurrentControlSet\Services\SharedAccess\Parameters\FirewallPolicy\RestrictedServices\Configurable\System" /f
+reg.exe add "HKLM\System\CurrentControlSet\Services\SharedAccess\Parameters\FirewallPolicy\RestrictedServices\Static\System" /f
 reg.exe add "HKLM\System\CurrentControlSet\Services\wscsvc" /v "Start" /t REG_DWORD /d "4" /f
 reg.exe delete "HKCR\*\shellex\ContextMenuHandlers\EPP" /f
 reg.exe delete "HKCR\AppX9kvz3rdv8t7twanaezbwfcdgrbg3bck0" /f
+reg.exe delete "HKCR\CLSID\{6CED0DAA-4CDE-49C9-BA3A-AE163DC3D7AF}" /f
+reg.exe delete "HKCR\CLSID\{8C9C0DB7-2CBA-40F1-AFE0-C55740DD91A0}" /f
+reg.exe delete "HKCR\CLSID\{8a696d12-576b-422e-9712-01b9dd84b446}" /f
 reg.exe delete "HKCR\CLSID\{09A47860-11B0-4DA5-AFA5-26D86198A780}" /f
+reg.exe delete "HKCR\CLSID\{45F2C32F-ED16-4C94-8493-D72EF93A051B}" /f
 reg.exe delete "HKCR\CLSID\{195B4D07-3DE2-4744-BBF2-D90121AE785B}" /f
+reg.exe delete "HKCR\CLSID\{361290c0-cb1b-49ae-9f3e-ba1cbe5dab35}" /f
 reg.exe delete "HKCR\CLSID\{2781761E-28E0-4109-99FE-B9D127C57AFE}" /f
 reg.exe delete "HKCR\CLSID\{2781761E-28E2-4109-99FE-B9D127C57AFE}" /f
-reg.exe delete "HKCR\CLSID\{361290c0-cb1b-49ae-9f3e-ba1cbe5dab35}" /f
-reg.exe delete "HKCR\CLSID\{45F2C32F-ED16-4C94-8493-D72EF93A051B}" /f
-reg.exe delete "HKCR\CLSID\{6CED0DAA-4CDE-49C9-BA3A-AE163DC3D7AF}" /f
-reg.exe delete "HKCR\CLSID\{8a696d12-576b-422e-9712-01b9dd84b446}" /f
-reg.exe delete "HKCR\CLSID\{8C9C0DB7-2CBA-40F1-AFE0-C55740DD91A0}" /f
 reg.exe delete "HKCR\CLSID\{A2D75874-6750-4931-94C1-C99D3BC9D0C7}" /f
 reg.exe delete "HKCR\CLSID\{A7C452EF-8E9F-42EB-9F2B-245613CA0DC9}" /f
 reg.exe delete "HKCR\CLSID\{BB64F8A7-BEE7-4E1A-AB8D-7D8273F7FDB6}" /f
@@ -317,15 +409,14 @@ reg.exe delete "HKCR\Directory\shellex\ContextMenuHandlers\EPP" /f
 reg.exe delete "HKCR\Drive\shellex\ContextMenuHandlers\EPP" /f
 reg.exe delete "HKCR\Folder\shell\WindowsDefender" /f
 reg.exe delete "HKCR\Folder\shell\WindowsDefender\Command" /f
-reg.exe delete "HKCR\WindowsDefender" /f
+reg.exe delete "HKCR\WOW6432Node\CLSID\{6CED0DAA-4CDE-49C9-BA3A-AE163DC3D7AF}" /f
+reg.exe delete "HKCR\WOW6432Node\CLSID\{8C9C0DB7-2CBA-40F1-AFE0-C55740DD91A0}" /f
+reg.exe delete "HKCR\WOW6432Node\CLSID\{8a696d12-576b-422e-9712-01b9dd84b446}" /f
+reg.exe delete "HKCR\WOW6432Node\CLSID\{45F2C32F-ED16-4C94-8493-D72EF93A051B}" /f
 reg.exe delete "HKCR\WOW6432Node\CLSID\{195B4D07-3DE2-4744-BBF2-D90121AE785B}" /f
+reg.exe delete "HKCR\WOW6432Node\CLSID\{361290c0-cb1b-49ae-9f3e-ba1cbe5dab35}" /f
 reg.exe delete "HKCR\WOW6432Node\CLSID\{2781761E-28E0-4109-99FE-B9D127C57AFE}" /f
 reg.exe delete "HKCR\WOW6432Node\CLSID\{2781761E-28E2-4109-99FE-B9D127C57AFE}" /f
-reg.exe delete "HKCR\WOW6432Node\CLSID\{361290c0-cb1b-49ae-9f3e-ba1cbe5dab35}" /f
-reg.exe delete "HKCR\WOW6432Node\CLSID\{45F2C32F-ED16-4C94-8493-D72EF93A051B}" /f
-reg.exe delete "HKCR\WOW6432Node\CLSID\{6CED0DAA-4CDE-49C9-BA3A-AE163DC3D7AF}" /f
-reg.exe delete "HKCR\WOW6432Node\CLSID\{8a696d12-576b-422e-9712-01b9dd84b446}" /f
-reg.exe delete "HKCR\WOW6432Node\CLSID\{8C9C0DB7-2CBA-40F1-AFE0-C55740DD91A0}" /f
 reg.exe delete "HKCR\WOW6432Node\CLSID\{A2D75874-6750-4931-94C1-C99D3BC9D0C7}" /f
 reg.exe delete "HKCR\WOW6432Node\CLSID\{A7C452EF-8E9F-42EB-9F2B-245613CA0DC9}" /f
 reg.exe delete "HKCR\WOW6432Node\CLSID\{BB64F8A7-BEE7-4E1A-AB8D-7D8273F7FDB6}" /f
@@ -333,6 +424,7 @@ reg.exe delete "HKCR\WOW6432Node\CLSID\{DACA056E-216A-4FD1-84A6-C306A017ECEC}" /
 reg.exe delete "HKCR\WOW6432Node\CLSID\{E3C9166D-1D39-4D4E-A45D-BC7BE9B00578}" /f
 reg.exe delete "HKCR\WOW6432Node\CLSID\{E48B2549-D510-4A76-8A5F-FC126A6215F0}" /f
 reg.exe delete "HKCR\WOW6432Node\CLSID\{F6976CF5-68A8-436C-975A-40BE53616D59}" /f
+reg.exe delete "HKCR\WindowsDefender" /f
 reg.exe delete "HKCU\Software\Classes\AppX9kvz3rdv8t7twanaezbwfcdgrbg3bck0" /f
 reg.exe delete "HKCU\Software\Classes\ms-cxh" /f
 reg.exe delete "HKCU\Software\Microsoft\Windows Security Health" /f
@@ -341,14 +433,14 @@ reg.exe delete "HKCU\Software\Microsoft\Windows\CurrentVersion\Run" /v "Windows 
 reg.exe delete "HKCU\Software\Microsoft\Windows\Shell\Associations\UrlAssociations\Windowsdefender" /f
 reg.exe delete "HKLM\Software\Classes\AppUserModelId\Microsoft.Windows.Defender" /f
 reg.exe delete "HKLM\Software\Classes\AppUserModelId\Windows.Defender" /f
+reg.exe delete "HKLM\Software\Classes\CLSID\{6CED0DAA-4CDE-49C9-BA3A-AE163DC3D7AF}" /f
+reg.exe delete "HKLM\Software\Classes\CLSID\{8C9C0DB7-2CBA-40F1-AFE0-C55740DD91A0}" /f
+reg.exe delete "HKLM\Software\Classes\CLSID\{8a696d12-576b-422e-9712-01b9dd84b446}" /f
+reg.exe delete "HKLM\Software\Classes\CLSID\{45F2C32F-ED16-4C94-8493-D72EF93A051B}" /f
 reg.exe delete "HKLM\Software\Classes\CLSID\{195B4D07-3DE2-4744-BBF2-D90121AE785B}" /f
+reg.exe delete "HKLM\Software\Classes\CLSID\{361290c0-cb1b-49ae-9f3e-ba1cbe5dab35}" /f
 reg.exe delete "HKLM\Software\Classes\CLSID\{2781761E-28E0-4109-99FE-B9D127C57AFE}" /f
 reg.exe delete "HKLM\Software\Classes\CLSID\{2781761E-28E2-4109-99FE-B9D127C57AFE}" /f
-reg.exe delete "HKLM\Software\Classes\CLSID\{361290c0-cb1b-49ae-9f3e-ba1cbe5dab35}" /f
-reg.exe delete "HKLM\Software\Classes\CLSID\{45F2C32F-ED16-4C94-8493-D72EF93A051B}" /f
-reg.exe delete "HKLM\Software\Classes\CLSID\{6CED0DAA-4CDE-49C9-BA3A-AE163DC3D7AF}" /f
-reg.exe delete "HKLM\Software\Classes\CLSID\{8a696d12-576b-422e-9712-01b9dd84b446}" /f
-reg.exe delete "HKLM\Software\Classes\CLSID\{8C9C0DB7-2CBA-40F1-AFE0-C55740DD91A0}" /f
 reg.exe delete "HKLM\Software\Classes\CLSID\{A2D75874-6750-4931-94C1-C99D3BC9D0C7}" /f
 reg.exe delete "HKLM\Software\Classes\CLSID\{A7C452EF-8E9F-42EB-9F2B-245613CA0DC9}" /f
 reg.exe delete "HKLM\Software\Classes\CLSID\{BB64F8A7-BEE7-4E1A-AB8D-7D8273F7FDB6}" /f
@@ -356,15 +448,14 @@ reg.exe delete "HKLM\Software\Classes\CLSID\{DACA056E-216A-4FD1-84A6-C306A017ECE
 reg.exe delete "HKLM\Software\Classes\CLSID\{E3C9166D-1D39-4D4E-A45D-BC7BE9B00578}" /f
 reg.exe delete "HKLM\Software\Classes\CLSID\{E48B2549-D510-4A76-8A5F-FC126A6215F0}" /f
 reg.exe delete "HKLM\Software\Classes\CLSID\{F6976CF5-68A8-436C-975A-40BE53616D59}" /f
-reg.exe delete "HKLM\Software\Classes\WindowsDefender" /f
+reg.exe delete "HKLM\Software\Classes\WOW6432Node\CLSID\{6CED0DAA-4CDE-49C9-BA3A-AE163DC3D7AF}" /f
+reg.exe delete "HKLM\Software\Classes\WOW6432Node\CLSID\{8C9C0DB7-2CBA-40F1-AFE0-C55740DD91A0}" /f
+reg.exe delete "HKLM\Software\Classes\WOW6432Node\CLSID\{8a696d12-576b-422e-9712-01b9dd84b446}" /f
+reg.exe delete "HKLM\Software\Classes\WOW6432Node\CLSID\{45F2C32F-ED16-4C94-8493-D72EF93A051B}" /f
 reg.exe delete "HKLM\Software\Classes\WOW6432Node\CLSID\{195B4D07-3DE2-4744-BBF2-D90121AE785B}" /f
+reg.exe delete "HKLM\Software\Classes\WOW6432Node\CLSID\{361290c0-cb1b-49ae-9f3e-ba1cbe5dab35}" /f
 reg.exe delete "HKLM\Software\Classes\WOW6432Node\CLSID\{2781761E-28E0-4109-99FE-B9D127C57AFE}" /f
 reg.exe delete "HKLM\Software\Classes\WOW6432Node\CLSID\{2781761E-28E2-4109-99FE-B9D127C57AFE}" /f
-reg.exe delete "HKLM\Software\Classes\WOW6432Node\CLSID\{361290c0-cb1b-49ae-9f3e-ba1cbe5dab35}" /f
-reg.exe delete "HKLM\Software\Classes\WOW6432Node\CLSID\{45F2C32F-ED16-4C94-8493-D72EF93A051B}" /f
-reg.exe delete "HKLM\Software\Classes\WOW6432Node\CLSID\{6CED0DAA-4CDE-49C9-BA3A-AE163DC3D7AF}" /f
-reg.exe delete "HKLM\Software\Classes\WOW6432Node\CLSID\{8a696d12-576b-422e-9712-01b9dd84b446}" /f
-reg.exe delete "HKLM\Software\Classes\WOW6432Node\CLSID\{8C9C0DB7-2CBA-40F1-AFE0-C55740DD91A0}" /f
 reg.exe delete "HKLM\Software\Classes\WOW6432Node\CLSID\{A2D75874-6750-4931-94C1-C99D3BC9D0C7}" /f
 reg.exe delete "HKLM\Software\Classes\WOW6432Node\CLSID\{A7C452EF-8E9F-42EB-9F2B-245613CA0DC9}" /f
 reg.exe delete "HKLM\Software\Classes\WOW6432Node\CLSID\{BB64F8A7-BEE7-4E1A-AB8D-7D8273F7FDB6}" /f
@@ -372,6 +463,7 @@ reg.exe delete "HKLM\Software\Classes\WOW6432Node\CLSID\{DACA056E-216A-4FD1-84A6
 reg.exe delete "HKLM\Software\Classes\WOW6432Node\CLSID\{E3C9166D-1D39-4D4E-A45D-BC7BE9B00578}" /f
 reg.exe delete "HKLM\Software\Classes\WOW6432Node\CLSID\{E48B2549-D510-4A76-8A5F-FC126A6215F0}" /f
 reg.exe delete "HKLM\Software\Classes\WOW6432Node\CLSID\{F6976CF5-68A8-436C-975A-40BE53616D59}" /f
+reg.exe delete "HKLM\Software\Classes\WindowsDefender" /f
 reg.exe delete "HKLM\Software\Microsoft\PolicyManager\default\DeviceGuard" /f
 reg.exe delete "HKLM\Software\Microsoft\PolicyManager\default\VirtualizationBasedTechnology" /f
 reg.exe delete "HKLM\Software\Microsoft\PolicyManager\default\WebThreatDefense" /f
@@ -384,17 +476,17 @@ reg.exe delete "HKLM\Software\Microsoft\Windows NT\CurrentVersion\Schedule\TaskC
 reg.exe delete "HKLM\Software\Microsoft\Windows NT\CurrentVersion\Svchost" /v "WebThreatDefense" /f
 reg.exe delete "HKLM\Software\Microsoft\Windows NT\CurrentVersion\Svchost\WebThreatDefense" /f
 reg.exe delete "HKLM\Software\Microsoft\Windows Security Health" /f
+reg.exe delete "HKLM\Software\Microsoft\WindowsRuntime\ActivatableClassId\Microsoft.OneCore.WebThreatDefense.Configuration.WTDUserSettings" /f
+reg.exe delete "HKLM\Software\Microsoft\WindowsRuntime\ActivatableClassId\Microsoft.OneCore.WebThreatDefense.Service.UserSessionServiceManager" /f
+reg.exe delete "HKLM\Software\Microsoft\WindowsRuntime\ActivatableClassId\Microsoft.OneCore.WebThreatDefense.ThreatExperienceManager.ThreatExperienceManager" /f
+reg.exe delete "HKLM\Software\Microsoft\WindowsRuntime\ActivatableClassId\Microsoft.OneCore.WebThreatDefense.ThreatResponseEngine.ThreatDecisionEngine" /f
+reg.exe delete "HKLM\Software\Microsoft\WindowsRuntime\Server\WebThreatDefSvc" /f
 reg.exe delete "HKLM\Software\Microsoft\Windows\CurrentVersion\Explorer\ControlPanel\NameSpace\{BB64F8A7-BEE7-4E1A-AB8D-7D8273F7FDB6}" /f
 reg.exe delete "HKLM\Software\Microsoft\Windows\CurrentVersion\Explorer\ShellServiceObjects\{900c0763-5cad-4a34-bc1f-40cd513679d5}" /f
 reg.exe delete "HKLM\Software\Microsoft\Windows\CurrentVersion\Explorer\StartupApproved\Run" /v "SecurityHealth" /f
 reg.exe delete "HKLM\Software\Microsoft\Windows\CurrentVersion\Explorer\StartupApproved\Run" /v "Windows Defender" /f
 reg.exe delete "HKLM\Software\Microsoft\Windows\CurrentVersion\Run" /v "SecurityHealth" /f
 reg.exe delete "HKLM\Software\Microsoft\Windows\CurrentVersion\Run" /v "WindowsDefender" /f
-reg.exe delete "HKLM\Software\Microsoft\WindowsRuntime\ActivatableClassId\Microsoft.OneCore.WebThreatDefense.Configuration.WTDUserSettings" /f
-reg.exe delete "HKLM\Software\Microsoft\WindowsRuntime\ActivatableClassId\Microsoft.OneCore.WebThreatDefense.Service.UserSessionServiceManager" /f
-reg.exe delete "HKLM\Software\Microsoft\WindowsRuntime\ActivatableClassId\Microsoft.OneCore.WebThreatDefense.ThreatExperienceManager.ThreatExperienceManager" /f
-reg.exe delete "HKLM\Software\Microsoft\WindowsRuntime\ActivatableClassId\Microsoft.OneCore.WebThreatDefense.ThreatResponseEngine.ThreatDecisionEngine" /f
-reg.exe delete "HKLM\Software\Microsoft\WindowsRuntime\Server\WebThreatDefSvc" /f
 reg.exe delete "HKLM\Software\Policies\Microsoft\Windows Defender\Scan" /v "DisableArchiveScanning" /f
 reg.exe delete "HKLM\Software\Policies\Microsoft\Windows Defender\Windows Defender Exploit Guard\Network Protection" /v "EnableNetworkProtection" /f
 reg.exe delete "HKLM\Software\Policies\Microsoft\Windows\System" /v "ShellSmartScreenLevel" /f
@@ -404,9 +496,9 @@ reg.exe delete "HKLM\Software\WOW6432Node\Microsoft\Windows\CurrentVersion\Explo
 reg.exe delete "HKLM\Software\WOW6432Node\Microsoft\Windows\CurrentVersion\Explorer\ShellServiceObjects\{900c0763-5cad-4a34-bc1f-40cd513679d5}" /f
 reg.exe delete "HKLM\System\ControlSet001\Control\Ubpm" /v "CriticalMaintenance_DefenderCleanup" /f
 reg.exe delete "HKLM\System\ControlSet001\Control\Ubpm" /v "CriticalMaintenance_DefenderVerification" /f
-reg.exe delete "HKLM\System\ControlSet001\Services\SharedAccess\Parameters\FirewallPolicy\RestrictedServices\Static\System" /v "WindowsDefender-1" /f
-reg.exe delete "HKLM\System\ControlSet001\Services\SharedAccess\Parameters\FirewallPolicy\RestrictedServices\Static\System" /v "WindowsDefender-2" /f
 reg.exe delete "HKLM\System\ControlSet001\Services\SharedAccess\Parameters\FirewallPolicy\RestrictedServices\Static\System" /v "WindowsDefender-3" /f
+reg.exe delete "HKLM\System\ControlSet001\Services\SharedAccess\Parameters\FirewallPolicy\RestrictedServices\Static\System" /v "WindowsDefender-2" /f
+reg.exe delete "HKLM\System\ControlSet001\Services\SharedAccess\Parameters\FirewallPolicy\RestrictedServices\Static\System" /v "WindowsDefender-1" /f
 reg.exe delete "HKLM\System\CurrentControlSet\Control\DeviceGuard" /f
 reg.exe delete "HKLM\System\CurrentControlSet\Control\DeviceGuard\Scenarios\HypervisorEnforcedCodeIntegrity" /v "WasEnabledBy" /f
 reg.exe delete "HKLM\System\CurrentControlSet\Control\Lsa" /v "LmCompatibilityLevel" /f
@@ -421,13 +513,21 @@ reg.exe delete "HKLM\System\CurrentControlSet\Services\SharedAccess\Parameters\F
 reg.exe delete "HKLM\System\CurrentControlSet\Services\SharedAccess\Parameters\FirewallPolicy\RestrictedServices\Static\System" /v "WebThreatDefSvc_Allow_Out" /f
 reg.exe delete "HKLM\System\CurrentControlSet\Services\SharedAccess\Parameters\FirewallPolicy\RestrictedServices\Static\System" /v "WebThreatDefSvc_Block_In" /f
 reg.exe delete "HKLM\System\CurrentControlSet\Services\SharedAccess\Parameters\FirewallPolicy\RestrictedServices\Static\System" /v "WebThreatDefSvc_Block_Out" /f
-reg.exe delete "HKLM\System\CurrentControlSet\Services\SharedAccess\Parameters\FirewallPolicy\RestrictedServices\Static\System" /v "WindowsDefender-1" /f
-reg.exe delete "HKLM\System\CurrentControlSet\Services\SharedAccess\Parameters\FirewallPolicy\RestrictedServices\Static\System" /v "WindowsDefender-2" /f
 reg.exe delete "HKLM\System\CurrentControlSet\Services\SharedAccess\Parameters\FirewallPolicy\RestrictedServices\Static\System" /v "WindowsDefender-3" /f
+reg.exe delete "HKLM\System\CurrentControlSet\Services\SharedAccess\Parameters\FirewallPolicy\RestrictedServices\Static\System" /v "WindowsDefender-2" /f
+reg.exe delete "HKLM\System\CurrentControlSet\Services\SharedAccess\Parameters\FirewallPolicy\RestrictedServices\Static\System" /v "WindowsDefender-1" /f
 schtasks.exe /change /tn "Bitdefender\BitdefenderTelemetry" /Disable
+schtasks.exe /change /tn "Microsoft\Windows\Defender\Defrag" /Disable
+schtasks.exe /change /tn "Microsoft\Windows\Defender\MP Scheduled Scan" /Disable
+schtasks.exe /change /tn "Microsoft\Windows\Defender\WD Threat Signature Update" /Disable
+schtasks.exe /change /tn "Microsoft\Windows\Defender\Windows Defender Antivirus Update" /Disable
+schtasks.exe /change /tn "Microsoft\Windows\Defender\Windows Defender Cache Maintenance" /Disable
+schtasks.exe /change /tn "Microsoft\Windows\Defender\Windows Defender Cleanup" /Disable
+schtasks.exe /change /tn "Microsoft\Windows\Defender\Windows Defender Monitoring" /Disable
 schtasks.exe /change /tn "Microsoft\Windows\Windows Defender\Windows Defender Cache Maintenance" /Disable
 schtasks.exe /change /tn "Microsoft\Windows\Windows Defender\Windows Defender Cleanup" /Disable
 schtasks.exe /change /tn "Microsoft\Windows\Windows Defender\Windows Defender Scheduled Scan" /Disable
 schtasks.exe /change /tn "Microsoft\Windows\Windows Defender\Windows Defender Signature Update" /Disable
 schtasks.exe /change /tn "Microsoft\Windows\Windows Defender\Windows Defender Verification" /Disable
+
 exit
