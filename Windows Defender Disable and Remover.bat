@@ -166,7 +166,6 @@ reg.exe add "HKLM\Software\Microsoft\Windows\CurrentVersion\Policies\DataCollect
 reg.exe add "HKLM\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer" /v "SettingsPageVisibility" /t REG_SZ /d "hide:WindowsDefender;" /f
 reg.exe add "HKLM\Software\Microsoft\Windows\CurrentVersion\Policies\System" /v "ConsentPromptBehaviorAdmin" /t REG_DWORD /d "0" /f
 reg.exe add "HKLM\Software\Microsoft\Windows\CurrentVersion\Policies\System" /v "ConsentPromptBehaviorUser" /t REG_DWORD /d "3" /f
-reg.exe add "HKLM\Software\Microsoft\Windows\CurrentVersion\Policies\System" /v "DelayedDesktopSwitchTimemout" /t REG_DWORD /d "0" /f
 reg.exe add "HKLM\Software\Microsoft\Windows\CurrentVersion\Policies\System" /v "DelayedDesktopSwitchTimeout" /t REG_DWORD /d "0" /f
 reg.exe add "HKLM\Software\Microsoft\Windows\CurrentVersion\Policies\System" /v "EnableCursorSuppression" /t REG_DWORD /d "0" /f
 reg.exe add "HKLM\Software\Microsoft\Windows\CurrentVersion\Policies\System" /v "EnableInstallerDetection" /t REG_DWORD /d "0" /f
@@ -176,8 +175,7 @@ reg.exe add "HKLM\Software\Microsoft\Windows\CurrentVersion\Policies\System" /v 
 reg.exe add "HKLM\Software\Microsoft\Windows\CurrentVersion\Policies\System" /v "FilterAdministratorToken" /t REG_DWORD /d "1" /f
 reg.exe add "HKLM\Software\Microsoft\Windows\CurrentVersion\Policies\System" /v "LocalAccountTokenFilterPolicy" /t REG_DWORD /d "1" /f
 reg.exe add "HKLM\Software\Microsoft\Windows\CurrentVersion\Policies\System" /v "PromptOnSecureDesktop" /t REG_DWORD /d "0" /f
-reg.exe add "HKLM\Software\Microsoft\Windows\CurrentVersion\Policies\System" /v "ValidateAdminCodeSignatures" /t REG_DWORD /d 0 /f
-reg.exe add "HKLM\Software\Microsoft\Windows\CurrentVersion\Policies\System" /v "ValidateAdminCodeSignatures" /t REG_DWORD /d "1" /f
+reg.exe add "HKLM\Software\Microsoft\Windows\CurrentVersion\Policies\System" /v "ValidateAdminCodeSignatures" /t REG_DWORD /d "0" /f
 reg.exe add "HKLM\Software\Microsoft\Windows\CurrentVersion\Policies\System" /v "VerboseStatus" /t REG_DWORD /d "0" /f
 reg.exe add "HKLM\Software\Microsoft\Windows\CurrentVersion\Reliability" /v "ShutdownReasonOn" /t REG_DWORD /d "0" /f
 reg.exe add "HKLM\Software\Policies\Microsoft\Microsoft Antimalware" /v "AllowFastServiceStartup" /t REG_DWORD /d "0" /f
@@ -230,7 +228,7 @@ reg.exe add "HKLM\Software\Policies\Microsoft\Windows Defender" /v "DisallowShie
 reg.exe add "HKLM\Software\Policies\Microsoft\Windows Defender" /v "NoDefenderUI" /t REG_DWORD /d "1" /f
 reg.exe add "HKLM\Software\Policies\Microsoft\Windows Defender" /v "PUAProtection" /t REG_DWORD /d "0" /f
 reg.exe add "HKLM\Software\Policies\Microsoft\Windows Defender" /v "RandomizeScheduleTaskTimes" /t REG_DWORD /d "0" /f
-reg.exe add "HKLM\Software\Policies\Microsoft\Windows Defender" /v "ServiceKeepAlive" /t REG_DWORD /d 0 /f
+reg.exe add "HKLM\Software\Policies\Microsoft\Windows Defender" /v "ServiceKeepAlive" /t REG_DWORD /d "0" /f
 reg.exe add "HKLM\Software\Policies\Microsoft\Windows Defender" /v "SubmitSamplesConsent" /t REG_DWORD /d "2" /f
 reg.exe add "HKLM\Software\Policies\Microsoft\Windows Defender\AM" /v "DisableAntiMalware" /t REG_DWORD /d "1" /f
 reg.exe add "HKLM\Software\Policies\Microsoft\Windows Defender\AV" /v "DisableAntivirus" /t REG_DWORD /d "1" /f
@@ -529,5 +527,4 @@ schtasks.exe /change /tn "Microsoft\Windows\Windows Defender\Windows Defender Cl
 schtasks.exe /change /tn "Microsoft\Windows\Windows Defender\Windows Defender Scheduled Scan" /Disable
 schtasks.exe /change /tn "Microsoft\Windows\Windows Defender\Windows Defender Signature Update" /Disable
 schtasks.exe /change /tn "Microsoft\Windows\Windows Defender\Windows Defender Verification" /Disable
-
 exit
