@@ -1,7 +1,6 @@
 Windows Registry Editor Version 5.00
 
-; MajorGeeks.Com
-; https://www.majorgeeks.com/content/page/how_to_add_or_remove_delete_folder_contents_context_menu_in_windows_10.html
+; BokaRoka
 
 [HKEY_CLASSES_ROOT\Directory\shell\Empty]
 "Icon"="shell32.dll,-16715"
@@ -203,8 +202,52 @@ Windows Registry Editor Version 5.00
 "Position"=-
 "Position"="Middle"
 "Icon"="powershell.exe,0"
+
 [HKEY_CLASSES_ROOT\Directory\background\shell\extract\command]
 @="C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -win 1 -nop -c iex((10..40|%%{(gp 'Registry::HKCR\\RunAsTI' $_ -ea 0).$_})-join[char]10); # --%% cmd /c pushd \"%V\" & start \"RunAsTI\" %%wt%%"
+
+[HKEY_CURRENT_USER\Software\SMADΔV]
+"Language"=dword:00000001
+"LanguageSet"=dword:00000001
+"AutoScan"=dword:00000001
+"Smad-Lock"=dword:00000000
+"HideScanner"=dword:00000001
+"AllowMacro"=dword:00000001
+"AllowUSB"=dword:00000000
+"StartCount"=dword:00000000
+"AfterFix"=dword:00000000
+"UserVir1a"=dword:00000000
+"UserVir1b"=dword:00000000
+"RestartCount"=dword:00000000
+"BlockStat"=dword:00000001
+"CommandRTP"=dword:00000001
+"ThemeColor"=dword:0005bd05
+"ContextMenu"=dword:00000002
+"Name"="Registered User"
+"Key"="995299541498"
+"Key20"=""
+"AutoUpdate"=dword:00000000
+"Resize"=dword:00000001
+"BuildSent"=dword:00000002
+"Smad-Turbo"=dword:00000001
+"NoSplash"=dword:00000001
+"BlockSuspect"=dword:00000002
+"WinPos"=dword:00000000
+"Smad-Lock"=dword:00000001
+"AllowMacro"=dword:00000000
+"StartCount"=dword:00000002
+"UploadPermission"=dword:00000002
+
+[HKEY_CURRENT_USER\Software\SMADΔV\Exception]
+"Fil0"="C:\\Program Files (x86)\\Adguard\\Adguard.exe" /f
+"Fil1"="C:\\Windows\\system32\drivers\etc\\hosts" /f
+"Fil2"="C:\\Program Files (x86)\\Photoshop\\Photoshop.exe" /f
+"Fil3"="C:\\Program Files (x86)\\Adguard\\AdguardSvc.exe" /f
+"Fil4"="C:\\Program Files (x86)\\Photoshop\\x64\\Photoshop.exe" /f
+"Dir0"="C:\\Program Files\\Avast Software\\Avast" /f
+"Dir1"="C:\\Program Files (x86)\\Photoshop" /f
+"Dir2"="C:\\ProgramData\\Adobe"
+"Fil0"="C:\\Windows\\system32\\drivers\\etc\\hosts"
 
 ; RunAsTI function
 [HKEY_CLASSES_ROOT\RunAsTI]
