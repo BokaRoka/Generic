@@ -1,27 +1,60 @@
 Windows Registry Editor Version 5.00
 
 ; BokaRoka
+[-HKEY_CLASSES_ROOT\*\shell\322clearown]
+[-HKEY_CLASSES_ROOT\*\shell\322freeown]
+[-HKEY_CLASSES_ROOT\*\shell\322takeown]
+[-HKEY_CLASSES_ROOT\*\shell\runas]
+[-HKEY_CLASSES_ROOT\*\shell\TakeOwnership]
+[-HKEY_CLASSES_ROOT\batfile\shell\setdesktopwallpaper]
+[-HKEY_CLASSES_ROOT\cmdfile\shell\setdesktopwallpaper]
+[-HKEY_CLASSES_ROOT\Directory\background\shell\extract]
+[-HKEY_CLASSES_ROOT\Directory\shell\322clearown]
+[-HKEY_CLASSES_ROOT\Directory\shell\322freeown]
+[-HKEY_CLASSES_ROOT\Directory\shell\322takeown]
+[-HKEY_CLASSES_ROOT\Directory\shell\FixPermissions]
+[-HKEY_CLASSES_ROOT\Directory\shell\runas]
+[-HKEY_CLASSES_ROOT\Directory\shell\TakeOwnership]
+[-HKEY_CLASSES_ROOT\dllfile\shell\TakeOwnership]
+[-HKEY_CLASSES_ROOT\Drive\shell\322clearown]
+[-HKEY_CLASSES_ROOT\Drive\shell\322freeown]
+[-HKEY_CLASSES_ROOT\Drive\shell\322takeown]
+[-HKEY_CLASSES_ROOT\Drive\shell\TakeOwnership]
+[-HKEY_CLASSES_ROOT\exefile\shell\setdesktopwallpaper]
+[-HKEY_CLASSES_ROOT\exefile\shell\Windows Firewall Control]
+[-HKEY_CLASSES_ROOT\Folder\shell\setdesktopwallpaper]
+[-HKEY_CLASSES_ROOT\Microsoft.PowerShellScript.1\shell\setdesktopwallpaper]
+[-HKEY_CLASSES_ROOT\mscfile\shell\setdesktopwallpaper]
+[-HKEY_CLASSES_ROOT\regfile\shell\setdesktopwallpaper]
+[-HKEY_CLASSES_ROOT\RunAsTI]
 
-[HKEY_CLASSES_ROOT\Directory\shell\Empty]
-"Icon"="shell32.dll,-16715"
-"MUIVerb"="Delete Folder Contents"
-"Position"="bottom"
-"Extended"=-
-"SubCommands"=""
+[HKEY_CLASSES_ROOT\Drive\shell\TakeOwnership]
+@="Take Disk Ownership"
+"Icon"="shell32.dll,-175"
 
-[HKEY_CLASSES_ROOT\Directory\shell\Empty\shell\001flyout]
-"Icon"="shell32.dll,-16715"
-"MUIVerb"="Delete Folder Contents and Subfolders"
+[HKEY_CLASSES_ROOT\Drive\shell\TakeOwnership\command]
+@="cmd.exe /c takeown /f \"%1\" /r & icacls \"%1\" /inheritance:r & icacls \"%1\" /grant *S-1-5-32-544:F *S-1-5-32-545:F *S-1-5-18:F *S-1-1-0:F /t /c & pause"
 
-[HKEY_CLASSES_ROOT\Directory\shell\Empty\shell\001flyout\command]
-@="cmd /c title Empty \"%1\" & (cmd /c echo. & echo This will permanently delete everything in this folder. & echo. & choice /c:yn /m \"Are you sure?\") & (if errorlevel 2 exit) & (cmd /c rd /s /q \"%1\" & md \"%1\")"
+[HKEY_CLASSES_ROOT\dllfile\shell\TakeOwnership]
+@="Take File Ownership"
+"Icon"="shell32.dll,-175"
 
-[HKEY_CLASSES_ROOT\Directory\shell\Empty\shell\002flyout]
-"Icon"="shell32.dll,-16715"
-"MUIVerb"="Delete Folder Contents but Not Subfolders"
+[HKEY_CLASSES_ROOT\dllfile\shell\TakeOwnership\command]
+@="cmd.exe /c takeown /f \"%1\" /r & icacls \"%1\" /inheritance:r & icacls \"%1\" /grant *S-1-5-32-544:F *S-1-5-32-545:F *S-1-5-18:F *S-1-1-0:F /t /c & pause"
 
-[HKEY_CLASSES_ROOT\Directory\shell\Empty\shell\002flyout\command]
-@="cmd /c title Empty \"%1\" & (cmd /c echo. & echo This will permanently delete everything in this folder, but not subfolders. & echo. & choice /c:yn /m \"Are you sure?\") & (if errorlevel 2 exit) & (cmd /c \"cd /d %1 && del /f /q *.*\")"
+[HKEY_CLASSES_ROOT\Directory\shell\TakeOwnership]
+@="Take Folder Ownership"
+"Icon"="shell32.dll,-175"
+
+[HKEY_CLASSES_ROOT\Directory\shell\TakeOwnership\command]
+@="cmd.exe /c takeown /f \"%1\" /r & icacls \"%1\" /inheritance:r & icacls \"%1\" /grant:r *S-1-5-32-544:(OI)(CI)(F) *S-1-5-32-545:(OI)(CI)(F) *S-1-5-18:(OI)(CI)(F) *S-1-1-0:(OI)(CI)(F) /t /c & icacls \"%1\" /inheritance:e /t /c & pause"
+
+[HKEY_CLASSES_ROOT\*\shell\TakeOwnership]
+@="Take File Ownership"
+"Icon"="shell32.dll,-175"
+
+[HKEY_CLASSES_ROOT\*\shell\TakeOwnership\command]
+@="cmd.exe /c takeown /f \"%1\" /r & icacls \"%1\" /inheritance:r & icacls \"%1\" /grant *S-1-5-32-544:F *S-1-5-32-545:F *S-1-5-18:F *S-1-1-0:F /t /c & pause"
 
 [HKEY_CLASSES_ROOT\exefile\shell\WindowsFirewall]
 @=""
@@ -47,8 +80,6 @@ Windows Registry Editor Version 5.00
 
 [HKEY_CLASSES_ROOT\exefile\shell\WindowsFirewall\Shell\Remove\command]
 @="cmd.exe /s /c for %%a in (\"%1\") do netsh advfirewall firewall delete rule name=\"Block %%~na\""
-
-[-HKEY_CLASSES_ROOT\exefile\shell\Windows Firewall Control]
 
 [HKEY_CLASSES_ROOT\Directory\Background\shell\FolderFix]
 @="Fix Hidden Items"
@@ -113,29 +144,6 @@ Windows Registry Editor Version 5.00
 
 [HKEY_CLASSES_ROOT\DesktopBackground\Shell\ShutDown\shell\003RestartInstantly\Command]
 @="shutdown -r -f -t 0"
-
-; Remove existing "Fix Permissions" context menu entry if it exists
-[-HKEY_CLASSES_ROOT\Directory\shell\FixPermissions]
-
-; Context Menu entries to use RunAsTI - BokaRoka
-; [FEATURES]
-; - innovative HKCU load, no need for reg load / unload ping-pong; programs get the user profile
-; - sets ownership privileges, high priority, and explorer support; get System if TI unavailable
-; - accepts special characters in paths for which default run as administrator fails
-; - show on the new 11 contextmenu via whitelisted id; plenty other available, fuck needing an app!
-; 2022.04.07: PowerShell / Terminal here (if installed, use Terminal as TI, else use PowerShell as TI)
-; 2023.07.06: fix arguments with quotes
-
-[-HKEY_CLASSES_ROOT\RunAsTI]
-[-HKEY_CLASSES_ROOT\batfile\shell\setdesktopwallpaper]
-[-HKEY_CLASSES_ROOT\cmdfile\shell\setdesktopwallpaper]
-[-HKEY_CLASSES_ROOT\exefile\shell\setdesktopwallpaper]
-[-HKEY_CLASSES_ROOT\mscfile\shell\setdesktopwallpaper]
-[-HKEY_CLASSES_ROOT\Microsoft.PowerShellScript.1\shell\setdesktopwallpaper]
-[-HKEY_CLASSES_ROOT\regfile\shell\setdesktopwallpaper]
-[-HKEY_CLASSES_ROOT\Folder\shell\setdesktopwallpaper]
-[-HKEY_CLASSES_ROOT\Directory\background\shell\extract]
-; To remove entries, copy paste above into undo_RunAsTI.reg file, then import it
 
 ; RunAsTI on .bat
 [HKEY_CLASSES_ROOT\batfile\shell\setdesktopwallpaper]
