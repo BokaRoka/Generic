@@ -33,28 +33,28 @@ Windows Registry Editor Version 5.00
 "Icon"="shell32.dll,-175"
 
 [HKEY_CLASSES_ROOT\Drive\shell\TakeOwnership\command]
-@="cmd.exe /c takeown /f \"%1\" /r & icacls \"%1\" /inheritance:r & icacls \"%1\" /grant *S-1-5-32-544:F *S-1-5-32-545:F *S-1-5-18:F *S-1-1-0:F /t /c & pause"
+@="cmd.exe /c \"takeown /f %1 /r /d y & icacls %1 /grant:r *S-1-5-32-544:(OI)(CI)(F) /t /c & icacls %1 /grant:r *S-1-5-32-545:(OI)(CI)(F) /t /c & icacls %1 /grant:r *S-1-5-18:(OI)(CI)(F) /t /c & pause\""
 
 [HKEY_CLASSES_ROOT\dllfile\shell\TakeOwnership]
 @="Take File Ownership"
 "Icon"="shell32.dll,-175"
 
 [HKEY_CLASSES_ROOT\dllfile\shell\TakeOwnership\command]
-@="cmd.exe /c takeown /f \"%1\" /r & icacls \"%1\" /inheritance:r & icacls \"%1\" /grant *S-1-5-32-544:F *S-1-5-32-545:F *S-1-5-18:F *S-1-1-0:F /t /c & pause"
+@="cmd.exe /c takeown /f \"%1\" & icacls \"%1\" /inheritance:r & icacls \"%1\" /grant:r *S-1-5-32-544:(OI)(CI)(F) *S-1-5-32-545:(OI)(CI)(F) *S-1-5-18:(OI)(CI)(F) *S-1-1-0:(OI)(CI)(F) & icacls \"%1\" /inheritance:e & pause"
 
 [HKEY_CLASSES_ROOT\Directory\shell\TakeOwnership]
 @="Take Folder Ownership"
 "Icon"="shell32.dll,-175"
 
 [HKEY_CLASSES_ROOT\Directory\shell\TakeOwnership\command]
-@="cmd.exe /c takeown /f \"%1\" /r & icacls \"%1\" /inheritance:r & icacls \"%1\" /grant:r *S-1-5-32-544:(OI)(CI)(F) *S-1-5-32-545:(OI)(CI)(F) *S-1-5-18:(OI)(CI)(F) *S-1-1-0:(OI)(CI)(F) /t /c & icacls \"%1\" /inheritance:e /t /c & pause"
+@="cmd.exe /c echo Y | takeown /f \"%1\" /r & icacls \"%1\" /inheritance:r & icacls \"%1\" /grant:r *S-1-5-32-544:(OI)(CI)(F) *S-1-5-32-545:(OI)(CI)(F) *S-1-5-18:(OI)(CI)(F) *S-1-1-0:(OI)(CI)(F) /t /c & icacls \"%1\" /inheritance:e /t /c & pause"
 
 [HKEY_CLASSES_ROOT\*\shell\TakeOwnership]
 @="Take File Ownership"
 "Icon"="shell32.dll,-175"
 
 [HKEY_CLASSES_ROOT\*\shell\TakeOwnership\command]
-@="cmd.exe /c takeown /f \"%1\" /r & icacls \"%1\" /inheritance:r & icacls \"%1\" /grant *S-1-5-32-544:F *S-1-5-32-545:F *S-1-5-18:F *S-1-1-0:F /t /c & pause"
+@="cmd.exe /c takeown /f \"%1\" & icacls \"%1\" /inheritance:r & icacls \"%1\" /grant:r *S-1-5-32-544:(OI)(CI)(F) *S-1-5-32-545:(OI)(CI)(F) *S-1-5-18:(OI)(CI)(F) *S-1-1-0:(OI)(CI)(F) & icacls \"%1\" /inheritance:e & pause"
 
 [HKEY_CLASSES_ROOT\exefile\shell\WindowsFirewall]
 @=""
