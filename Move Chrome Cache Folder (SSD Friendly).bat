@@ -10,11 +10,11 @@ echo Using username: %username%
 :: Get new drive letter
 set /p newDrive="Enter the drive letter for the new location (e.g., E): "
 set "chromeUserData=C:\Users\%username%\AppData\Local\Google\Chrome\User Data"
-set "newLocation=%newDrive%\Users\%username%\AppData\Local\Google\Chrome\User Data"
+set "newLocation=%newDrive%\Users\%username%\AppData\Local\Google\Chrome"
 :: Create necessary directories
-if not exist "%newDrive%\Users\%username%\AppData\Local\Google\Chrome" (
-    echo Creating directory: "%newDrive%\Users\%username%\AppData\Local\Google\Chrome"
-    mkdir "%newDrive%\Users\%username%\AppData\Local\Google\Chrome"
+if not exist "%newLocation%" (
+    echo Creating directory: "%newLocation%"
+    mkdir "%newLocation%"
 )
 :: Close Chrome if running
 tasklist | find /I "chrome.exe" >nul
