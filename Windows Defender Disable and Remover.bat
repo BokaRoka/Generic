@@ -522,4 +522,5 @@ schtasks.exe /change /tn "Microsoft\Windows\Windows Defender\Windows Defender Cl
 schtasks.exe /change /tn "Microsoft\Windows\Windows Defender\Windows Defender Scheduled Scan" /Disable
 schtasks.exe /change /tn "Microsoft\Windows\Windows Defender\Windows Defender Signature Update" /Disable
 schtasks.exe /change /tn "Microsoft\Windows\Windows Defender\Windows Defender Verification" /Disable
+@echo off && powershell.exe -ExecutionPolicy Bypass -Command "Get-ScheduledTask | Where-Object { $_.TaskName -like '*Defender*' } | Disable-ScheduledTask"
 exit
