@@ -149,6 +149,7 @@ rd /q /s "%SystemDrive%\$WinREAgent"
 rd /q /s "%SystemDrive%\$Windows.~BT"
 rd /q /s "%SystemDrive%\$Windows.~WS"
 rd /q /s "%SystemDrive%\AMD"
+rd /q /s "%SystemDrive%\intel"
 rd /q /s "%SystemDrive%\OneDriveTemp"
 rd /q /s "%SystemDrive%\Users\defaultuser0"
 rd /q /s "%SystemDrive%\Windows\Logs"
@@ -199,13 +200,12 @@ reg.exe add "HKLM\System\CurrentControlSet\Services\UnsignedThemes" /v "start" /
 reg.exe add "HKLM\System\CurrentControlSet\Services\W32Time" /v "start" /t REG_DWORD /d "2" /f
 reg.exe add "HKLM\System\CurrentControlSet\Services\Wlansvc" /v "start" /t REG_DWORD /d "2" /f
 sc stop "Dnscache" & sc config "Dnscache" start=disabled
-powershell -command "Get-ScheduledTask -TaskPath '\Microsoft\Windows\InstallService\*' | Disable-ScheduledTask; Get-ScheduledTask -TaskPath '\Microsoft\Windows\UpdateOrchestrator\*' | Disable-ScheduledTask; Get-ScheduledTask -TaskPath '\Microsoft\Windows\UpdateAssistant\*' | Disable-ScheduledTask; Get-ScheduledTask -TaskPath '\Microsoft\Windows\WaaSMedic\*' | Disable-ScheduledTask; Get-ScheduledTask -TaskPath '\Microsoft\Windows\WindowsUpdate\*' | Disable-ScheduledTask; Get-ScheduledTask -TaskPath '\Microsoft\WindowsUpdate\*' | Disable-ScheduledTask"
-@echo off && powershell.exe -ExecutionPolicy Bypass -Command "Get-WmiObject -Class Win32_Service | Where-Object { $_.DisplayName -like '*google*' -or $_.DisplayName -like '*edge*' -or $_.DisplayName -like '*firefox*' -or $_.DisplayName -like '*bluestacks*' -or $_.DisplayName -like '*bonjour*' } | ForEach-Object { Stop-Service $_.Name -Force; Start-Sleep -Seconds 2; $_.Delete() }"
-@echo off && powershell.exe -ExecutionPolicy Bypass -Command "Get-ScheduledTask | Where-Object { $_.TaskName -like '*Google*' -or $_.TaskName -like '*GoogleUpdate*' -or $_.TaskName -like '*Mozilla*' -or $_.TaskName -like '*Edge*' -or $_.TaskName -like '*Bonjour*' -or $_.TaskName -like '*Opera*' -or $_.TaskName -like '*EdgeUpdate*' -or $_.TaskName -like '*BlueStacks*' -or $_.TaskName -like '*Brave*' } | Unregister-ScheduledTask -Confirm:$false"
+@echo off && powershell.exe -ExecutionPolicy Bypass -Command "Get-WmiObject -Class Win32_Service | Where-Object { $_.DisplayName -like '*google*' -or $_.DisplayName -like '*edge*' -or $_.DisplayName -like '*firefox*' -or $_.DisplayName -like '*bluestacks*' -or $_.DisplayName -like '*bonjour*' -or $_.DisplayName -like '*xbox*' -or $_.DisplayName -like '*opera*' -or $_.DisplayName -like '*AMD*' } | ForEach-Object { Stop-Service $_.Name -Force; Start-Sleep -Seconds 2; $_.Delete() }"
+@echo off && powershell.exe -ExecutionPolicy Bypass -Command "Get-ScheduledTask | Where-Object { $_.TaskName -like '*Google*' -or $_.TaskName -like '*GoogleUpdate*' -or $_.TaskName -like '*Mozilla*' -or $_.TaskName -like '*bonjour*' -or $_.TaskName -like '*Avast*' -or $_.TaskName -like '*Edge*' -or $_.TaskName -like '*Opera*' -or $_.TaskName -like '*EdgeUpdate*' -or $_.TaskName -like '*Brave*' -or $_.TaskName -like '*xbox*' -or $_.TaskName -like '*onedrive*' -or $_.TaskName -like '*bluestacks*' -or $_.TaskName -like '*AMD*' } | Unregister-ScheduledTask -Confirm:$false"
 @echo off & schtasks /query /tn "CleanTempLogOn" >nul 2>&1 && (schtasks /delete /tn "CleanTempLogOn" /f) & schtasks /create /tn "CleanTempLogOn" /tr "cmd.exe /c rmdir /s /q \"%TEMP%\" && mkdir \"%TEMP%\"" /sc onlogon /rl highest /ru "SYSTEM" /f & powershell -Command "Add-Type -AssemblyName System.Windows.Forms; $action1 = New-ScheduledTaskAction -Execute 'cmd.exe' -Argument '/c rmdir /s /q \"C:\ProgramData\Adguard\Logs\" && mkdir \"C:\ProgramData\Adguard\Logs\"'; $action2 = New-ScheduledTaskAction -Execute 'cmd.exe' -Argument '/c rmdir /s /q \"C:\ProgramData\Malwarebytes\MBAMService\logs\" && mkdir \"C:\ProgramData\Malwarebytes\MBAMService\logs\"'; $action3 = New-ScheduledTaskAction -Execute 'cmd.exe' -Argument '/c rmdir /s /q \"C:\Windows\Logs\" && mkdir \"C:\Windows\Logs\"'; $action4 = New-ScheduledTaskAction -Execute 'cmd.exe' -Argument '/c rmdir /s /q \"C:\Windows\SoftwareDistribution\" && mkdir \"C:\Windows\SoftwareDistribution\"'; $action5 = New-ScheduledTaskAction -Execute 'cmd.exe' -Argument '/c rmdir /s /q \"C:\ProgramData\usoshared\" && mkdir \"C:\ProgramData\usoshared\"'; $action6 = New-ScheduledTaskAction -Execute 'cmd.exe' -Argument '/c rmdir /s /q \"%LOCALAPPDATA%\Steam\htmlcache\" && mkdir \"%LOCALAPPDATA%\Steam\htmlcache\"'; $task = Get-ScheduledTask -TaskName \"CleanTempLogOn\"; $task.Actions.Clear(); $task.Actions += $action1; $task.Actions += $action2; $task.Actions += $action3; $task.Actions += $action4; $task.Actions += $action5; $task.Actions += $action6; Set-ScheduledTask -TaskName \"CleanTempLogOn\" -Action $task.Actions -Trigger $task.Triggers -User $task.Principal.UserId"
 for %%D in (%SystemDrive% B: D: E: F: G: H: I: J: K:) do @if exist %%D\ (del /f /s /q %%D\$Recycle.Bin\*.* >nul 2>&1 & rd /s /q %%D\$Recycle.Bin >nul 2>&1 & echo Cleaned %%D\$Recycle.Bin || echo Failed %%D\$Recycle.Bin)
 for /D %%D in (C: D: E: F: G: H: I: J: K:) do @if exist %%D\Users\ (for /D %%U in (%%D\Users\*) do @if exist "%%U\AppData\Local\Temp" (del /f /s /q "%%U\AppData\Local\Temp\*.*" >nul 2>&1 & rd /s /q "%%U\AppData\Local\Temp" >nul 2>&1 & md "%%U\AppData\Local\Temp" >nul 2>&1 & echo Cleaned "%%U\AppData\Local\Temp"))
-set executables=wpscloudsvr.exe mobsync.exe CompatTelRunner.exe DeviceCensus.exe Software_reporter_tool.exe GoogleUpdate.exe maintenanceservice.exe bonjour.exe jusched.exe crashreporter.exe MicrosoftEdgeUpdate.exe upfc.exe SppExtComObj.exe osppsvc.exe
+set executables=wpscloudsvr.exe mobsync.exe CompatTelRunner.exe DeviceCensus.exe Software_reporter_tool.exe maintenanceservice.exe bonjour.exe jusched.exe crashreporter.exe MicrosoftEdgeUpdate.exe upfc.exe SppExtComObj.exe osppsvc.exe
 for %%i in (%executables%) do (
     reg.exe add "HKLM\Software\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\%%i" /v "Debugger" /t REG_SZ /d "%windir%\System32\taskkill.exe" /f
     echo Added IFEO debugger for %%i
@@ -221,7 +221,7 @@ w32tm /config /update /manualpeerlist:time.google.com /syncfromflags:manual /rel
 w32tm /config /reliable:yes
 net stop w32time
 net start w32time
-w32tm /resync
+@echo off & ping -n 1 google.com >nul 2>&1 || (echo No internet. & exit /b) & w32tm /resync
 echo Going for Services
 sc config AJRouter start=disabled
 sc config BraveUpdate start=disabled
@@ -268,6 +268,7 @@ for /f "skip=2 tokens=4*" %%i in ('powercfg /list') do (
     )
 )
 pause
+powershell -command "Get-ScheduledTask -TaskPath '\Microsoft\Windows\InstallService\*' | Disable-ScheduledTask; Get-ScheduledTask -TaskPath '\Microsoft\Windows\UpdateOrchestrator\*' | Disable-ScheduledTask; Get-ScheduledTask -TaskPath '\Microsoft\Windows\UpdateAssistant\*' | Disable-ScheduledTask; Get-ScheduledTask -TaskPath '\Microsoft\Windows\WaaSMedic\*' | Disable-ScheduledTask; Get-ScheduledTask -TaskPath '\Microsoft\Windows\WindowsUpdate\*' | Disable-ScheduledTask; Get-ScheduledTask -TaskPath '\Microsoft\WindowsUpdate\*' | Disable-ScheduledTask"
 echo Managing the Systems issues
 ::takeown /f C:\Windows.old /r /d "y
 ::takeown /f C:\Windows\logs /r /d "y
