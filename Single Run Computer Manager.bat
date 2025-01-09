@@ -176,10 +176,6 @@ rd /q /s "%UserProfile%\AppData\Roaming\Tencent\TxGameAssistant\GameDownload"
 rd /q /s "%UserProfile%\AppData\Roaming\kingsoft\wps\addons\pool"
 rd /q /s "%UserProfile%\OneDrive"
 rd C:\OneDriveTemp /Q /S
-rem windows update related services
-reg.exe add "HKLM\System\CurrentControlSet\Services\UsoSvc" /v "start" /t REG_DWORD /d "4" /f
-reg.exe add "HKLM\System\CurrentControlSet\Services\WaaSMedicSvc" /v "start" /t REG_DWORD /d "4" /f
-reg.exe add "HKLM\System\CurrentControlSet\Services\wuauserv" /v "start" /t REG_DWORD /d "4" /f
 rem other services
 reg.exe add "HKLM\System\CurrentControlSet\Services\NvTelemetryContainer" /v "start" /t REG_DWORD /d "4" /f
 reg.exe add "HKLM\System\CurrentControlSet\Services\WSearch" /v "start" /t REG_DWORD /d "4" /f
