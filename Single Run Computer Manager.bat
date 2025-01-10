@@ -182,7 +182,6 @@ reg.exe add "HKLM\System\CurrentControlSet\Services\WSearch" /v "start" /t REG_D
 reg.exe add "HKLM\System\CurrentControlSet\Services\AcrylicDNSProxySvc" /v "start" /t REG_DWORD /d "2" /f
 reg.exe add "HKLM\System\CurrentControlSet\Services\Adguard Service" /v "start" /t REG_DWORD /d "2" /f
 reg.exe add "HKLM\System\CurrentControlSet\Services\BFE" /v "start" /t REG_DWORD /d "2" /f
-reg.exe add "HKLM\System\CurrentControlSet\Services\BITS" /v "start" /t REG_DWORD /d "3" /f
 reg.exe add "HKLM\System\CurrentControlSet\Services\Dhcp" /v "start" /t REG_DWORD /d "2" /f
 reg.exe add "HKLM\System\CurrentControlSet\Services\Dnscache" /v "start" /t REG_DWORD /d "4" /f
 reg.exe add "HKLM\System\CurrentControlSet\Services\GoogleChromeElevationService" /v "start" /t REG_DWORD /d "4" /f
@@ -264,7 +263,6 @@ for /f "skip=2 tokens=4*" %%i in ('powercfg /list') do (
     )
 )
 pause
-powershell -command "Get-ScheduledTask -TaskPath '\Microsoft\Windows\InstallService\*' | Disable-ScheduledTask; Get-ScheduledTask -TaskPath '\Microsoft\Windows\UpdateOrchestrator\*' | Disable-ScheduledTask; Get-ScheduledTask -TaskPath '\Microsoft\Windows\UpdateAssistant\*' | Disable-ScheduledTask; Get-ScheduledTask -TaskPath '\Microsoft\Windows\WaaSMedic\*' | Disable-ScheduledTask; Get-ScheduledTask -TaskPath '\Microsoft\Windows\WindowsUpdate\*' | Disable-ScheduledTask; Get-ScheduledTask -TaskPath '\Microsoft\WindowsUpdate\*' | Disable-ScheduledTask"
 echo Managing the Systems issues
 ::takeown /f C:\Windows.old /r /d "y
 ::takeown /f C:\Windows\logs /r /d "y
@@ -399,7 +397,6 @@ reg.exe add "HKLM\Software\Microsoft\Windows\CurrentVersion\Policies\System" /v 
 reg.exe add "HKLM\Software\Microsoft\Windows\CurrentVersion\Policies\System" /v "ShutdownWithoutLogon" /t REG_DWORD /d "1" /f
 reg.exe add "HKLM\Software\Microsoft\Windows\CurrentVersion\WindowsStore\WindowsUpdate" /v "AutoDownload" /t REG_DWORD /d "0" /f
 reg.exe add "HKLM\Software\Microsoft\Windows\CurrentVersion\WindowsUpdate\Auto Update" /v "AUOptions" /t REG_DWORD /d "0" /f
-reg.exe add "HKLM\Software\Microsoft\Windows\CurrentVersion\WindowsUpdate\Auto Update" /v "IncludeRecommendedUpdates" /t REG_DWORD /d "0" /f
 reg.exe add "HKLM\Software\Microsoft\Windows\CurrentVersion\WindowsUpdate\OSUpgrade" /v "AllowOSUpgrade" /t REG_DWORD /d "0" /f
 reg.exe add "HKLM\Software\Piriform\CCleaner" /v "(Cfg)GetIpmForTrial" /t REG_SZ /d "0" /f
 reg.exe add "HKLM\Software\Piriform\CCleaner" /v "(Cfg)SoftwareUpdater" /t REG_SZ /d "0" /f
@@ -424,7 +421,6 @@ reg.exe add "HKLM\Software\Policies\Microsoft\VisualStudio\Setup" /v "Concurrent
 reg.exe add "HKLM\Software\Policies\Microsoft\Windows Defender" /v "DisableRealtimeMonitoring" /t REG_DWORD /d "1" /f
 reg.exe add "HKLM\Software\Policies\Microsoft\Windows Defender\Spynet" /v "SubmitSamplesConsent" /t REG_DWORD /d "0" /f
 reg.exe add "HKLM\Software\Policies\Microsoft\Windows\System" /v "ShellSmartScreenLevel" /t REG_SZ /d "Warn" /f
-reg.exe add "HKLM\Software\Policies\Microsoft\Windows\WindowsUpdate" /v "DisableWindowsUpdateAccess" /t REG_DWORD /d "0" /f
 reg.exe add "HKLM\Software\Policies\Microsoft\Windows\WindowsUpdate" /v "NoAutoUpdate" /t REG_DWORD /d "1" /f
 reg.exe add "HKLM\Software\Policies\Mozilla\Firefox" /v DisableAppUpdate /t REG_DWORD /d 1 /f
 reg.exe add "HKLM\Software\Policies\Opera Software\Opera Stable" /v DisableAutoUpdate /t REG_DWORD /d 1 /f
@@ -492,6 +488,32 @@ reg.exe delete "HKLM\Software\Wow6432Node\Microsoft\Windows\CurrentVersion\Explo
 reg.exe delete "HKLM\System\CurrentControlSet\services\LDrvSvc" /f
 ::PowerShell -NoProfile -ExecutionPolicy Bypass -Command "Get-AppXPackage -AllUsers | ForEach-Object {Add-AppxPackage -DisableDevelopmentMode -Register ([System.IO.Path]::Combine($_.InstallLocation, 'AppXManifest.xml'))}"
 endlocal
+pause
+reg.exe add "HKLM\Software\Microsoft\WindowsUpdate\UX\Settings" /v "UxOption" /t REG_DWORD /d "1" /f
+reg.exe add "HKLM\Software\Microsoft\WindowsUpdate\UX\Settings" /v ExcludeWUDriversInQualityUpdate /t REG_DWORD /d 1 /f
+reg.exe add "HKLM\Software\Microsoft\Windows\CurrentVersion\DeliveryOptimization\Config" /v DODownloadMode /t REG_DWORD /d 0 /f
+reg.exe add "HKLM\Software\Microsoft\Windows\CurrentVersion\DriverSearching" /v "DontSearchWindowsUpdate" /t REG_DWORD /d "1" /f
+reg.exe add "HKLM\Software\Microsoft\Windows\CurrentVersion\DriverSearching" /v "SearchOrderConfig" /t REG_DWORD /d "0" /f
+reg.exe add "HKLM\Software\Microsoft\Windows\CurrentVersion\WindowsUpdate\Auto Update" /v "IncludeRecommendedUpdates" /t REG_DWORD /d "0" /f
+reg.exe add "HKLM\Software\Policies\Microsoft\Windows\WindowsUpdate" /v "DisableWindowsUpdateAccess" /t REG_DWORD /d "1" /f
+reg.exe add "HKLM\Software\Policies\Microsoft\Windows\WindowsUpdate" /v ExcludeWUDriversInQualityUpdate /t REG_DWORD /d 1 /f
+reg.exe add "HKLM\System\CurrentControlSet\Services\BITS" /v "start" /t REG_DWORD /d "4" /f
+reg.exe add "HKLM\System\CurrentControlSet\Services\DoSvc" /v "start" /t REG_DWORD /d "4" /f
+reg.exe add "HKLM\System\CurrentControlSet\Services\UsoSvc" /v "start" /t REG_DWORD /d "4" /f
+reg.exe add "HKLM\System\CurrentControlSet\Services\WaaSMedicSvc" /v "start" /t REG_DWORD /d "4" /f
+reg.exe add "HKLM\System\CurrentControlSet\Services\wuauserv" /v "start" /t REG_DWORD /d "4" /f
+schtasks.exe /change /tn "Microsoft\Windows\WindowsUpdate\Automatic App Update" /Disable
+schtasks.exe /change /tn "Microsoft\Windows\WindowsUpdate\Scheduled start" /Disable
+schtasks.exe /change /tn "Microsoft\Windows\WindowsUpdate\sih" /Disable
+schtasks.exe /change /tn "Microsoft\Windows\WindowsUpdate\sihboot" /Disable
+schtasks.exe /change /tn "Microsoft\Windows\WindowsUpdate\sihpostreboot" /Disable
+schtasks.exe /change /tn "\Microsoft\Windows\WindowsUpdate\AUFirmwareInstall" /Disable
+schtasks.exe /change /tn "\Microsoft\Windows\WindowsUpdate\AUScheduledInstall" /Disable
+schtasks.exe /change /tn "\Microsoft\Windows\WindowsUpdate\AUSessionConnect" /Disable
+schtasks.exe /change /tn "\Microsoft\Windows\WindowsUpdate\Automatic App Update" /Disable
+schtasks.exe /change /tn "\Microsoft\Windows\WindowsUpdate\Scheduled Start" /Disable
+powershell -command "Get-ScheduledTask -TaskPath '\Microsoft\Windows\InstallService\*' | Disable-ScheduledTask; Get-ScheduledTask -TaskPath '\Microsoft\Windows\UpdateOrchestrator\*' | Disable-ScheduledTask; Get-ScheduledTask -TaskPath '\Microsoft\Windows\UpdateAssistant\*' | Disable-ScheduledTask; Get-ScheduledTask -TaskPath '\Microsoft\Windows\WaaSMedic\*' | Disable-ScheduledTask; Get-ScheduledTask -TaskPath '\Microsoft\Windows\WindowsUpdate\*' | Disable-ScheduledTask; Get-ScheduledTask -TaskPath '\Microsoft\WindowsUpdate\*' | Disable-ScheduledTask"
+
 
 #:RunAsTI snippet to run as TI/System, with innovative HKCU load, ownership privileges, high priority, and Explorer support
 set ^ #=& set "0=%~f0"& set 1=%*& powershell -c iex(([io.file]::ReadAllText($env:0)-split'#\:RunAsTI .*')[1])& exit /b
