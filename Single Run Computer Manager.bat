@@ -488,7 +488,13 @@ reg.exe delete "HKLM\Software\Wow6432Node\Microsoft\Windows\CurrentVersion\Explo
 reg.exe delete "HKLM\System\CurrentControlSet\services\LDrvSvc" /f
 ::PowerShell -NoProfile -ExecutionPolicy Bypass -Command "Get-AppXPackage -AllUsers | ForEach-Object {Add-AppxPackage -DisableDevelopmentMode -Register ([System.IO.Path]::Combine($_.InstallLocation, 'AppXManifest.xml'))}"
 endlocal
-pause
+@echo off
+choice /c YN /n /m "Perform the task? (Y/N): "
+if %errorlevel%==1 goto updateblock
+echo Task skipped. Goodbye!
+exit
+echo Blocking Windows Update completely...
+:updateblock
 reg.exe add "HKLM\Software\Microsoft\WindowsUpdate\UX\Settings" /v "UxOption" /t REG_DWORD /d "1" /f
 reg.exe add "HKLM\Software\Microsoft\WindowsUpdate\UX\Settings" /v ExcludeWUDriversInQualityUpdate /t REG_DWORD /d 1 /f
 reg.exe add "HKLM\Software\Microsoft\Windows\CurrentVersion\DeliveryOptimization\Config" /v DODownloadMode /t REG_DWORD /d 0 /f
@@ -513,7 +519,7 @@ schtasks.exe /change /tn "\Microsoft\Windows\WindowsUpdate\AUSessionConnect" /Di
 schtasks.exe /change /tn "\Microsoft\Windows\WindowsUpdate\Automatic App Update" /Disable
 schtasks.exe /change /tn "\Microsoft\Windows\WindowsUpdate\Scheduled Start" /Disable
 powershell -command "Get-ScheduledTask -TaskPath '\Microsoft\Windows\InstallService\*' | Disable-ScheduledTask; Get-ScheduledTask -TaskPath '\Microsoft\Windows\UpdateOrchestrator\*' | Disable-ScheduledTask; Get-ScheduledTask -TaskPath '\Microsoft\Windows\UpdateAssistant\*' | Disable-ScheduledTask; Get-ScheduledTask -TaskPath '\Microsoft\Windows\WaaSMedic\*' | Disable-ScheduledTask; Get-ScheduledTask -TaskPath '\Microsoft\Windows\WindowsUpdate\*' | Disable-ScheduledTask; Get-ScheduledTask -TaskPath '\Microsoft\WindowsUpdate\*' | Disable-ScheduledTask"
-
+echo Done! & pause & exit
 
 #:RunAsTI snippet to run as TI/System, with innovative HKCU load, ownership privileges, high priority, and Explorer support
 set ^ #=& set "0=%~f0"& set 1=%*& powershell -c iex(([io.file]::ReadAllText($env:0)-split'#\:RunAsTI .*')[1])& exit /b
