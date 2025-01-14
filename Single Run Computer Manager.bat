@@ -489,7 +489,7 @@ reg.exe delete "HKLM\System\CurrentControlSet\services\LDrvSvc" /f
 ::PowerShell -NoProfile -ExecutionPolicy Bypass -Command "Get-AppXPackage -AllUsers | ForEach-Object {Add-AppxPackage -DisableDevelopmentMode -Register ([System.IO.Path]::Combine($_.InstallLocation, 'AppXManifest.xml'))}"
 endlocal
 @echo off
-choice /c YN /n /m "Perform the task? (Y/N): "
+choice /c YN /n /m "Would you like to BLOCK all Windows Update services? (Y/N): "
 if %errorlevel%==1 goto updateblock
 echo Task skipped. Goodbye!
 exit
