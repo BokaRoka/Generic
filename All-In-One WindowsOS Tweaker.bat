@@ -499,77 +499,6 @@ reg.exe add "HKLM\Software\Policies\Microsoft\MicrosoftEdge\SearchScopes" /v "Sh
 reg.exe add "HKLM\Software\Policies\Microsoft\MicrosoftEdge\TabPreloader" /v "AllowTabPreloading" /t REG_DWORD /d "0" /f
 reg.exe add "HKLM\Software\Policies\Microsoft\Windows\CurrentVersion\WindowsStore\WindowsUpdate" /v "DisableStore" /t REG_DWORD /d "0" /f
 reg.exe add "HKLM\Software\Policies\Microsoft\Windows\DataCollection" /v "MicrosoftEdgeDataOptIn" /t REG_DWORD /d "0" /f
-::StartisBack SETTINGS for Windows 10-11
-reg.exe add "HKCU\Software\StartIsBack" /v "AllProgramsFlyout" /t REG_DWORD /d "0" /f
-reg.exe add "HKCU\Software\StartIsBack" /v "AutoUpdates" /t REG_DWORD /d "0" /f
-reg.exe add "HKCU\Software\StartIsBack" /v "CombineWinX" /t REG_DWORD /d "1" /f
-reg.exe add "HKCU\Software\StartIsBack" /v "Disabled" /t REG_DWORD /d "0" /f
-reg.exe add "HKCU\Software\StartIsBack" /v "HideOrb" /t REG_DWORD /d "0" /f
-reg.exe add "HKCU\Software\StartIsBack" /v "HideSecondaryOrb" /t REG_DWORD /d "0" /f
-reg.exe add "HKCU\Software\StartIsBack" /v "HideUserFrame" /t REG_DWORD /d "0" /f
-reg.exe add "HKCU\Software\StartIsBack" /v "ImmersiveMenus" /t REG_DWORD /d "4294967295" /f
-reg.exe add "HKCU\Software\StartIsBack" /v "MetroHotKey" /t REG_DWORD /d "10" /f
-reg.exe add "HKCU\Software\StartIsBack" /v "MetroHotkeyFunction" /t REG_DWORD /d "0" /f
-reg.exe add "HKCU\Software\StartIsBack" /v "ModernIconsBadgesStartMenu" /t REG_DWORD /d "1" /f
-reg.exe add "HKCU\Software\StartIsBack" /v "ModernIconsColorful" /t REG_DWORD /d "0" /f
-reg.exe add "HKCU\Software\StartIsBack" /v "ModernIconsColorized" /t REG_DWORD /d "0" /f
-reg.exe add "HKCU\Software\StartIsBack" /v "ModernIconsUnplated" /t REG_DWORD /d "1" /f
-reg.exe add "HKCU\Software\StartIsBack" /v "NoXAMLPrelaunch" /t REG_DWORD /d "1" /f
-reg.exe add "HKCU\Software\StartIsBack" /v "OrbBitmap" /t REG_SZ /d "Windows 10" /f
-reg.exe add "HKCU\Software\StartIsBack" /v "SettingsVersion" /t REG_DWORD /d "5" /f
-reg.exe add "HKCU\Software\StartIsBack" /v "Start_AdminToolsRoot" /t REG_DWORD /d "2" /f
-reg.exe add "HKCU\Software\StartIsBack" /v "Start_AskCortana" /t REG_DWORD /d "0" /f
-reg.exe add "HKCU\Software\StartIsBack" /v "Start_AutoCascade" /t REG_DWORD /d "1" /f
-reg.exe add "HKCU\Software\StartIsBack" /v "Start_JumpListItems" /t REG_DWORD /d "10" /f
-reg.exe add "HKCU\Software\StartIsBack" /v "Start_LargeAllAppsIcons" /t REG_DWORD /d "1" /f
-reg.exe add "HKCU\Software\StartIsBack" /v "Start_LargeMFUIcons" /t REG_DWORD /d "1" /f
-reg.exe add "HKCU\Software\StartIsBack" /v "Start_MinMFU" /t REG_DWORD /d "9" /f
-reg.exe add "HKCU\Software\StartIsBack" /v "Start_NotifyNewApps" /t REG_DWORD /d "0" /f
-reg.exe add "HKCU\Software\StartIsBack" /v "Start_RightPaneIcons" /t REG_DWORD /d "2" /f
-reg.exe add "HKCU\Software\StartIsBack" /v "Start_ShowCommandPrompt" /t REG_DWORD /d "1" /f
-reg.exe add "HKCU\Software\StartIsBack" /v "Start_ShowControlPanel" /t REG_DWORD /d "1" /f
-reg.exe add "HKCU\Software\StartIsBack" /v "Start_ShowDownloads" /t REG_DWORD /d "1" /f
-reg.exe add "HKCU\Software\StartIsBack" /v "Start_ShowMyComputer" /t REG_DWORD /d "1" /f
-reg.exe add "HKCU\Software\StartIsBack" /v "Start_ShowMyDocs" /t REG_DWORD /d "1" /f
-reg.exe add "HKCU\Software\StartIsBack" /v "Start_ShowMyMusic" /t REG_DWORD /d "1" /f
-reg.exe add "HKCU\Software\StartIsBack" /v "Start_ShowMyPics" /t REG_DWORD /d "1" /f
-reg.exe add "HKCU\Software\StartIsBack" /v "Start_ShowNetConn" /t REG_DWORD /d "0" /f
-reg.exe add "HKCU\Software\StartIsBack" /v "Start_ShowNetPlaces" /t REG_DWORD /d "0" /f
-reg.exe add "HKCU\Software\StartIsBack" /v "Start_ShowPCSettings" /t REG_DWORD /d "1" /f
-reg.exe add "HKCU\Software\StartIsBack" /v "Start_ShowPrinters" /t REG_DWORD /d "1" /f
-reg.exe add "HKCU\Software\StartIsBack" /v "Start_ShowRecentDocs" /t REG_DWORD /d "0" /f
-reg.exe add "HKCU\Software\StartIsBack" /v "Start_ShowRun" /t REG_DWORD /d "1" /f
-reg.exe add "HKCU\Software\StartIsBack" /v "Start_ShowSetProgramAccessAndDefaults" /t REG_DWORD /d "1" /f
-reg.exe add "HKCU\Software\StartIsBack" /v "Start_ShowSkyDrive" /t REG_DWORD /d "0" /f
-reg.exe add "HKCU\Software\StartIsBack" /v "Start_ShowUser" /t REG_DWORD /d "1" /f
-reg.exe add "HKCU\Software\StartIsBack" /v "Start_ShowVideos" /t REG_DWORD /d "1" /f
-reg.exe add "HKCU\Software\StartIsBack" /v "Start_SortFoldersFirst" /t REG_DWORD /d "0" /f
-reg.exe add "HKCU\Software\StartIsBack" /v "StartIsApps" /t REG_DWORD /d "0" /f
-reg.exe add "HKCU\Software\StartIsBack" /v "StartMenuAlpha" /t REG_DWORD /d "197" /f
-reg.exe add "HKCU\Software\StartIsBack" /v "StartMenuBlur" /t REG_DWORD /d "2" /f
-reg.exe add "HKCU\Software\StartIsBack" /v "StartMenuColor" /t REG_DWORD /d "4294967295" /f
-reg.exe add "HKCU\Software\StartIsBack" /v "StartMenuFavorites" /t REG_DWORD /d "0" /f
-reg.exe add "HKCU\Software\StartIsBack" /v "StartMenuMonitor" /t REG_DWORD /d "1" /f
-reg.exe add "HKCU\Software\StartIsBack" /v "StartMetroAppsFolder" /t REG_DWORD /d "2" /f
-reg.exe add "HKCU\Software\StartIsBack" /v "StartMetroAppsMFU" /t REG_DWORD /d "0" /f
-reg.exe add "HKCU\Software\StartIsBack" /v "StartScreenShortcut" /t REG_DWORD /d "0" /f
-reg.exe add "HKCU\Software\StartIsBack" /v "TaskbarAlpha" /t REG_DWORD /d "214" /f
-reg.exe add "HKCU\Software\StartIsBack" /v "TaskbarBlur" /t REG_DWORD /d "2" /f
-reg.exe add "HKCU\Software\StartIsBack" /v "TaskbarCenterIcons" /t REG_DWORD /d "0" /f
-reg.exe add "HKCU\Software\StartIsBack" /v "TaskbarColor" /t REG_DWORD /d "4294967295" /f
-reg.exe add "HKCU\Software\StartIsBack" /v "TaskbarJumpList" /t REG_DWORD /d "0" /f
-reg.exe add "HKCU\Software\StartIsBack" /v "TaskbarLargerIcons" /t REG_DWORD /d "1" /f
-reg.exe add "HKCU\Software\StartIsBack" /v "TaskbarSpacierIcons" /t REG_DWORD /d "4294967294" /f
-reg.exe add "HKCU\Software\StartIsBack" /v "TaskbarTranslucentEffect" /t REG_DWORD /d "0" /f
-reg.exe add "HKCU\Software\StartIsBack" /v "TerminateOnClose" /t REG_DWORD /d "1" /f
-reg.exe add "HKCU\Software\StartIsBack" /v "WelcomeShown" /t REG_DWORD /d "2" /f
-reg.exe add "HKCU\Software\StartIsBack" /v "WinkeyFunction" /t REG_DWORD /d "0" /f
-reg.exe add "HKCU\Software\StartIsBack\ShutdownChoices" /v "Lock" /t REG_DWORD /d "512" /f
-reg.exe add "HKCU\Software\StartIsBack\ShutdownChoices" /v "Restart" /t REG_DWORD /d "4" /f
-reg.exe add "HKCU\Software\StartIsBack\ShutdownChoices" /v "Shut down" /t REG_DWORD /d "2" /f
-reg.exe add "HKCU\Software\StartIsBack\ShutdownChoices" /v "Sign out" /t REG_DWORD /d "1" /f
-reg.exe add "HKCU\Software\StartIsBack\ShutdownChoices" /v "Sleep" /t REG_DWORD /d "16" /f
-reg.exe add "HKCU\Software\StartIsBack\ShutdownChoices" /v "Switch user" /t REG_DWORD /d "256" /f
 reg.exe add "HKLM\Software\Microsoft\Windows\CurrentVersion\Reliability" /v "AutoRecoveryTimeout" /t REG_DWORD /d "6" /f
 reg.exe add "HKLM\System\CurrentControlSet\Control\Session Manager\Memory Management" /v "AutomaticManagedPagefile" /t REG_DWORD /d "0" /f
 reg.exe add "HKLM\System\CurrentControlSet\Control\Session Manager\Memory Management" /v "DisablePagingCombining" /t REG_DWORD /d "1" /f
@@ -1478,6 +1407,7 @@ reg.exe add "HKLM\Software\Policies\Microsoft\Windows\WindowsUpdate\AU" /v "NoAu
 reg.exe add "HKLM\Software\Policies\Microsoft\WindowsInkWorkspace" /v "AllowSuggestedAppsInWindowsInkWorkspace" /t REG_DWORD /d "0" /f
 reg.exe add "HKLM\Software\Policies\Microsoft\WindowsMediaPlayer" /v "PreventLibrarySharing" /t REG_DWORD /d "1" /f
 reg.exe add "HKLM\Software\Policies\Microsoft\WindowsStore" /v "DisableOSUpgrade" /t REG_DWORD /d "1" /f
+reg.exe add "HKLM\Software\Policies\Microsoft\WindowsStore" /v DisableStoreApps /t REG_DWORD /d 0 /f
 reg.exe add "HKLM\Software\Policies\Microsoft\WMDRM" /v "DisableOnline" /t REG_DWORD /d "1" /f
 reg.exe add "HKLM\Software\Wow6432Node\Microsoft\Windows\CurrentVersion\AdvertisingInfo" /v "Enabled" /t REG_DWORD /d "0" /f
 reg.exe add "HKLM\Software\WOW6432Node\Microsoft\Windows\CurrentVersion\Explorer" /v "SmartScreenEnabled" /t "REG_SZ" /d "Off" /f
@@ -1601,7 +1531,6 @@ sc stop "DevicePickerUserSvc" & sc config "DevicePickerUserSvc" start=disabled
 sc stop "DiagSvc" & sc config "DiagSvc" start=disabled
 sc stop "DiagTrack" & sc config "DiagTrack" start=disabled
 sc stop "Diagnosticshub.StandardCollector.Service" & sc config "Diagnosticshub.StandardCollector.Service" start=disabled
-sc stop "DmEnrollmentSvc" & sc config "DmEnrollmentSvc" start=disabled
 sc stop "DmwappushService" & sc config "DmwappushService" start=disabled
 sc stop "DmwappushSvc" & sc config "DmwappushSvc" start=disabled
 sc stop "Dnscache" & sc config "Dnscache" start=disabled
@@ -1620,7 +1549,6 @@ sc stop "MessagingService" & sc config "MessagingService" start=disabled
 sc stop "MicrosoftEdgeElevationService" & sc config "MicrosoftEdgeElevationService" start=disabled
 sc stop "MozillaMaintenance" & sc config "MozillaMaintenance" start=disabled
 sc stop "Msdt" & sc config "Msdt" start=disabled
-sc stop "NcdAutoSetup" & sc config "NcdAutoSetup" start=disabled
 sc stop "Netlogon" & sc config "Netlogon" start=disabled
 sc stop "NvTelemetryContainer" & sc config "NvTelemetryContainer" start=disabled
 sc stop "OSRSS" & sc config "OSRSS" start=disabled
@@ -2127,7 +2055,7 @@ function RunAsTI ($cmd,$arg) { $id='RunAsTI'; $key="Registry::HKU\$(((whoami /us
  $DF=($P,$I,$P),($I,$I,$I,$I,$P,$D[1]),($I,$S,$S,$S,$I,$I,$I,$I,$I,$I,$I,$I,[int16],[int16],$P,$P,$P,$P),($D[3],$P),($P,$P,$I,$I)
  1..5|% {$k=$_; $n=1; $DF[$_-1]|% {$9=$D[$k]."Defin`eField"('f' + $n++, $_, 6)}}; 0..5|% {$T += $D[$_]."Creat`eType"()}
  0..5|% {nv "A$_" ([Activator]::CreateInstance($T[$_])) -fo}; function F ($1,$2) {$T[0]."G`etMethod"($1).invoke(0,$2)}
- $TI=(whoami /groups)-like'*1-16-16384*'; $As=0; if(!$cmd) {$cmd='control';$arg='admintools'}; if ($cmd-eq'This PC'){$cmd='file:'}
+ $TI=(whoami /groups)-like'*1-16-16384*'; $As=0; if(!$cmd) {$cmd='Control';$arg='admintools'}; if ($cmd-eq'This PC'){$cmd='file:'}
  if (!$TI) {'TrustedInstaller','lsass','winlogon'|% {if (!$As) {$9=sc.exe start $_; $As=@(get-process -name $_ -ea 0|% {$_})[0]}}
  function M ($1,$2,$3) {$M."G`etMethod"($1,[type[]]$2).invoke(0,$3)}; $H=@(); $Z,(4*$Z+16)|% {$H += M "AllocHG`lobal" $I $_}
  M "WriteInt`Ptr" ($P,$P) ($H[0],$As.Handle); $A1.f1=131072; $A1.f2=$Z; $A1.f3=$H[0]; $A2.f1=1; $A2.f2=1; $A2.f3=1; $A2.f4=1
@@ -2141,7 +2069,7 @@ function RunAsTI ($cmd,$arg) { $id='RunAsTI'; $key="Registry::HKU\$(((whoami /us
  function Q {[int](gwmi win32_process -filter 'name="explorer.exe"'|?{$_.getownersid().sid-eq$NT}|select -last 1).ProcessId}
  $11bug=($((gwmi Win32_OperatingSystem).BuildNumber)-eq'22000')-AND(($cmd-eq'file:')-OR(test-path -lit $cmd -PathType Container))
  if ($11bug) {'System.Windows.Forms','Microsoft.VisualBasic' |% {[Reflection.Assembly]::LoadWithPartialName("'$_")}}
- if ($11bug) {$path='^(l)'+$($cmd -replace '([\+\^\%\~\(\)\[\]])','{$1}')+'{ENTER}'; $cmd='control.exe'; $arg='admintools'}
+ if ($11bug) {$path='^(l)'+$($cmd -replace '([\+\^\%\~\(\)\[\]])','{$1}')+'{ENTER}'; $cmd='Control.exe'; $arg='admintools'}
  L ($key-split'\\')[1] $LNK ''; $R=[diagnostics.process]::start($cmd,$arg); if ($R) {$R.PriorityClass='High'; $R.WaitForExit()}
  if ($11bug) {$w=0; do {if($w-gt40){break}; sleep -mi 250;$w++} until (Q); [Microsoft.VisualBasic.Interaction]::AppActivate($(Q))}
  if ($11bug) {[Windows.Forms.SendKeys]::SendWait($path)}; do {sleep 7} while(Q); L '.DEFAULT' $LNK 'Interactive User'
