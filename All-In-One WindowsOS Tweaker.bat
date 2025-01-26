@@ -8,39 +8,8 @@ whoami | findstr /i /C:"nt authority\System" >nul || whoami /user | findstr /i /
 REM *** All the Tweaks in One Category ***
 powercfg.exe -h off
 powercfg /h off
-taskkill /f /fi "IMAGENAME eq bonjour*"
-taskkill /f /fi "IMAGENAME eq CCleaner*"
-taskkill /f /fi "IMAGENAME eq DCIService*"
-taskkill /f /fi "IMAGENAME eq dfxshared*"
-taskkill /f /fi "IMAGENAME eq Edge*"
-taskkill /f /fi "IMAGENAME eq EdgeUpdate*"
-taskkill /f /fi "IMAGENAME eq MicrosoftEdgeUpdate*"
-taskkill /f /fi "IMAGENAME eq Google*"
-taskkill /f /fi "IMAGENAME eq jusched*"
-taskkill /f /fi "IMAGENAME eq lavasoft*"
-taskkill /f /fi "IMAGENAME eq maintenanceservice*"
-taskkill /f /fi "IMAGENAME eq mdns*"
-taskkill /f /fi "IMAGENAME eq mscorsvw*"
-taskkill /f /fi "IMAGENAME eq PresentationFontCache*"
-taskkill /f /fi "IMAGENAME eq reporter*"
-taskkill /f /fi "IMAGENAME eq Software_reporter_tool*"
-taskkill /f /fi "IMAGENAME eq WebCompanion*"
-taskkill /f /fi "IMAGENAME eq WLIDSVC*"
-taskkill /f /fi "IMAGENAME eq WSHelper*"
-taskkill /f /fi "IMAGENAME eq GoogleUpdate*"
-taskkill /f /fi "IMAGENAME eq GUpdate*"
-taskkill /f /fi "IMAGENAME eq ktpcntr*"
-taskkill /f /fi "IMAGENAME eq RemindersServer*"
-taskkill /f /fi "IMAGENAME eq SearchUI*"
-taskkill /f /fi "IMAGENAME eq ShellExperienceHost*"
-taskkill /f /fi "IMAGENAME eq update*"
-taskkill /f /fi "IMAGENAME eq wpscenter*"
-taskkill /f /fi "IMAGENAME eq wpscloudsvr*"
-taskkill /f /im RemindersServer.exe
-taskkill /f /im SearchUI.exe
-taskkill /f /im ShellExperienceHost.exe
+taskkill /f /fi "IMAGENAME eq bonjour*" & taskkill /f /fi "IMAGENAME eq CCleaner*" & taskkill /f /fi "IMAGENAME eq DCIService*" & taskkill /f /fi "IMAGENAME eq dfxshared*" & taskkill /f /fi "IMAGENAME eq Edge*" & taskkill /f /fi "IMAGENAME eq EdgeUpdate*" & taskkill /f /fi "IMAGENAME eq MicrosoftEdgeUpdate*" & taskkill /f /fi "IMAGENAME eq Google*" & taskkill /f /fi "IMAGENAME eq jusched*" & taskkill /f /fi "IMAGENAME eq lavasoft*" & taskkill /f /fi "IMAGENAME eq maintenanceservice*" & taskkill /f /fi "IMAGENAME eq mdns*" & taskkill /f /fi "IMAGENAME eq mscorsvw*" & taskkill /f /fi "IMAGENAME eq PresentationFontCache*" & taskkill /f /fi "IMAGENAME eq reporter*" & taskkill /f /fi "IMAGENAME eq Software_reporter_tool*" & taskkill /f /fi "IMAGENAME eq WebCompanion*" & taskkill /f /fi "IMAGENAME eq WLIDSVC*" & taskkill /f /fi "IMAGENAME eq WSHelper*" & taskkill /f /fi "IMAGENAME eq GoogleUpdate*" & taskkill /f /fi "IMAGENAME eq GUpdate*" & taskkill /f /fi "IMAGENAME eq ktpcntr*" & taskkill /f /fi "IMAGENAME eq RemindersServer*" & taskkill /f /fi "IMAGENAME eq SearchUI*" & taskkill /f /fi "IMAGENAME eq ShellExperienceHost*" & taskkill /f /fi "IMAGENAME eq update*" & taskkill /f /fi "IMAGENAME eq wpscenter*" & taskkill /f /fi "IMAGENAME eq wpscloudsvr*" & taskkill /f /im RemindersServer.exe & taskkill /f /im SearchUI.exe & taskkill /f /im ShellExperienceHost.exe
 schtasks.exe /change /TN "explorer" /disable
-:: Disabling and deleting useless Windows tasks.
 takeown /f "C:\Windows\System32\EOSNotify.exe"
 icacls "C:\Windows\System32\EOSNotify.exe" /grant administrators:F
 icacls "C:\Windows\System32\EOSNotify.exe" /inheritance:r /deny System:F /grant Administrators:F
