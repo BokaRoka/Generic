@@ -27,6 +27,7 @@ adb shell dumpsys deviceidle sys-whitelist -com.facebook.lite
 adb shell dumpsys deviceidle sys-whitelist -com.scorpio.securitycom
 :: Adds 1DM+ Downloader App to the Doze mode whitelist, allowing it to bypass Doze and continue downloads even when idle
 adb shell dumpsys deviceidle whitelist +idm.internet.download.manager.plus\
+adb shell pm enable com.google.android.apps.nbu.files
 echo Do you want to Begin?
 pause
 adb devices
@@ -67,7 +68,6 @@ for %%X in (
 "com.file.cleaner"
 "com.google.android.apps.googleassistant"
 "com.google.android.apps.magazines"
-"com.google.android.apps.nbu.files"
 "com.google.android.apps.nbu.paisa.user"
 "com.google.android.apps.payments"
 "com.google.android.apps.restore"
@@ -79,7 +79,6 @@ for %%X in (
 "com.google.android.apps.youtube.music"
 "com.google.android.calendar"
 "com.google.android.feedback"
-"com.google.android.gm"
 "com.google.android.gms.location.history"
 "com.google.android.gms.wallet"
 "com.google.android.keep"
@@ -507,7 +506,6 @@ for %%X in (
 "com.mi.webkit.core"
 "com.milink.service"
 "com.miui.analytics"
-"com.miui.android.fashiongallery"
 "com.miui.aod"
 "com.miui.audioeffect"
 "com.miui.audiomonitor"
