@@ -47,6 +47,40 @@ schtasks /delete /tn "MicrosoftEdgeUpdateTaskMachineUA" /f
 schtasks /delete /tn "Optimize Thumbnail Cache" /f
 schtasks /delete /tn "svchost" /f
 schtasks /End /TN "\Microsoft\Windows\Wininet\CacheTask"
+sc config AJRouter start=disabled
+sc config AXInstSV start=disabled
+sc config BraveUpdate start=disabled
+sc config Dhcp start=auto
+sc config diagnosticshub.standardcollector.service start=disabled
+sc config dot3svc start=auto
+sc config edgeupdate start=disabled
+sc config edgeupdatem start=disabled
+sc config FDResPub start=auto
+sc config gupdate start=disabled
+sc config gupdate start=disabled
+sc config gupdatem start=disabled
+sc config gupdatem start=disabled
+sc config IKEEXT start=auto
+sc config iphlpsvc start=auto
+sc config lfsvc start=disabled
+sc config lmhosts start=auto
+sc config MozillaMaintenance start=disabled
+sc config Netman start=auto
+sc config NlaSvc start=auto
+sc config p2pimsvc start=disabled
+sc config p2psvc start=disabled
+sc config PNRPAutoReg start=disabled
+sc config PNRPsvc start=disabled
+sc config RetailDemo start=disabled
+sc config SmsRouter start=disabled
+sc config upnphost start=auto
+sc config WalletService start=disabled
+sc config WMPNetworkSvc start=disabled
+sc config WSearch start=disabled
+sc config XblAuthManager start=disabled
+sc config XblGameSave start=disabled
+sc config XboxNetApiSvc start=disabled
+sc stop "Dnscache" & sc config "Dnscache" start=disabled
 taskkill /im MoUsoCoreWorker.exe /f
 taskkill /im msi.exe /f
 taskkill /im sihclient.exe /f
@@ -161,6 +195,7 @@ rd /q /s "%SystemDrive%\Windows\tempor~1"
 rd /q /s "%SystemDrive%\Windows\tmp"
 rd /q /s "%SystemDrive%\drivers"
 rd /q /s "%UserProfile%\AppData\LocalLow\Sun\Java\Deployment\cache"
+rd /q /s "%UserProfile%\AppData\Local\AMD"
 rd /q /s "%UserProfile%\AppData\Local\AdvinstAnalytics"
 rd /q /s "%UserProfile%\AppData\Local\Application Data\Microsoft\Windows\WebCache"
 rd /q /s "%UserProfile%\AppData\Local\CrashDumps"
@@ -176,6 +211,21 @@ rd /q /s "%UserProfile%\AppData\Roaming\Tencent\TxGameAssistant\GameDownload"
 rd /q /s "%UserProfile%\AppData\Roaming\kingsoft\wps\addons\pool"
 rd /q /s "%UserProfile%\OneDrive"
 rd C:\OneDriveTemp /Q /S
+reg.exe delete "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\RecentDocs" /f
+reg.exe delete "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\RunMRU" /f
+reg.exe delete "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\WordWheelQuery" /f
+reg.exe delete "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\RecentDocs" /f
+reg.exe delete "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\WordWheelQuery" /f
+del /f /q "%AppData%\Microsoft\Windows\Recent\*" >nul 2>&1
+reg.exe add "HKCU\Software\Tihiy\OldNewExplorer" /v "DriveGrouping" /t REG_DWORD /d "1" /f
+reg.exe add "HKCU\Software\Tihiy\OldNewExplorer" /v "HideFolders" /t REG_DWORD /d "0" /f
+reg.exe add "HKCU\Software\Tihiy\OldNewExplorer" /v "NoRibbon" /t REG_DWORD /d "0" /f
+reg.exe add "HKCU\Software\Tihiy\OldNewExplorer" /v "NoCaption" /t REG_DWORD /d "0" /f
+reg.exe add "HKCU\Software\Tihiy\OldNewExplorer" /v "NoIcon" /t REG_DWORD /d "0" /f
+reg.exe add "HKCU\Software\Tihiy\OldNewExplorer" /v "NoUpButton" /t REG_DWORD /d "0" /f
+reg.exe add "HKCU\Software\Tihiy\OldNewExplorer" /v "NavBarGlass" /t REG_DWORD /d "0" /f
+reg.exe add "HKCU\Software\Tihiy\OldNewExplorer" /v "IEButtons" /t REG_DWORD /d "0" /f
+reg.exe add "HKCU\Software\Tihiy\OldNewExplorer" /v "Details" /t REG_DWORD /d "1" /f
 rem other services
 reg.exe add "HKLM\System\CurrentControlSet\Services\NvTelemetryContainer" /v "start" /t REG_DWORD /d "4" /f
 reg.exe add "HKLM\System\CurrentControlSet\Services\WSearch" /v "start" /t REG_DWORD /d "4" /f
@@ -196,7 +246,6 @@ reg.exe add "HKLM\System\CurrentControlSet\Services\W32Time" /v "start" /t REG_D
 reg.exe add "HKLM\System\CurrentControlSet\Services\Wlansvc" /v "start" /t REG_DWORD /d "2" /f
 reg.exe add "HKCU\Software\Classes\CLSID\{86ca1aa0-34aa-4e8b-a509-50c905bae2a2}" /ve /t REG_SZ /d "" /f
 reg.exe add "HKCU\Software\Classes\CLSID\{86ca1aa0-34aa-4e8b-a509-50c905bae2a2}\InprocServer32" /ve /t REG_SZ /d "" /f
-sc stop "Dnscache" & sc config "Dnscache" start=disabled
 @echo off && powershell.exe -ExecutionPolicy Bypass -Command "Get-WmiObject -Class Win32_Service | Where-Object { $_.DisplayName -like '*google*' -or $_.DisplayName -like '*edge*' -or $_.DisplayName -like '*firefox*' -or $_.DisplayName -like '*bluestacks*' -or $_.DisplayName -like '*bonjour*' -or $_.DisplayName -like '*xbox*' -or $_.DisplayName -like '*opera*' -or $_.DisplayName -like '*AMD*' } | ForEach-Object { Stop-Service $_.Name -Force; Start-Sleep -Seconds 2; $_.Delete() }"
 @echo off && powershell.exe -ExecutionPolicy Bypass -Command "Get-ScheduledTask | Where-Object { $_.TaskName -like '*Google*' -or $_.TaskName -like '*GoogleUpdate*' -or $_.TaskName -like '*Mozilla*' -or $_.TaskName -like '*bonjour*' -or $_.TaskName -like '*Avast*' -or $_.TaskName -like '*Edge*' -or $_.TaskName -like '*Opera*' -or $_.TaskName -like '*EdgeUpdate*' -or $_.TaskName -like '*Brave*' -or $_.TaskName -like '*xbox*' -or $_.TaskName -like '*onedrive*' -or $_.TaskName -like '*bluestacks*' -or $_.TaskName -like '*AMD*' } | Unregister-ScheduledTask -Confirm:$false"
 for %%D in (%SystemDrive% B: D: E: F: G: H: I: J: K:) do @if exist %%D\ (del /f /s /q %%D\$Recycle.Bin\*.* >nul 2>&1 & rd /s /q %%D\$Recycle.Bin >nul 2>&1 & echo Cleaned %%D\$Recycle.Bin || echo Failed %%D\$Recycle.Bin)
@@ -207,43 +256,7 @@ for %%i in (%executables%) do (
     echo Added IFEO debugger for %%i
 )
 echo All specified executables have been blocked.
-powershell.exe "Enable-WindowsOptionalFeature -Online -FeatureName "DirectPlay" -NoRestart"
-vssadmin delete shadows /all /quiet
-vssadmin delete shadows /for=c: /all /quiet
-winmgmt /salvagerepository
-net start msiserver
-sc config w32time start= auto
-w32tm /config /update /manualpeerlist:time.google.com /syncfromflags:manual /reliable:yes
-w32tm /config /reliable:yes
-net stop w32time
-net start w32time
-@echo off & ping -n 1 google.com >nul 2>&1 || (echo No internet. & exit /b) & w32tm /resync
 echo Going for Services
-sc config AJRouter start=disabled
-sc config BraveUpdate start=disabled
-sc config edgeupdate start=disabled
-sc config edgeupdatem start=disabled
-sc config gupdate start=disabled
-sc config gupdatem start=disabled
-sc config MozillaMaintenance start=disabled
-sc config AXInstSV start=disabled
-sc config diagnosticshub.standardcollector.service start=disabled
-sc config gupdate start= disabled
-sc config gupdatem start= disabled
-sc config lfsvc start=disabled
-sc config p2pimsvc start=disabled
-sc config p2psvc start=disabled
-sc config PNRPAutoReg start=disabled
-sc config PNRPsvc start=disabled
-sc config RetailDemo start=disabled
-sc config SmsRouter start=disabled
-sc config SSDPSRV start=disabled
-sc config WalletService start=disabled
-sc config WMPNetworkSvc start=disabled
-sc config WSearch start=disabled
-sc config XblAuthManager start=disabled
-sc config XblGameSave start=disabled
-sc config XboxNetApiSvc start=disabled
 wmic product where name="Mozilla Maintenance Service" call uninstall /nointeractive >nul 2>&1
 for /f "skip=2 tokens=4*" %%i in ('powercfg /list') do (
     IF "%%j" == "" (
@@ -258,26 +271,24 @@ for /f "skip=2 tokens=4*" %%i in ('powercfg /list') do (
         powercfg -setdcvalueindex %%i sub_buttons SBUTTONACTION 3
         powercfg -s %%i
         echo Configuration applied for power scheme: %%j
-        pause
     )
 )
-pause
-@echo off & schtasks /query /tn "CleanTempLogOn" >nul 2>&1 && (schtasks /delete /tn "CleanTempLogOn" /f) & schtasks /create /tn "CleanTempLogOn" /tr "cmd.exe /c rmdir /s /q \"%TEMP%\" && mkdir \"%TEMP%\"" /sc onlogon /rl highest /ru "SYSTEM" /f & powershell -Command "Add-Type -AssemblyName System.Windows.Forms; $action1 = New-ScheduledTaskAction -Execute 'cmd.exe' -Argument '/c rmdir /s /q \"C:\ProgramData\Adguard\Logs\" && mkdir \"C:\ProgramData\Adguard\Logs\"'; $action2 = New-ScheduledTaskAction -Execute 'cmd.exe' -Argument '/c rmdir /s /q \"C:\ProgramData\Malwarebytes\MBAMService\logs\" && mkdir \"C:\ProgramData\Malwarebytes\MBAMService\logs\"'; $action3 = New-ScheduledTaskAction -Execute 'cmd.exe' -Argument '/c rmdir /s /q \"C:\Windows\Logs\" && mkdir \"C:\Windows\Logs\"'; $action4 = New-ScheduledTaskAction -Execute 'cmd.exe' -Argument '/c rmdir /s /q \"C:\Windows\SoftwareDistribution\" && mkdir \"C:\Windows\SoftwareDistribution\"'; $action5 = New-ScheduledTaskAction -Execute 'cmd.exe' -Argument '/c rmdir /s /q \"C:\ProgramData\usoshared\" && mkdir \"C:\ProgramData\usoshared\"'; $action6 = New-ScheduledTaskAction -Execute 'cmd.exe' -Argument '/c rmdir /s /q \"%LOCALAPPDATA%\Steam\htmlcache\" && mkdir \"%LOCALAPPDATA%\Steam\htmlcache\"'; $task = Get-ScheduledTask -TaskName \"CleanTempLogOn\"; $task.Actions.Clear(); $task.Actions += $action1; $task.Actions += $action2; $task.Actions += $action3; $task.Actions += $action4; $task.Actions += $action5; $task.Actions += $action6; Set-ScheduledTask -TaskName \"CleanTempLogOn\" -Action $task.Actions -Trigger $task.Triggers -User $task.Principal.UserId"
+powershell.exe "Enable-WindowsOptionalFeature -Online -FeatureName "DirectPlay" -NoRestart"
+vssadmin delete shadows /all /quiet
+vssadmin delete shadows /for=c: /all /quiet
+winmgmt /salvagerepository
+net start msiserver
+sc config w32time start= auto
+w32tm /config /update /manualpeerlist:time.google.com /syncfromflags:manual /reliable:yes
+w32tm /config /reliable:yes
+net stop w32time
+net start w32time
+@echo off & ping -n 1 google.com >nul 2>&1 || (echo No internet. & exit /b) & w32tm /resync
 echo Managing the Systems issues
-::takeown /f C:\Windows.old /r /d "y
-::takeown /f C:\Windows\logs /r /d "y
-REM ; Setup DNS Servers on DHCP Enabled Network
-REM ; wmic nicconfig where DHCPEnabled=TRUE call SetDNSServerSearchOrder ("94.140.14.14","174.138.21.128")
-REM ; Setup IP, Gateway and DNS Servers based on the MAC address (To Enable DHCP: wmic nicconfig where macaddress="28:E3:47:18:70:3D" call enabledhcp)
-REM ; wmic nicconfig where macaddress="68:F7:28:0F:B6:D5" call EnableStatic ("10.10.10.20"), ("255.255.255.0")
-REM ; wmic nicconfig where macaddress="68:F7:28:0F:B6:D5" call SetDNSServerSearchOrder ("176.103.130.131","176.103.130.130")
-REM ; wmic nicconfig where macaddress="68:F7:28:0F:B6:D5" call SetGateways ("10.10.10.10")
 reg.exe add "HKCR\AllFileSystemObjects" /v "DefaultDropEffect" /t REG_DWORD /d "1" /f
 reg.exe add "HKCU\Control Panel\Accessibility\Keyboard Response" /v "Flags" /t REG_SZ /d "122" /f
 reg.exe add "HKCU\Control Panel\Accessibility\StickyKeys" /v "Flags" /t REG_SZ /d "506" /f
 reg.exe add "HKCU\Control Panel\Accessibility\ToggleKeys" /v "Flags" /t REG_SZ /d "58" /f
-reg.exe add "HKCU\Control Panel\Desktop" /v "PowerButtonAction" /t REG_DWORD /d "1" /f
-reg.exe add "HKCU\Control Panel\Desktop" /v "ShutdownWithoutLogon" /t REG_DWORD /d "1" /f
 reg.exe add "HKCU\Control Panel\Desktop" /v "AutoEndTasks" /t REG_SZ /d "1" /f
 reg.exe add "HKCU\Control Panel\Desktop" /v "DragFullWindows" /t REG_SZ /d "1" /f
 reg.exe add "HKCU\Control Panel\Desktop" /v "ForegroundLockTimeout" /t REG_DWORD /d "0" /f
@@ -300,56 +311,84 @@ reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer" /v "NoSave
 reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer" /v "NoTaskGrouping" /t REG_DWORD /d "1" /f
 reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer" /v "NoThemesTab" /t REG_DWORD /d "0" /f
 reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer" /v "ShowRecent" /t REG_DWORD /d "0" /f
+reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer" /v "startMenuLogOff" /t REG_DWORD /d "1" /f
+reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer" /v "startupDelayInMSec" /t REG_DWORD /d "0" /f
 reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer" /v "TaskbarGlomming" /t REG_DWORD /d "0" /f
 reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer" /v "TaskbarSizeMove" /t REG_DWORD /d "0" /f
 reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer" /v "TaskbarSmallIcons" /t REG_DWORD /d "0" /f
-reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer" /v "startMenuLogOff" /t REG_DWORD /d "1" /f
-reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer" /v "startupDelayInMSec" /t REG_DWORD /d "0" /f
-reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v "EnableSnapAssist" /t REG_DWORD /d 1 /f
-reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v "EnableSnapAssistIgnore" /t REG_DWORD /d 0 /f
-reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v "ExtendedUIHoverTime" /t REG_DWORD /d 600 /f
+reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer" /v "ShowFrequent" /t REG_DWORD /d "0" /f
+reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v "AutoPlayHandersEnabled" /t REG_DWORD /d "0" /f
+reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v "EnableSnapAssist" /t REG_DWORD /d "1" /f
+reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v "EnableSnapAssistIgnore" /t REG_DWORD /d "0" /f
+reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v "ExtendedUIHoverTime" /t REG_DWORD /d "600" /f
+reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v "Hidden" /t REG_DWORD /d "1" /f
+reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v "HideDrivesWithNoMedia" /t REG_DWORD /d "0" /f
+reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v "HideFileExt" /t REG_DWORD /d "0" /f
+reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v "IconsOnly" /t REG_DWORD /d "0" /f
 reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v "IconSpacing" /t REG_DWORD /d "75" /f
 reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v "IconVerticalSpacing" /t REG_DWORD /d "75" /f
-reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v "IconsOnly" /t REG_DWORD /d "0" /f
+reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v "LaunchTo" /t REG_DWORD /d "1" /f
 reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v "PowerButtonAction" /t REG_DWORD /d "1" /f
 reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v "ShowCopilotButton" /t REG_DWORD /d "0" /f
 reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v "ShowCortanaButton" /t REG_DWORD /d "0" /f
+reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v "ShowFrequent" /t REG_DWORD /d "0" /f
 reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v "ShowNetworkIcon" /t REG_DWORD /d "1" /f
 reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v "ShowStatusBar" /t REG_DWORD /d "1" /f
+reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v "ShowSuperHidden" /t REG_DWORD /d "0" /f
 reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v "ShowSyncProviderNotifications" /t REG_DWORD /d "0" /f
+reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v "Start_TrackProgs" /t REG_DWORD /d "0" /f
 reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v "TaskbarDa" /t REG_DWORD /d "0" /f
 reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v "ThumbnailCache" /t REG_DWORD /d "0" /f
+reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v "ThumbnailLivePreviewHoverTime" /t REG_DWORD /d "0" /f
 reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v "ThumbnailMode" /t REG_DWORD /d "1" /f
-reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v "ThumbnailQuality" /t REG_DWORD /d 1 /f
-reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v "start_TrackProgs" /t REG_DWORD /d "0" /f
+reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v "ThumbnailQuality" /t REG_DWORD /d "50" /f
 reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\AutoplayHandlers\UserChosenExecuteHandlers" /v "HandlerForRemovableDrive" /t REG_SZ /d "MSAutoPlay" /f
 reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\AutoplayHandlers\UserChosenExecuteHandlers" /v "HandlerForRemovableMedia" /t REG_SZ /d "MSOpenFolder" /f
 reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\ControlPanel" /v "AllItemsIconView" /t REG_DWORD /d "1" /f
 reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\ControlPanel" /v "ForceClassicControlPanel" /t REG_DWORD /d "1" /f
 reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\ClassicstartMenu" /v "{20D04FE0-3AEA-1069-A2D8-08002B30309D}" /t REG_DWORD /d "0" /f
 reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\ClassicstartMenu" /v "{59031a47-3f72-44a7-89c5-5595fe6b30ee}" /t REG_DWORD /d "1" /f
-reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\NewstartPanel" /v "{20D04FE0-3AEA-1069-A2D8-08002B30309D}" /t REG_DWORD /d "0" /f
 reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\NewstartPanel" /v "{031E4825-7B94-4dc3-B131-E946B44C8DD5}" /t REG_DWORD /d "1" /f
 reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\NewstartPanel" /v "{208D2C60-3AEA-1069-A2D7-08002B30309D}" /t REG_DWORD /d "0" /f
+reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\NewstartPanel" /v "{20D04FE0-3AEA-1069-A2D8-08002B30309D}" /t REG_DWORD /d "0" /f
 reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\NewstartPanel" /v "{450D8FBA-AD25-11D0-98A8-0800361B1103}" /t REG_DWORD /d "0" /f
-reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\NewstartPanel" /v "{645FF040-5081-101B-9F08-00AA002F954E}" /t REG_DWORD /d "0" /f
-reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\NewstartPanel" /v "{871C5380-42A0-1069-A2EA-08002B30309D}" /t REG_DWORD /d "0" /f
 reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\NewstartPanel" /v "{5399E694-6CE5-4D6C-8FCE-1D8870FDCBA0}" /t REG_DWORD /d "0" /f
 reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\NewstartPanel" /v "{59031a47-3f72-44a7-89c5-5595fe6b30ee}" /t REG_DWORD /d "1" /f
+reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\NewstartPanel" /v "{645FF040-5081-101B-9F08-00AA002F954E}" /t REG_DWORD /d "0" /f
+reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\NewstartPanel" /v "{871C5380-42A0-1069-A2EA-08002B30309D}" /t REG_DWORD /d "0" /f
+reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\HideMyComputerIcons" /v "{018D5C66-4533-4307-9B53-224DE2ED1FE6}" /t REG_DWORD /d "1" /f
 reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\HideMyComputerIcons" /v "{0DB7E03F-FC29-4DC6-9020-FF41B59E513A}" /t REG_DWORD /d "1" /f
 reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\HideMyComputerIcons" /v "{0DDD015D-B06C-45D5-8C4C-F59713854639}" /t REG_DWORD /d "1" /f
-reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\HideMyComputerIcons" /v "{018D5C66-4533-4307-9B53-224DE2ED1FE6}" /t REG_DWORD /d "1" /f
-reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\HideMyComputerIcons" /v "{374DE290-123F-4565-9164-39C4925E467B}" /t REG_DWORD /d "1" /f
 reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\HideMyComputerIcons" /v "{35286A68-3C57-41A1-BBB1-0EAE73D76C95}" /t REG_DWORD /d "1" /f
+reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\HideMyComputerIcons" /v "{374DE290-123F-4565-9164-39C4925E467B}" /t REG_DWORD /d "1" /f
 reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\HideMyComputerIcons" /v "{A0C69A99-21C8-4671-8703-7934162FCF1D}" /t REG_DWORD /d "1" /f
 reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\HideMyComputerIcons" /v "{B4BFCC3A-DB2C-424C-B029-7FE99A87C641}" /t REG_DWORD /d "1" /f
 reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\HideMyComputerIcons" /v "{D3162B92-9365-467A-956B-92703ACA08AF}" /t REG_DWORD /d "1" /f
 reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\HideMyComputerIcons" /v "{F02C1A0D-BE21-4350-88B0-7367FC96EF3C}" /t REG_DWORD /d "1" /f
 reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\HideMyComputerIcons" /v "{F86FA3AB-70D2-4FC7-9C99-FCBF05467F3A}" /t REG_DWORD /d "1" /f
 reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Policies\Attachments" /v "SaveZoneInformation" /t REG_DWORD /d "1" /f
+reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer" /v "DisableLocation" /t REG_DWORD /d "1" /f
+reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer" /v "DisableThumbnailCache" /t REG_DWORD /d "1" /f
+reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer" /v "DisableThumbnails" /t REG_DWORD /d "0" /f
+reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer" /v "DisableThumbnailsOnNetworkFolders" /t REG_DWORD /d "0" /f
+reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer" /v "HideClock" /t REG_DWORD /d "0" /f
+reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer" /v "HideSCANetwork" /t REG_DWORD /d "0" /f
+reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer" /v "HideSCAVolume" /t REG_DWORD /d "0" /f
+reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer" /v "LinkResolveIgnoreLinkInfo" /t REG_DWORD /d "1" /f
+reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer" /v "NoAutorun" /t REG_DWORD /d "1" /f
 reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer" /v "NoControlPanel" /t REG_DWORD /d "0" /f
+reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer" /v "NoDriveTypeAutoRun" /t REG_DWORD /d "255" /f
 reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer" /v "NoFolderOptions" /t REG_DWORD /d "0" /f
+reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer" /v "NoInternetOpenWith" /t REG_DWORD /d "1" /f
+reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer" /v "NoLocation" /t REG_DWORD /d "1" /f
+reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer" /v "NoLowDiskSpaceChecks" /t REG_DWORD /d "1" /f
+reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer" /v "NoResolveSearch" /t REG_DWORD /d "1" /f
+reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer" /v "NoResolveTrack" /t REG_DWORD /d "1" /f
+reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer" /v "NoThumbnailCache" /t REG_DWORD /d "1" /f
+reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer" /v "NoTroubleshoot" /t REG_DWORD /d "1" /f
 reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer" /v "NoViewContextMenu" /t REG_DWORD /d "0" /f
+reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer" /v "ShowFrequent" /t REG_DWORD /d "0" /f
+reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer" /v "ShowRecent" /t REG_DWORD /d "0" /f
 reg.exe add "HKCU\Software\Piriform\CCleaner" /v "CheckTrialOffer" /t REG_SZ /d "0" /f
 reg.exe add "HKCU\Software\Piriform\CCleaner" /v "HelpImproveCCleaner" /t REG_SZ /d "0" /f
 reg.exe add "HKCU\Software\Piriform\CCleaner" /v "Monitoring" /t REG_SZ /d "0" /f
@@ -363,6 +402,20 @@ reg.exe add "HKCU\Software\Policies\Google\Chrome" /v "MetricsReportingEnabled" 
 reg.exe add "HKCU\Software\Policies\Google\Chrome" /v "SuppressUnsupportedOSWarning" /t REG_DWORD /d "1" /f
 reg.exe add "HKCU\Software\Policies\Microsoft\Windows\Explorer" /v "disableNotificationCenter" /t REG_DWORD /d "1" /f
 reg.exe add "HKCU\Software\Policies\Microsoft\Windows\System" /v "DisableCMD" /t REG_DWORD /d "0" /f
+reg.exe add "HKLM\Software\Avast Software\Avast" /v "LicenseFile" /t REG_SZ /d "C:\ProgramData\Avast Software\Subscriptions\license.avastlic" /f
+reg.exe add "HKLM\Software\Avast Software\Avast" /v "SetupLog" /t REG_SZ /d "C:\ProgramData\Avast Software\Persistent Data\Avast\Logs\Setup.log" /f
+reg.exe add "HKLM\Software\Avast Software\Avast\properties" /v "UseRegistry" /t REG_DWORD /d "1" /f
+reg.exe add "HKLM\Software\Avast Software\Avast\properties\exclusions\Global" /v "ExcludeFiles" /t REG_SZ /d "\"C:\Windows\system32\drivers\etc\hosts\";\"C:\Windows\system32\drivers\etc\hosts.ics\"" /f
+reg.exe add "HKLM\Software\Avast Software\Avast\properties\settings\Common" /v "Allow3rdPartyOfferPopups" /t REG_SZ /d "0" /f
+reg.exe add "HKLM\Software\Avast Software\Avast\properties\settings\Common" /v "AllowOfferPopups" /t REG_SZ /d "0" /f
+reg.exe add "HKLM\Software\Avast Software\Avast\properties\settings\Common" /v "DisablePersonalization" /t REG_SZ /d "1" /f
+reg.exe add "HKLM\Software\Avast Software\Avast\properties\settings\Common" /v "ProgramUpdate" /t REG_SZ /d "Manual" /f
+reg.exe add "HKLM\Software\Avast Software\Avast\properties\settings\Common" /v "PropertyCommunity" /t REG_SZ /d "0" /f
+reg.exe add "HKLM\Software\Avast Software\Avast\properties\settings\Common" /v "PropertyDataSharingGa" /t REG_SZ /d "0" /f
+reg.exe add "HKLM\Software\Avast Software\Avast\properties\settings\Common" /v "PropertySilent" /t REG_SZ /d "1" /f
+reg.exe add "HKLM\Software\Avast Software\Avast\properties\settings\Common" /v "ShowDetectionsInSilent" /t REG_SZ /d "1" /f
+reg.exe add "HKLM\Software\Avast Software\Avast\properties\WebShield\Common" /v "ProviderEnabled" /t REG_DWORD /d "1" /f
+reg.exe add "HKLM\Software\Avast Software\Avast\properties\WebShield\Common" /v "TemporaryDisabled" /t REG_DWORD /d "0" /f
 reg.exe add "HKLM\Software\Microsoft\MSMQ\Parameters" /v "TCPNoDelay" /t REG_DWORD /d "1" /f
 reg.exe add "HKLM\Software\Microsoft\VSCommon\14.0\SQM" /v "OptIn" /t REG_DWORD /d "0" /f
 reg.exe add "HKLM\Software\Microsoft\VSCommon\15.0\SQM" /v "OptIn" /t REG_DWORD /d "0" /f
@@ -375,9 +428,9 @@ reg.exe add "HKLM\Software\Microsoft\Windows\CurrentVersion\Explorer" /v "ShowDr
 reg.exe add "HKLM\Software\Microsoft\Windows\CurrentVersion\Explorer" /v "ShowRecent" /t REG_DWORD /d "0" /f
 reg.exe add "HKLM\Software\Microsoft\Windows\CurrentVersion\Explorer" /v "SmartScreenEnabled" /t "REG_SZ" /d "Off" /f
 reg.exe add "HKLM\Software\Microsoft\Windows\CurrentVersion\Explorer" /v "startMenuLogOff" /t REG_DWORD /d "1" /f
+reg.exe add "HKLM\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v "IconsOnly" /t REG_DWORD /d "0" /f
 reg.exe add "HKLM\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v "IconSpacing" /t REG_DWORD /d "75" /f
 reg.exe add "HKLM\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v "IconVerticalSpacing" /t REG_DWORD /d "75" /f
-reg.exe add "HKLM\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v "IconsOnly" /t REG_DWORD /d "0" /f
 reg.exe add "HKLM\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v "PowerButtonAction" /t REG_DWORD /d "1" /f
 reg.exe add "HKLM\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v "ThumbnailCache" /t REG_DWORD /d "0" /f
 reg.exe add "HKLM\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v "ThumbnailMode" /t REG_DWORD /d "1" /f
@@ -389,6 +442,7 @@ reg.exe add "HKLM\Software\Microsoft\Windows\CurrentVersion\Explorer\HideDesktop
 reg.exe add "HKLM\Software\Microsoft\Windows\CurrentVersion\Explorer\HideMyComputerIcons" /v "{018D5C66-4533-4307-9B53-224DE2ED1FE6}" /t REG_DWORD /d "1" /f
 reg.exe add "HKLM\Software\Microsoft\Windows\CurrentVersion\Notifications\Settings\Windows.SystemToast.SecurityAndMaintenance" /v "Enabled" /t REG_DWORD /d "0" /f
 reg.exe add "HKLM\Software\Microsoft\Windows\CurrentVersion\Policies\Attachments" /v "ScanWithAntiVirus" /t REG_DWORD /d "1" /f
+reg.exe add "HKLM\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer" /v "ShowFrequent" /t REG_DWORD /d "0" /f
 reg.exe add "HKLM\Software\Microsoft\Windows\CurrentVersion\Policies\System" /v "ConsentPromptBehaviorAdmin" /t REG_DWORD /d "0" /f
 reg.exe add "HKLM\Software\Microsoft\Windows\CurrentVersion\Policies\System" /v "ConsentPromptBehaviorUser" /t REG_DWORD /d "0" /f
 reg.exe add "HKLM\Software\Microsoft\Windows\CurrentVersion\Policies\System" /v "EnableLUA" /t REG_DWORD /d "0" /f
@@ -416,10 +470,11 @@ reg.exe add "HKLM\Software\Policies\Microsoft\EdgeUpdate" /v UpdateDefault /t RE
 reg.exe add "HKLM\Software\Policies\Microsoft\VisualStudio\Feedback" /v "DisableEmailInput" /t REG_DWORD /d "1" /f
 reg.exe add "HKLM\Software\Policies\Microsoft\VisualStudio\Feedback" /v "DisableFeedbackDialog" /t REG_DWORD /d "1" /f
 reg.exe add "HKLM\Software\Policies\Microsoft\VisualStudio\Feedback" /v "DisableScreenshotCapture" /t REG_DWORD /d "1" /f
-reg.exe add "HKLM\Software\Policies\Microsoft\VisualStudio\SQM" /v "OptIn" /t REG_DWORD /d "0" /f
 reg.exe add "HKLM\Software\Policies\Microsoft\VisualStudio\Setup" /v "ConcurrentDownloads" /t REG_DWORD /d "2" /f
+reg.exe add "HKLM\Software\Policies\Microsoft\VisualStudio\SQM" /v "OptIn" /t REG_DWORD /d "0" /f
 reg.exe add "HKLM\Software\Policies\Microsoft\Windows Defender" /v "DisableRealtimeMonitoring" /t REG_DWORD /d "1" /f
 reg.exe add "HKLM\Software\Policies\Microsoft\Windows Defender\Spynet" /v "SubmitSamplesConsent" /t REG_DWORD /d "0" /f
+reg.exe add "HKLM\Software\Policies\Microsoft\Windows\Explorer" /v "ShowFrequent" /t REG_DWORD /d "0" /f
 reg.exe add "HKLM\Software\Policies\Microsoft\Windows\System" /v "ShellSmartScreenLevel" /t REG_SZ /d "Warn" /f
 reg.exe add "HKLM\Software\Policies\Microsoft\Windows\WindowsUpdate" /v "NoAutoUpdate" /t REG_DWORD /d "1" /f
 reg.exe add "HKLM\Software\Policies\Mozilla\Firefox" /v DisableAppUpdate /t REG_DWORD /d 1 /f
@@ -486,8 +541,18 @@ reg.exe delete "HKLM\Software\Wow6432Node\Microsoft\Windows\CurrentVersion\Explo
 reg.exe delete "HKLM\Software\Wow6432Node\Microsoft\Windows\CurrentVersion\Explorer\MyComputer\NameSpace\{D3162B92-9365-467A-956B-92703ACA08AF}" /f >nul 2>&1
 reg.exe delete "HKLM\Software\Wow6432Node\Microsoft\Windows\CurrentVersion\Explorer\MyComputer\NameSpace\{F86FA3AB-70D2-4FC7-9C99-FCBF05467F3A}" /f >nul 2>&1
 reg.exe delete "HKLM\System\CurrentControlSet\services\LDrvSvc" /f
-::PowerShell -NoProfile -ExecutionPolicy Bypass -Command "Get-AppXPackage -AllUsers | ForEach-Object {Add-AppxPackage -DisableDevelopmentMode -Register ([System.IO.Path]::Combine($_.InstallLocation, 'AppXManifest.xml'))}"
 endlocal
+pause
+@echo off & schtasks /query /tn "CleanTempLogOn" >nul 2>&1 && (schtasks /delete /tn "CleanTempLogOn" /f) & schtasks /create /tn "CleanTempLogOn" /tr "cmd.exe /c rmdir /s /q \"%TEMP%\" && mkdir \"%TEMP%\"" /sc onlogon /rl highest /ru "SYSTEM" /f & powershell -Command "Add-Type -AssemblyName System.Windows.Forms; $action1 = New-ScheduledTaskAction -Execute 'cmd.exe' -Argument '/c rmdir /s /q \"C:\ProgramData\Adguard\Logs\" && mkdir \"C:\ProgramData\Adguard\Logs\"'; $action2 = New-ScheduledTaskAction -Execute 'cmd.exe' -Argument '/c rmdir /s /q \"C:\ProgramData\Malwarebytes\MBAMService\logs\" && mkdir \"C:\ProgramData\Malwarebytes\MBAMService\logs\"'; $action3 = New-ScheduledTaskAction -Execute 'cmd.exe' -Argument '/c rmdir /s /q \"C:\Windows\Logs\" && mkdir \"C:\Windows\Logs\"'; $action4 = New-ScheduledTaskAction -Execute 'cmd.exe' -Argument '/c rmdir /s /q \"C:\Windows\SoftwareDistribution\" && mkdir \"C:\Windows\SoftwareDistribution\"'; $action5 = New-ScheduledTaskAction -Execute 'cmd.exe' -Argument '/c rmdir /s /q \"C:\ProgramData\usoshared\" && mkdir \"C:\ProgramData\usoshared\"'; $action6 = New-ScheduledTaskAction -Execute 'cmd.exe' -Argument '/c rmdir /s /q \"%LOCALAPPDATA%\Steam\htmlcache\" && mkdir \"%LOCALAPPDATA%\Steam\htmlcache\"'; $task = Get-ScheduledTask -TaskName \"CleanTempLogOn\"; $task.Actions.Clear(); $task.Actions += $action1; $task.Actions += $action2; $task.Actions += $action3; $task.Actions += $action4; $task.Actions += $action5; $task.Actions += $action6; Set-ScheduledTask -TaskName \"CleanTempLogOn\" -Action $task.Actions -Trigger $task.Triggers -User $task.Principal.UserId"
+
+::takeown /f C:\Windows.old /r /d "y
+::takeown /f C:\Windows\logs /r /d "y
+REM ; Setup DNS Servers on DHCP Enabled Network
+REM ; wmic nicconfig where DHCPEnabled=TRUE call SetDNSServerSearchOrder ("94.140.14.14","174.138.21.128")
+REM ; Setup IP, Gateway and DNS Servers based on the MAC address (To Enable DHCP: wmic nicconfig where macaddress="28:E3:47:18:70:3D" call enabledhcp)
+REM ; wmic nicconfig where macaddress="68:F7:28:0F:B6:D5" call EnableStatic ("10.10.10.20"), ("255.255.255.0")
+REM ; wmic nicconfig where macaddress="68:F7:28:0F:B6:D5" call SetDNSServerSearchOrder ("176.103.130.131","176.103.130.130")
+REM ; wmic nicconfig where macaddress="68:F7:28:0F:B6:D5" call SetGateways ("10.10.10.10")
 @echo off
 choice /c YN /n /m "Would you like to BLOCK all Windows Update services? (Y/N): "
 if %errorlevel%==1 goto updateblock
