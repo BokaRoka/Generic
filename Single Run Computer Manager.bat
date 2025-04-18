@@ -47,40 +47,38 @@ schtasks /delete /tn "MicrosoftEdgeUpdateTaskMachineUA" /f
 schtasks /delete /tn "Optimize Thumbnail Cache" /f
 schtasks /delete /tn "svchost" /f
 schtasks /End /TN "\Microsoft\Windows\Wininet\CacheTask"
-sc config AJRouter start=disabled
-sc config AXInstSV start=disabled
-sc config BraveUpdate start=disabled
 sc config Dhcp start=auto
-sc config diagnosticshub.standardcollector.service start=disabled
 sc config dot3svc start=auto
-sc config edgeupdate start=disabled
-sc config edgeupdatem start=disabled
 sc config FDResPub start=auto
-sc config gupdate start=disabled
-sc config gupdate start=disabled
-sc config gupdatem start=disabled
-sc config gupdatem start=disabled
 sc config IKEEXT start=auto
 sc config iphlpsvc start=auto
-sc config lfsvc start=disabled
 sc config lmhosts start=auto
-sc config MozillaMaintenance start=disabled
 sc config Netman start=auto
 sc config NlaSvc start=auto
+sc config upnphost start=auto
+sc config AXInstSV start=disabled
+sc config BraveUpdate start=disabled
+sc config diagnosticshub.standardcollector.service start=disabled
+sc config edgeupdate start=disabled
+sc config edgeupdatem start=disabled
+sc config gupdate start=disabled
+sc config gupdate start=disabled
+sc config gupdatem start=disabled
+sc config gupdatem start=disabled
+sc config lfsvc start=disabled
+sc config MozillaMaintenance start=disabled
 sc config p2pimsvc start=disabled
-sc config p2psvc start=disabled
 sc config PNRPAutoReg start=disabled
 sc config PNRPsvc start=disabled
 sc config RetailDemo start=disabled
 sc config SmsRouter start=disabled
-sc config upnphost start=auto
 sc config WalletService start=disabled
 sc config WMPNetworkSvc start=disabled
 sc config WSearch start=disabled
 sc config XblAuthManager start=disabled
 sc config XblGameSave start=disabled
 sc config XboxNetApiSvc start=disabled
-sc stop "Dnscache" & sc config "Dnscache" start=disabled
+reg.exe add "HKLM\System\CurrentControlSet\Services\Dnscache" /v "start" /t REG_DWORD /d "4" /f
 taskkill /im MoUsoCoreWorker.exe /f
 taskkill /im msi.exe /f
 taskkill /im sihclient.exe /f
@@ -233,7 +231,6 @@ reg.exe add "HKLM\System\CurrentControlSet\Services\AcrylicDNSProxySvc" /v "star
 reg.exe add "HKLM\System\CurrentControlSet\Services\Adguard Service" /v "start" /t REG_DWORD /d "2" /f
 reg.exe add "HKLM\System\CurrentControlSet\Services\BFE" /v "start" /t REG_DWORD /d "2" /f
 reg.exe add "HKLM\System\CurrentControlSet\Services\Dhcp" /v "start" /t REG_DWORD /d "2" /f
-reg.exe add "HKLM\System\CurrentControlSet\Services\Dnscache" /v "start" /t REG_DWORD /d "4" /f
 reg.exe add "HKLM\System\CurrentControlSet\Services\GoogleChromeElevationService" /v "start" /t REG_DWORD /d "4" /f
 reg.exe add "HKLM\System\CurrentControlSet\Services\MBAMService" /v "start" /t REG_DWORD /d "2" /f
 reg.exe add "HKLM\System\CurrentControlSet\Services\MozillaMaintenance" /v "start" /t REG_DWORD /d "4" /f
@@ -541,6 +538,18 @@ reg.exe delete "HKLM\Software\Wow6432Node\Microsoft\Windows\CurrentVersion\Explo
 reg.exe delete "HKLM\Software\Wow6432Node\Microsoft\Windows\CurrentVersion\Explorer\MyComputer\NameSpace\{D3162B92-9365-467A-956B-92703ACA08AF}" /f >nul 2>&1
 reg.exe delete "HKLM\Software\Wow6432Node\Microsoft\Windows\CurrentVersion\Explorer\MyComputer\NameSpace\{F86FA3AB-70D2-4FC7-9C99-FCBF05467F3A}" /f >nul 2>&1
 reg.exe delete "HKLM\System\CurrentControlSet\services\LDrvSvc" /f
+endlocal
+setlocal
+set SERVICE_NAME=AcrylicService.exe
+set RULE_NAME=Acrylic DNS Full Access
+echo [*] Granting full firewall access to %SERVICE_NAME%...
+rem Remove existing rules with the same name (if any)
+netsh advfirewall firewall delete rule name="%RULE_NAME%" >nul 2>&1
+rem Allow inbound for any protocol, any port, any profile
+netsh advfirewall firewall add rule name="%RULE_NAME%" dir=in action=allow program="%ProgramFiles%\Acrylic DNS Proxy\%SERVICE_NAME%" enable=yes profile=any
+rem Allow outbound for any protocol, any port, any profile
+netsh advfirewall firewall add rule name="%RULE_NAME%" dir=out action=allow program="%ProgramFiles%\Acrylic DNS Proxy\%SERVICE_NAME%" enable=yes profile=any
+echo [✓] Firewall rules added successfully.
 endlocal
 pause
 @echo off & schtasks /query /tn "CleanTempLogOn" >nul 2>&1 && (schtasks /delete /tn "CleanTempLogOn" /f) & schtasks /create /tn "CleanTempLogOn" /tr "cmd.exe /c rmdir /s /q \"%TEMP%\" && mkdir \"%TEMP%\"" /sc onlogon /rl highest /ru "SYSTEM" /f & powershell -Command "Add-Type -AssemblyName System.Windows.Forms; $action1 = New-ScheduledTaskAction -Execute 'cmd.exe' -Argument '/c rmdir /s /q \"C:\ProgramData\Adguard\Logs\" && mkdir \"C:\ProgramData\Adguard\Logs\"'; $action2 = New-ScheduledTaskAction -Execute 'cmd.exe' -Argument '/c rmdir /s /q \"C:\ProgramData\Malwarebytes\MBAMService\logs\" && mkdir \"C:\ProgramData\Malwarebytes\MBAMService\logs\"'; $action3 = New-ScheduledTaskAction -Execute 'cmd.exe' -Argument '/c rmdir /s /q \"C:\Windows\Logs\" && mkdir \"C:\Windows\Logs\"'; $action4 = New-ScheduledTaskAction -Execute 'cmd.exe' -Argument '/c rmdir /s /q \"C:\Windows\SoftwareDistribution\" && mkdir \"C:\Windows\SoftwareDistribution\"'; $action5 = New-ScheduledTaskAction -Execute 'cmd.exe' -Argument '/c rmdir /s /q \"C:\ProgramData\usoshared\" && mkdir \"C:\ProgramData\usoshared\"'; $action6 = New-ScheduledTaskAction -Execute 'cmd.exe' -Argument '/c rmdir /s /q \"%LOCALAPPDATA%\Steam\htmlcache\" && mkdir \"%LOCALAPPDATA%\Steam\htmlcache\"'; $task = Get-ScheduledTask -TaskName \"CleanTempLogOn\"; $task.Actions.Clear(); $task.Actions += $action1; $task.Actions += $action2; $task.Actions += $action3; $task.Actions += $action4; $task.Actions += $action5; $task.Actions += $action6; Set-ScheduledTask -TaskName \"CleanTempLogOn\" -Action $task.Actions -Trigger $task.Triggers -User $task.Principal.UserId"
