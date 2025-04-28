@@ -286,19 +286,19 @@ reg.exe add "HKCR\AllFileSystemObjects" /v "DefaultDropEffect" /t REG_DWORD /d "
 reg.exe add "HKCU\Control Panel\Accessibility\Keyboard Response" /v "Flags" /t REG_SZ /d "122" /f
 reg.exe add "HKCU\Control Panel\Accessibility\StickyKeys" /v "Flags" /t REG_SZ /d "506" /f
 reg.exe add "HKCU\Control Panel\Accessibility\ToggleKeys" /v "Flags" /t REG_SZ /d "58" /f
-reg.exe add "HKCU\Control Panel\Desktop" /v "AutoEndTasks" /t REG_SZ /d "1" /f
 reg.exe add "HKCU\Control Panel\Desktop" /v "DragFullWindows" /t REG_SZ /d "1" /f
 reg.exe add "HKCU\Control Panel\Desktop" /v "ForegroundLockTimeout" /t REG_DWORD /d "0" /f
-reg.exe add "HKCU\Control Panel\Desktop" /v "HungAppTimeout" /t REG_SZ /d "8000" /f
+reg.exe add "HKCU\Control Panel\Desktop" /v "HungAppTimeout" /t REG_SZ /d "3100" /f
 reg.exe add "HKCU\Control Panel\Desktop" /v "JPEGImportQuality" /t REG_DWORD /d "100" /f
 reg.exe add "HKCU\Control Panel\Desktop" /v "LowLevelHooksTimeout" /t REG_SZ /d "3000" /f
 reg.exe add "HKCU\Control Panel\Desktop" /v "MenuShowDelay" /t REG_SZ /d "0" /f
+reg.exe add "HKCU\Control Panel\Desktop" /v "OEMBackground" /t REG_DWORD /d "00000001" /f
 reg.exe add "HKCU\Control Panel\Desktop" /v "PaintDesktopVersion" /t REG_DWORD /d "0" /f
 reg.exe add "HKCU\Control Panel\Desktop" /v "PowerButtonAction" /t REG_DWORD /d "1" /f
 reg.exe add "HKCU\Control Panel\Desktop" /v "ShutdownWithoutLogon" /t REG_DWORD /d "1" /f
-reg.exe add "HKCU\Control Panel\Desktop" /v "SnapToDEFAULTButton" /t REG_DWORD /d 1 /f
-reg.exe add "HKCU\Control Panel\Desktop" /v "SnapWindows" /t REG_DWORD /d 1 /f
-reg.exe add "HKCU\Control Panel\Desktop" /v "WaitToKillAppTimeout" /t REG_SZ /d "1" /f
+reg.exe add "HKCU\Control Panel\Desktop" /v "SnapToDefaultButton" /t REG_DWORD /d "1" /f
+reg.exe add "HKCU\Control Panel\Desktop" /v "SnapWindows" /t REG_DWORD /d "1" /f
+reg.exe add "HKCU\Control Panel\Desktop" /v "WaitToKillAppTimeout" /t REG_SZ /d "1100" /f
 reg.exe add "HKCU\Control Panel\Desktop" /v OEMBackground /T REG_DWORD /d 00000001 /f
 reg.exe add "HKCU\Software\Microsoft\VisualStudio\Telemetry" /v "TurnOffSwitch" /t REG_DWORD /d "1" /f
 reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer" /v "DisableEdgeDesktopShortcutCreation" /t REG_DWORD /d "1" /f
