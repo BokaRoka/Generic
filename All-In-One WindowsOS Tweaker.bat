@@ -801,6 +801,7 @@ reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\PenWorkspace" /v "Pe
 reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Policies\Attachments" /v "SaveZoneInformation" /t REG_DWORD /d "1" /f
 reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer" /v "DisableLocation" /t REG_DWORD /d "1" /f
 reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer" /v "DisableThumbnailCache" /t REG_DWORD /d "1" /f
+reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer" /v "DisableThumbsDBOnNetworkFolders" /t REG_DWORD /d "1" /f
 reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer" /v "DisableThumbnails" /t REG_DWORD /d "0" /f
 reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer" /v "DisableThumbnailsOnNetworkFolders" /t REG_DWORD /d "0" /f
 reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer" /v "HideClock" /t REG_DWORD /d "0" /f
@@ -1504,6 +1505,7 @@ sc stop "DsSvc" & sc config "DsSvc" start=disabled
 sc stop "DusmSvc" & sc config "DusmSvc" start=disabled
 sc stop "EdgeUpdate" & sc config "EdgeUpdate" start=disabled
 sc stop "EdgeUpdateM" & sc config "EdgeUpdateM" start=disabled
+sc stop "eventlog" & sc config "eventlog" start=disabled
 sc stop "FrameServer" & sc config "FrameServer" start=disabled
 sc stop "GUpdate" & sc config "GUpdate" start=disabled
 sc stop "GUpdatem" & sc config "GUpdatem" start=disabled
