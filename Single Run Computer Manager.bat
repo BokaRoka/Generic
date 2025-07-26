@@ -215,6 +215,57 @@ reg.exe delete "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\WordWhee
 reg.exe delete "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\RecentDocs" /f
 reg.exe delete "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\WordWheelQuery" /f
 del /f /q "%AppData%\Microsoft\Windows\Recent\*" >nul 2>&1
+reg.exe add "HKCU\Software\Microsoft\CTF\LangBar" /v ShowStatus /t REG_DWORD /d 3 /f
+reg.exe add "HKLM\SOFTWARE\Microsoft\CTF\LangBar" /v ShowStatus /t REG_DWORD /d 3 /f
+
+reg.exe add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Notifications\Settings" /v "NOC_GLOBAL_SETTING_ALLOW_TOASTS_ABOVE_LOCK" /t REG_DWORD /d "0" /f
+reg.exe add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Notifications\Settings" /v "NOC_GLOBAL_SETTING_ALLOW_CRITICAL_TOASTS_ABOVE_LOCK" /t REG_DWORD /d "0" /f
+reg.exe add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Notifications\Settings" /v "NOC_GLOBAL_SETTING_BADGE_ENABLED" /t REG_DWORD /d "0" /f
+reg.exe add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Notifications\Settings" /v "AutoOpenCopilotLargeScreens" /t REG_DWORD /d "0" /f
+reg.exe add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Notifications\Settings\Windows.SystemToast.InputIndicator" /v "Enabled" /t REG_DWORD /d "0" /f
+reg.exe add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Notifications\Settings\Windows.SystemToast.SecurityAndMaintenance" /v "Enabled" /t REG_DWORD /d "0" /f
+reg.exe add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Notifications\Settings\Windows.SystemToast.Suggested" /v "Enabled" /t REG_DWORD /d "0" /f
+reg.exe add "HKCU\Control Panel\International" /v "LocaleName" /t REG_SZ /d "en-US" /f
+reg.exe add "HKCU\Control Panel\International" /v "s1159" /t REG_SZ /d "AM" /f
+reg.exe add "HKCU\Control Panel\International" /v "s2359" /t REG_SZ /d "PM" /f
+reg.exe add "HKCU\Control Panel\International" /v "sCurrency" /t REG_SZ /d "$" /f
+reg.exe add "HKCU\Control Panel\International" /v "sDate" /t REG_SZ /d "-" /f
+reg.exe add "HKCU\Control Panel\International" /v "sDecimal" /t REG_SZ /d "." /f
+reg.exe add "HKCU\Control Panel\International" /v "sGrouping" /t REG_SZ /d "3;0" /f
+reg.exe add "HKCU\Control Panel\International" /v "sLanguage" /t REG_SZ /d "ENU" /f
+reg.exe add "HKCU\Control Panel\International" /v "sList" /t REG_SZ /d "," /f
+reg.exe add "HKCU\Control Panel\International" /v "sLongDate" /t REG_SZ /d "dddd, MMMM d, yyyy" /f
+reg.exe add "HKCU\Control Panel\International" /v "sMonDecimalSep" /t REG_SZ /d "." /f
+reg.exe add "HKCU\Control Panel\International" /v "sMonGrouping" /t REG_SZ /d "3;0" /f
+reg.exe add "HKCU\Control Panel\International" /v "sMonThousandSep" /t REG_SZ /d "," /f
+reg.exe add "HKCU\Control Panel\International" /v "sNativeDigits" /t REG_SZ /d "0123456789" /f
+reg.exe add "HKCU\Control Panel\International" /v "sNegativeSign" /t REG_SZ /d "-" /f
+reg.exe add "HKCU\Control Panel\International" /v "sPositiveSign" /t REG_SZ /d "" /f
+reg.exe add "HKCU\Control Panel\International" /v "sShortDate" /t REG_SZ /d "dd-MMM-yy" /f
+reg.exe add "HKCU\Control Panel\International" /v "sThousand" /t REG_SZ /d "," /f
+reg.exe add "HKCU\Control Panel\International" /v "sTime" /t REG_SZ /d ":" /f
+reg.exe add "HKCU\Control Panel\International" /v "sTimeFormat" /t REG_SZ /d "hh:mm:ss tt" /f
+reg.exe add "HKCU\Control Panel\International" /v "sShortTime" /t REG_SZ /d "hh:mm tt" /f
+reg.exe add "HKCU\Control Panel\International" /v "sYearMonth" /t REG_SZ /d "MMMM yyyy" /f
+reg.exe add "HKCU\Control Panel\International" /v "iCalendarType" /t REG_SZ /d "1" /f
+reg.exe add "HKCU\Control Panel\International" /v "iCountry" /t REG_SZ /d "1" /f
+reg.exe add "HKCU\Control Panel\International" /v "iCurrDigits" /t REG_SZ /d "2" /f
+reg.exe add "HKCU\Control Panel\International" /v "iCurrency" /t REG_SZ /d "0" /f
+reg.exe add "HKCU\Control Panel\International" /v "iDate" /t REG_SZ /d "1" /f
+reg.exe add "HKCU\Control Panel\International" /v "iDigits" /t REG_SZ /d "2" /f
+reg.exe add "HKCU\Control Panel\International" /v "NumShape" /t REG_SZ /d "1" /f
+reg.exe add "HKCU\Control Panel\International" /v "iFirstDayOfWeek" /t REG_SZ /d "6" /f
+reg.exe add "HKCU\Control Panel\International" /v "iFirstWeekOfYear" /t REG_SZ /d "0" /f
+reg.exe add "HKCU\Control Panel\International" /v "iLZero" /t REG_SZ /d "1" /f
+reg.exe add "HKCU\Control Panel\International" /v "iMeasure" /t REG_SZ /d "0" /f
+reg.exe add "HKCU\Control Panel\International" /v "iNegCurr" /t REG_SZ /d "0" /f
+reg.exe add "HKCU\Control Panel\International" /v "iNegNumber" /t REG_SZ /d "1" /f
+reg.exe add "HKCU\Control Panel\International" /v "iPaperSize" /t REG_SZ /d "1" /f
+reg.exe add "HKCU\Control Panel\International" /v "iTime" /t REG_SZ /d "0" /f
+reg.exe add "HKCU\Control Panel\International" /v "iTimePrefix" /t REG_SZ /d "0" /f
+reg.exe add "HKCU\Control Panel\International" /v "iTLZero" /t REG_SZ /d "1" /f
+reg.exe add "HKCU\Control Panel\International\Geo" /v "Nation" /t REG_SZ /d "244" /f
+reg.exe add "HKCU\Control Panel\International\Geo" /v "Name" /t REG_SZ /d "US" /f
 reg.exe add "HKCU\Software\Tihiy\OldNewExplorer" /v "DriveGrouping" /t REG_DWORD /d "1" /f
 reg.exe add "HKCU\Software\Tihiy\OldNewExplorer" /v "HideFolders" /t REG_DWORD /d "0" /f
 reg.exe add "HKCU\Software\Tihiy\OldNewExplorer" /v "NoRibbon" /t REG_DWORD /d "0" /f
@@ -349,7 +400,6 @@ reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\HideDesktop
 reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\NewstartPanel" /v "{208D2C60-3AEA-1069-A2D7-08002B30309D}" /t REG_DWORD /d "0" /f
 reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\NewstartPanel" /v "{20D04FE0-3AEA-1069-A2D8-08002B30309D}" /t REG_DWORD /d "0" /f
 reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\NewstartPanel" /v "{450D8FBA-AD25-11D0-98A8-0800361B1103}" /t REG_DWORD /d "0" /f
-reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\NewstartPanel" /v "{5399E694-6CE5-4D6C-8FCE-1D8870FDCBA0}" /t REG_DWORD /d "0" /f
 reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\NewstartPanel" /v "{59031a47-3f72-44a7-89c5-5595fe6b30ee}" /t REG_DWORD /d "1" /f
 reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\NewstartPanel" /v "{645FF040-5081-101B-9F08-00AA002F954E}" /t REG_DWORD /d "0" /f
 reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\NewstartPanel" /v "{871C5380-42A0-1069-A2EA-08002B30309D}" /t REG_DWORD /d "0" /f
