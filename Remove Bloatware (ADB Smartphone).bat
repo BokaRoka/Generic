@@ -227,6 +227,8 @@ echo	Removing part 3...
 cls
 for %%X in (
 "com.samsung.android.aircommandmanager"
+"com.sec.android.app.fm"
+"com.sec.android.app.samsungapps"
 "com.samsung.android.app.aodservice"
 "com.samsung.android.app.camera.sticker.facear.preload"
 "com.samsung.android.app.camera.sticker.facearavatar.preload"
