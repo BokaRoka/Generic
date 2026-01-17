@@ -37,11 +37,22 @@ reg.exe add "HKLM\System\CurrentControlSet\Services\DoSvc" /v "start" /t REG_DWO
 reg.exe add "HKLM\System\CurrentControlSet\Services\UsoSvc" /v "start" /t REG_DWORD /d "2" /f
 reg.exe add "HKLM\System\CurrentControlSet\Services\WaaSMedicSvc" /v "start" /t REG_DWORD /d "2" /f
 reg.exe add "HKLM\System\CurrentControlSet\Services\wuauserv" /v "start" /t REG_DWORD /d "2" /f
+schtasks.exe /change /tn "\Microsoft\Windows\InstallService\ScanForUpdates" /Enable
+schtasks.exe /change /tn "\Microsoft\Windows\InstallService\ScanForUpdatesAsUser" /Enable
+schtasks.exe /change /tn "\Microsoft\Windows\InstallService\SmartRetry" /Enable
+schtasks.exe /change /tn "\Microsoft\Windows\InstallService\WakeUpAndContinueUpdates" /Enable
+schtasks.exe /change /tn "\Microsoft\Windows\InstallService\WakeUpAndScanForUpdates" /Enable
+schtasks.exe /change /tn "\Microsoft\Windows\UpdateOrchestrator\Policy Install" /Enable
+schtasks.exe /change /tn "\Microsoft\Windows\UpdateOrchestrator\Schedule Scan" /Enable
+schtasks.exe /change /tn "\Microsoft\Windows\UpdateOrchestrator\UpdateModelTask" /Enable
+schtasks.exe /change /tn "\Microsoft\Windows\UpdateOrchestrator\USO_UxBroker_Display" /Enable
 schtasks.exe /change /tn "\Microsoft\Windows\WindowsUpdate\AUFirmwareInstall" /Enable
 schtasks.exe /change /tn "\Microsoft\Windows\WindowsUpdate\AUScheduledInstall" /Enable
 schtasks.exe /change /tn "\Microsoft\Windows\WindowsUpdate\AUSessionConnect" /Enable
 schtasks.exe /change /tn "\Microsoft\Windows\WindowsUpdate\Automatic App Update" /Enable
 schtasks.exe /change /tn "\Microsoft\Windows\WindowsUpdate\Scheduled Start" /Enable
+schtasks.exe /change /tn "\Microsoft\Windows\WindowsUpdate\sih" /Enable
+schtasks.exe /change /tn "\Microsoft\Windows\WindowsUpdate\sihboot" /Enable
 schtasks.exe /change /tn "Microsoft\Windows\WindowsUpdate\Automatic App Update" /Enable
 schtasks.exe /change /tn "Microsoft\Windows\WindowsUpdate\Scheduled start" /Enable
 schtasks.exe /change /tn "Microsoft\Windows\WindowsUpdate\sih" /Enable
