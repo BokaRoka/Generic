@@ -942,6 +942,7 @@ echo All .exe files in %winrarPath% have been blocked from accessing the interne
 endlocal
 reg.exe add "HKCU\Software\Classes\CLSID\{86ca1aa0-34aa-4e8b-a509-50c905bae2a2}" /ve /t REG_SZ /d "" /f
 reg.exe add "HKCU\Software\Classes\CLSID\{86ca1aa0-34aa-4e8b-a509-50c905bae2a2}\InprocServer32" /ve /t REG_SZ /d "" /f
+schtasks /Delete /TN "AdGuard Service" /F >nul 2>&1 & schtasks /Create /TN "AdGuard Service" /SC ONLOGON /DELAY 0000:05 /RL HIGHEST /RU SYSTEM /TR "sc.exe start \"Adguard Service\"" /F
 DISM /Online /Enable-Feature /FeatureName:DirectPlay /All
 
 pause
